@@ -3,18 +3,18 @@
     <head>
         <meta charset="UTF-8">
         <title>Document</title>
-        <style src="style.css"></style>
+        <style src="styles/style.css"></style>
         <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js"></script>
         <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-auth.js"></script>
-        <link href="calculate.css" rel="stylesheet" type="text/css">
+
         <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.2/firebase-ui-auth.css" />
     </head>
     <body>
         <div id="root">
-        <button id="open-crt-user-form-btn"><a href="/add_user" onclick="route()">Create User</a></button>
-        <button id="open-add-user-form-btn"><a href="/calculate" onclick="route()">Calculation</a></button>
-        <div id="main-page"></div>
+            <button id="open-crt-user-form-btn"><a href="/add_user" onclick="route()">Create User</a></button>
+            <button id="open-add-user-form-btn"><a href="/calculate" onclick="route()">Calculation</a></button>
+            <div id="main-page"></div>
+            <script src="./router.js"></script>
         </div>
-        <script src="js/router.js"></script>
     </body>
 </html>

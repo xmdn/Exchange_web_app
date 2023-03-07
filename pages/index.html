@@ -1,19 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Document</title>
-        <style src="style.css"></style>
-        <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-auth.js"></script>
-        <link href="style.css" rel="stylesheet" type="text/css">
-        <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.2/firebase-ui-auth.css" />
-    </head>
-    <body>
-        <div id="root">
             <section id="add-user-module" >
-                <button id="open-crt-user-form-btn"><a href="/add_user">Create User</a></button>
-                <button id="open-add-user-form-btn"><a href="/calculate" onclick="route()">Calculation</a></button>
                 <button id="logout-btn" class="btn">LogOut</button>
                 <form id="login-form" class="form-group">
                 <h2>Login</h2>
@@ -25,10 +10,5 @@
             </form>
             <div id="message"></div>
             </section>
-        <div id="main-page"></div>
-        </div>
         <script type="module" src="../app.js"></script>
-        <script src="../router.js"></script>
-        <style src="../style.css"></style>
-    </body>
-</html>
+        <link href="styles/style.css" rel="stylesheet" type="text/css">

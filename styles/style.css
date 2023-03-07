@@ -1,6 +1,8 @@
 body {
     color: red;
     align-items: center;
+    display: flex;
+    justify-content: center;
 }
 
 form {

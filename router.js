@@ -2,14 +2,16 @@ const route = (event) => {
     event = event || window.event;
     event.preventDefault();
     window.history.pushState({}, "", event.target.href);
-
+    handleLocation()
 };
 
 
 const routes = {
     404: "/pages/404.html",
+    "/index.html": "/pages/index.html",
     "/": "/pages/index.html",
-    "/calculate": "/pages/calculate.html"
+    "/calculate": "/pages/calculate.html",
+    "/add_user": "/pages/add_user.html"
 };
 const handleLocation = async () => {
     const path = window.location.pathname;
