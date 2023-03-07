@@ -18,8 +18,7 @@ const firebaseApp = initializeApp({  //FireBase csonfiguration of application
 
 
 
-//Message showing
-//Message showing
+
 const messageElement = document.getElementById('message'); //Message Form
 function showMessage(message){  //Message showing
   messageElement.textContent = message;
