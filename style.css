@@ -1,0 +1,9 @@
+body {
+    color: red;
+    align-items: center;
+}
+
+form {
+    display:flex;
+    align-items: center;
+}

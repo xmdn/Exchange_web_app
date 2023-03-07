@@ -16,14 +16,13 @@ const firebaseApp = initializeApp({  //FireBase csonfiguration of application
   const db = getFirestore();
 
 
-  
+
 const messageElement = document.getElementById('message'); //Message Form
 function showMessage(message){  //Message showing
   messageElement.textContent = message;
 }
 const logElement = document.getElementById('log'); //Message Form
 function showLog(){  //Message showing
-  logElement.textContent = "<a href='login.html'>Login</a>";
 }
 
 const calcForm = document.getElementById("calc-form"); //Calculation Form
@@ -66,5 +65,39 @@ const calcForm = document.getElementById("calc-form"); //Calculation Form
             showMessage('You are not loged');
             showLog();
         }
+      link.href = '/calculate';
+      link.innerText = 'Calc';
   })
+
 })
+function template (name, templateFunction) {
+  return templates[name] = templateFunction;
+};
+function route (path, template) {
+  if (typeof template === 'function') {
+      return routes[path] = template;
+  }
+  else if (typeof template === 'string') {
+      return routes[path] = templates[template];
+  } else {
+      return;
+  };
+};
+template('calc', function(){
+  calc();
+});
+route('/calculate', 'calc');
+function resolveRoute(route) {
+  try {
+      return routes[route];
+  } catch (e) {
+      throw new Error(`Route ${route} not found`);
+  };
+};
+function router(evt) {
+  let url = window.location.hash.slice(1) || '/';
+  let route = resolveRoute(url);
+
+  route();
+};
+window.addEventListener('load', router);
