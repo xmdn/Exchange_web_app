@@ -49,8 +49,8 @@ logout_btn.addEventListener('click', logout);
 
 onAuthStateChanged(auth, user => { //Check the login state
   if(user != null) {
-    console.log('loged');
+    showMessage('Loged On');
   } else {
-    console.log('no user');
+    showMessage('Not loged');
   }
 })
