@@ -20,7 +20,7 @@ const db = getFirestore(); //Get DataBase
    //return collection(db, 'users').doc(cred.user.uid).set({
 
 const signupForm = document.getElementById("signup-form"); //Create user
-signupForm.addEventListener('submit', e => {
+signupForm.addEventListener('usr-add', e => {
   e.preventDefault();
   const name = signupForm["name"].value;
   const email = signupForm["email"].value;

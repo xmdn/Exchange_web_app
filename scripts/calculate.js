@@ -41,7 +41,7 @@ const calcForm = document.getElementById("calc-form"); //Calculation Form
    console.error('Error:', error);
  });
 
- calcForm.addEventListener('submit', e => { // Event listener "on click" and calculating currency to amount
+ calcForm.addEventListener('cacl-btn', e => { // Event listener "on click" and calculating currency to amount
   e.preventDefault();
   const rate = calcForm["currency"].value;
   const amount = calcForm["amount"].value;
