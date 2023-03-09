@@ -1,3 +1,4 @@
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js';
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js';
 const firebaseApp = initializeApp({  //FireBase csonfiguration of application
     apiKey: "AIzaSyAci7cExKpy7KdcaKtV-NynPs3kNWOUegA",
@@ -10,7 +11,7 @@ const firebaseApp = initializeApp({  //FireBase csonfiguration of application
   });
 const auth = getAuth(firebaseApp);
 const checkAuth = () => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       onAuthStateChanged(auth, user => {
         if (user) {
           resolve(true);
@@ -20,7 +21,7 @@ const checkAuth = () => {
       })
     });
   };
-const route = (event) => {
+const route = async (event) => {
     event = event || window.event;
     event.preventDefault();
     const path = event.target.href;
@@ -33,6 +34,11 @@ const route = (event) => {
       }
   };
 
+    document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", route);
+    });
+});
 const styleMap = {
     "/calculate": "calculate.css",
     "/add_user": "add_user.css",
@@ -72,7 +78,6 @@ const handleLocation = async () => {
         style.type = "text/css";
         document.body.appendChild(style);
     }
-        
 };
 
 window.onpopstate = handleLocation;
