@@ -1,16 +1,18 @@
 
 <section id="add-user-module" >
-   <button id="open-add-user-form-btn"><a href="/">Login</a></button>
+   <button id="open-add-user-form-btn" class="submit-btn"><a href="/">Login</a></button>
    <form method="get" id="calc-form" class="form-group">
-      <h2>Calculation</h2>
-      <h1>Exchange Rates for Hryvnia</h1>
-      <label for='currency'>Choose a currency:</label>
-      <select id='currency'></select><br>
-      Amount:<br>
-      <input type='amount' placeholder='Amount' name='amount' id='amount'><br>
-      Result:<br>
-      <input type='result' placeholder='Result' name='result' id='result' readonly><br>
+      <div class="block">
+      <div class="block"><h2>Calculation</h2></div>
+      <div class="block"><h1>Exchange Rates for Hryvnia</h1></div>
+      <div class="block"><label for='currency'>Choose a currency:</label>
+      <select id='currency'></select></div>
+      <div class="block">Amount:
+      <input type='amount' placeholder='Amount' name='amount' id='amount'></div>
+      <div class="block">Result:
+      <input type='result' placeholder='Result' name='result' id='result' readonly></div>
       <button type="calc-btn" class="submit-btn">Calculate</button>
+      </div>
    </form>
    <div id="message"></div>
    <div id="log"></div>
