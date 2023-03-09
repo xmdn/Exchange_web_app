@@ -28,17 +28,12 @@ const route = async (event) => {
     const isAuthenticated = await checkAuth();
     if (path.endsWith('/calculate') && !isAuthenticated) {
         window.location.href = '/';
-      } else {
+    } else {
         window.history.pushState({}, "", path);
         handleLocation();
-      }
-  };
+    }
+};
 
-    document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll("a").forEach(link => {
-        link.addEventListener("click", route);
-    });
-});
 const styleMap = {
     "/calculate": "calculate.css",
     "/add_user": "add_user.css",
