@@ -1,9 +1,38 @@
+import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js';
+const firebaseApp = initializeApp({  //FireBase csonfiguration of application
+    apiKey: "AIzaSyAci7cExKpy7KdcaKtV-NynPs3kNWOUegA",
+    authDomain: "currency-f1988.firebaseapp.com",
+    databaseURL: "https://currency-f1988-default-rtdb.firebaseio.com",
+    projectId: "currency-f1988",
+    storageBucket: "currency-f1988.appspot.com",
+    messagingSenderId: "1009009054053",
+    appId: "1:1009009054053:web:3df8a1eef37bac6a70d18c"
+  });
+const auth = getAuth(firebaseApp);
+const checkAuth = () => {
+    return new Promise((resolve, reject) => {
+      onAuthStateChanged(auth, user => {
+        if (user) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      })
+    });
+  };
 const route = (event) => {
     event = event || window.event;
     event.preventDefault();
-    window.history.pushState({}, "", event.target.href);
-    handleLocation()
-};
+    const path = event.target.href;
+    const isAuthenticated = await checkAuth();
+    if (path.endsWith('/calculate') && !isAuthenticated) {
+        window.location.href = '/';
+      } else {
+        window.history.pushState({}, "", path);
+        handleLocation();
+      }
+  };
+
 const styleMap = {
     "/calculate": "calculate.css",
     "/add_user": "add_user.css",
@@ -23,6 +52,7 @@ const routes = {
 };
 const handleLocation = async () => {
     const path = window.location.pathname;
+
     const route = routes[path] || routes[404];
     const html = await fetch(route).then((data) => data.text());
     document.getElementById("main-page").innerHTML = html;
@@ -42,6 +72,7 @@ const handleLocation = async () => {
         style.type = "text/css";
         document.body.appendChild(style);
     }
+        
 };
 
 window.onpopstate = handleLocation;

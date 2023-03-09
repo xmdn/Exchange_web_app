@@ -27,7 +27,7 @@ signupForm.addEventListener('submit', e => {
   const password = signupForm["password"].value;
   console.log(email, password);
   onAuthStateChanged(auth, user => { //Check the login state
-    if(user != null) {
+    if(user == null) {
       signInWithEmailAndPassword(auth, email, password).then(()=>{
         showMessage('Success loging.');
       }).catch(() => {
@@ -36,7 +36,8 @@ signupForm.addEventListener('submit', e => {
     } else {
       showMessage('Already loged.');
     }
-})})
+  })
+})
 
 const messageElement = document.getElementById('message'); //Message Form
 function showMessage(message){  //Message showing
