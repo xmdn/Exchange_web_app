@@ -26,26 +26,31 @@ signupForm.addEventListener('submit', e => {
   const email = signupForm["email"].value;
   const password = signupForm["password"].value;
   console.log(email, password);
-  signInWithEmailAndPassword(auth, email, password).then(()=>{
-    showMessage('Success loging.');
-  }).catch(() => {
-    showMessage('Incorrect loging.');
-  })
-})
+  onAuthStateChanged(auth, user => { //Check the login state
+    if(user != null) {
+      signInWithEmailAndPassword(auth, email, password).then(()=>{
+        showMessage('Success loging.');
+      }).catch(() => {
+        showMessage('Incorrect loging.');
+      })
+    } else {
+      showMessage('Already loged.');
+    }
+})})
 
 const messageElement = document.getElementById('message'); //Message Form
 function showMessage(message){  //Message showing
   messageElement.textContent = message;
 }
 
-function logout() {
+logout_btn.addEventListener('click', e => {
+  e.preventDefault();
   signOut(auth).then(() => {
     showMessage('Sign-out successful.');  // Sign-out successful.
   }).catch((error) => { 
     showMessage('An error happened.');  // An error happened.
   });
-}
-logout_btn.addEventListener('click', logout);
+});
 
 onAuthStateChanged(auth, user => { //Check the login state
   if(user != null) {
