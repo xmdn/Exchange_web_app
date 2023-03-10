@@ -19,13 +19,22 @@ const firebaseApp = initializeApp({  //FireBase csonfiguration of application
 
 const messageElement = document.getElementById('message'); //Message Form
 function showMessage(message){  //Message showing
-  messageElement.textContent = message;
+  messageElement.textContent = messaSge;
 }
 const logElement = document.getElementById('log'); //Message Form
 function showLog(){  //Message showing
 }
 
 const calcForm = document.getElementById("calc-form"); //Calculation Form
+  let oldDate = new Date("Thu Jan 01 1970 21:30:00 GMT +0530(IST)");
+  let newDate = new Date();
+  newDate.setHours(oldDate.getHours());
+  newDate.setMinutes(oldDate.getMinutes());
+  newDate.setSeconds(oldDate.getSeconds()); 
+fetch(`https://bank.gov.ua/ua/markets/exchangerate-chart?startDate=10.03.2022&endDate=${newDate}`)
+ .then(data => {
+    console.log(newDate);
+ })
  fetch('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20200302&json') // Get the currency API Endpoint
  .then(response => response.json()) // Getting json from response
  .then(data => {  // Showing response to dropdown with forEach

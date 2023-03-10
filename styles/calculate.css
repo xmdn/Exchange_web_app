@@ -1,5 +1,5 @@
 body {
-    color:darkblue;
+    color:rgb(2, 2, 92);
     font-family:Arial, Helvetica, sans-serif;
     justify-content: center;
     display: flex;
@@ -9,12 +9,14 @@ button {
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 .submit-btn {
-    background-color: #0400f8;
+    background-color: #a7a7a7;
     border: none;
-    color: white;
+    color:#010113;
+    text-decoration: none;
     padding: 16px 32px;
     text-align: center;
     font-size: 16px;
+    text-decoration-color:#838282;
     margin: 4px 2px;
     opacity: 0.6;
     transition: 0.3s;
@@ -24,4 +26,9 @@ button {
     width: 360px;
     height: 43px;
     margin: 5px;
+    text-decoration-color: #201515;
+    background-color: #dedeff;
+}
+* {
+    background-color:#dedeff;
 }
