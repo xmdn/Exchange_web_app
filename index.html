@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Document</title>
-        <style src="styles/login.css"></style>
+        <style src="styles/main.css"></style>
         <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js"></script>
         <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-auth.js"></script>
 
@@ -11,11 +11,13 @@
     </head>
     <body>
         <div id="root">
-            <button id="open-crt-user-form-btn" class="submit-btn"><a href="/add_user" onclick="route()">Create User</a></button>
-            <button id="open-add-user-form-btn" class="submit-btn"><a href="/calculate" onclick="route()">Calculation</a></button>
+            <div class="block"><a id="open-crt-user-form-btn" class="submit-btn" href="/add_user" onclick="route()">Create user</a>
+            <a id="open-add-user-form-btn" class="submit-btn" href="/calculate" onclick="route()">Calculation</a></div>
+        
             
             <div id="main-page"></div>
             <script type="module" src="./router.js"></script>
+            <link href="styles/login.css" rel="stylesheet" type="text/css">
         </div>
     </body>
 </html>

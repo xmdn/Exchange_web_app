@@ -1,13 +1,21 @@
 
 <section id="add-user-module" >
-    <form method="get" id="signup-form" class="form-group">
-        <h2>Add User</h2>
-        name:<br>
-        <input type='name' placeholder="Name" name='name' id='name'><br>
-        email:<br>
-        <input type='email' placeholder="Email" name='email' id='email'><br>
-        password:<br>
-        <input id='password' type="password" name='password' placeholder='Password'><br>
-        <button type="usr-add" class="submit-btn">add user</button>
+    <div class="form-group">
+    <form method="post" id="signup-form" class="form-group">
+        <div class="form-group">
+            <div class="form-group">
+                <h2 class="form-group">Add User</h2>
+                name:
+                <input type='name' placeholder="Name" name='name' id='name'>
+            </div>
+            <div class="form-group">email:
+                <input type='email' placeholder="Email" name='email' id='email'>
+            </div>
+            <div class="form-group">password:
+                <input id='password' type="password" name='password' placeholder='Password'>
+                <button type="usr-add" class="submit-btn">add user</button>
+            </div>
+        </div>
     </form>
+    </div>
 </section>

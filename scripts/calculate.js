@@ -31,7 +31,7 @@ const calcForm = document.getElementById("calc-form"); //Calculation Form
   newDate.setHours(oldDate.getHours());
   newDate.setMinutes(oldDate.getMinutes());
   newDate.setSeconds(oldDate.getSeconds()); 
-fetch(`https://bank.gov.ua/ua/markets/exchangerate-chart?startDate=10.03.2022&endDate=${newDate}`)
+fetch("https://bank.gov.ua/ua/markets/exchangerate-chart?startDate=10.03.2022&endDate=newDate")
  .then(data => {
     console.log(newDate);
  })

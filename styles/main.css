@@ -3,7 +3,7 @@
 }
 
 body {
-    color: white;
+    color: red;
     align-items: center;
     display: flex;
     justify-content: center;
@@ -16,15 +16,10 @@ form {
 a {
     color: white;
     text-decoration: none;
-    text-decoration-color: #cfcfcf;
-    background-color: #dedeff;
-}
-h2 {
-    background-color: #e8ebf9;
-    text-align: center;
+    background-color: #cfcfcf;
 }
 .submit-btn {
-    background-color: #a7a7a7;
+    background-color: #cfcfcf;
     border: none;
     color: white;
     padding: 16px 32px;
@@ -40,13 +35,4 @@ h2 {
     width: 360px;
     height: 43px;
     margin: 5px;
-}
-.form-group {
-    align-self: auto;
-    top:auto;
-    color: black;
-    margin: 7%;
-    width: auto;
-    height: auto;
-    background-color: #e8ebf9;
 }
