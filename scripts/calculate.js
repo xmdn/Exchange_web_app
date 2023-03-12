@@ -1,3 +1,4 @@
+//import { Chart } from 'https://cdn.jsdelivr.net/npm/chart.js';
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js';
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js';
 import { getFirestore, doc, setDoc, collection, addDoc } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js';
@@ -26,12 +27,12 @@ function showLog(){  //Message showing
 }
 
 const calcForm = document.getElementById("calc-form"); //Calculation Form
-  let oldDate = new Date("Thu Jan 01 1970 21:30:00 GMT +0530(IST)");
-  let newDate = new Date();
-  newDate.setHours(oldDate.getHours());
-  newDate.setMinutes(oldDate.getMinutes());
-  newDate.setSeconds(oldDate.getSeconds()); 
-  console.log(newDate)
+  // let oldDate = new Date("Thu Jan 01 1970 21:30:00 GMT +0530(IST)");
+  // let newDate = new Date();
+  // newDate.setHours(oldDate.getHours());
+  // newDate.setMinutes(oldDate.getMinutes());
+  // newDate.setSeconds(oldDate.getSeconds()); 
+  // console.log(newDate)
 // fetch(`https://bank.gov.ua/ua/markets/exchangerate-chart?startDate=10.03.2022&endDate=${newDate}`)
 //  .then(data => {
 //     console.log(newDate);
@@ -76,5 +77,44 @@ const calcForm = document.getElementById("calc-form"); //Calculation Form
             showLog();
         }
   })
-})
+});
+function getDataAndDrawChart() {
+  fetch('https://bank.gov.ua/NBU_Exchange/exchange_site?start=20220115&end=20220131&valcode=aud&sort=exchangedate&order=desc&json', {mode: 'no-cors'})
+    .then(console.log(response))
+    // .then(data => {
+    //   const chartData = [];
+    //   data.forEach(currency => {
+    //     console.log(data);
+    //     chartData.push({
+    //       date: currency.date,
+    //       rate: currency.rate.toFixed(1),
+    //     });
+    //   });
+    //   new Chart(document.getElementById('myChart'), {
+    //     type: 'line',
+    //     data: {
+    //       labels: chartData.map(data => data.date),
+    //       datasets: [{
+    //         label: 'Exchange Rates',
+    //         data: chartData.map(data => data.rate),
+    //         fill: false,
+    //         borderColor: 'rgb(75, 192, 192)',
+    //         tension: 0.1,
+    //       }]
+    //     },
+    //     options: {
+    //       scales: {
+    //         y: {
+    //           beginAtZero: true,
+    //         }
+    //       }
+    //     }
+    //   });
+    // })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+};
 
+// Example usage
+getDataAndDrawChart();
