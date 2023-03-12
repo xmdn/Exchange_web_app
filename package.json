@@ -8,7 +8,7 @@
     "build": "webpack --mode=development"
   },
   "keywords": [],
-  "author": "",
+  "author": "xmdn/Andrii-Bilyk",
   "license": "ISC",
   "devDependencies": {
     "webpack": "^5.75.0",
@@ -20,5 +20,13 @@
     "firebaseui": "^6.0.2",
     "ui": "^0.2.4"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xmdn/Exchange_web_app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xmdn/Exchange_web_app/issues"
+  },
+  "homepage": "https://github.com/xmdn/Exchange_web_app#readme",
   "description": ""
 }
