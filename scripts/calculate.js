@@ -42,7 +42,7 @@ const calcForm = document.getElementById("calc-form"); //Calculation Form
  //fetch('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20200302&json') // Get the currency API Endpoint
 
   fetch('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json') // Get the currency API Endpoint
-  .then(response => console.log(response)) // Getting json from responses
+  .then(response => console.log(response.json())) // Getting json from responses
 //  .then(data => {  // Showing response to dropdown with forEach
 //    const currencyDropdown = calcForm["currency"];
 //    data.forEach(currency => {
@@ -83,7 +83,41 @@ const calcForm = document.getElementById("calc-form"); //Calculation Form
         }
   })
 });
-function getDataAndDrawChart() {
+// function getDataAndDrawChart() {
+  $("#startDate").datepicker();
+
+  $("#startDate").change(function (e) { 
+    console.log(this.value)
+    let startDate = this.value;
+  });
+
+  $( "#endDate" ).datepicker();
+
+  $("#endDate").change(function (e) { 
+    console.log(this.value);
+    let endDate = this.value;
+  });
+
+  $("#btn-start").click(function (e) { 
+    let startDate = new Date(Date.parse($("#startDate").val()));
+    // console.log(startDate.getDay());
+    // console.log(startDate.getMonth());
+    // console.log(startDate.getFullYear());
+    let dateS = `${startDate.getFullYear()}${(startDate.getMonth().toString().padStart(2, '0')) + 1}${startDate.getDate().toString().padStart(2, '0')}`;
+    console.log('Date', dateS);
+    for (let currentDate = new Date(startDate); currentDate <= endDate; currentDate.setDate(currentDate.getDate() + 1)) {
+      console.log('Curr date', currentDate.toDateString());
+      // fetch('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20200302&json')
+      // .then(response => response.json())
+      // .then(data => {
+      // console.log(data);
+      // })
+      // .catch(error => console.error(error));
+      }
+
+    
+  });
+
   // var xmlHttp = new XMLHttpRequest();
   //   xmlHttp.onreadystatechange = function() { 
   //       if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
@@ -97,8 +131,8 @@ function getDataAndDrawChart() {
   //   console.log(xmlHttp.responseText)
 
   //xmlHttp.open("GET", 'https://bank.gov.ua/NBU_Exchange/exchange_site?start=20220115&end=20220131&valcode=aud&sort=exchangedate&order=desc&json', false)
-  fetch('https://bank.gov.ua/NBU_Exchange/exchange_site?start=20220115&end=20220131&valcode=aud&sort=exchangedate&order=desc&json', {mode: 'no-cors'})
-    .then(response => console.log(response))
+  // fetch('https://bank.gov.ua/NBU_Exchange/exchange_site?start=20220115&end=20220131&valcode=aud&sort=exchangedate&order=desc&json', {mode: 'no-cors'})
+  //   .then(response => console.log(response))
     // .then(data => {
     //   const chartData = [];
     //   data.forEach(currency => {
@@ -129,10 +163,10 @@ function getDataAndDrawChart() {
     //     }
     //   });
     // })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-};
+      // .catch(error => {
+      //   console.error('Error:', error);
+      // });
+// };
 
 // Example usage
-getDataAndDrawChart();
+//getDataAndDrawChart();
