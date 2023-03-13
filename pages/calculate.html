@@ -13,23 +13,23 @@
             <input type='result' placeholder='Result' name='result' id='result' readonly></div>
          <button type="submit" class="submit-btn">Calculate</button>
       </div>
-      <div class="block">
-         <input type="text" id="startDate">
-         <input type="text" id="endDate">
-         <button id="btn-start">Send</button>
 
-         <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1"></script> 
-         <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css">
-         <canvas id="myChart" width="800" height="450"></canvas>
-         <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1"></script> -->
-         <script src="../scripts/cookie.js"></script> 
-      </div>
          
       
    </form>
-   
+   <div id="chart-container" class="block">
+      <input type="text" id="startDate">
+      <input type="text" id="endDate">
+      <button id="btn-start" type="submit">Send</button>
+
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1"></script> 
+      <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css">
+      <canvas id="myChart" width="800" height="450"></canvas>
+      <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1"></script> -->
+      <script src="../scripts/calculate.js"></script> 
+   </div>
       
       
       

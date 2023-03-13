@@ -28,6 +28,7 @@ function showLog(){  //Message showing
 }
 
 const calcForm = document.getElementById("calc-form"); //Calculation Form
+const chartBtn = document.getElementById("btn-start");
   // let oldDate = new Date("Thu Jan 01 1970 21:30:00 GMT +0530(IST)");
   // let newDate = new Date();
   // newDate.setHours(oldDate.getHours());
@@ -97,26 +98,35 @@ const calcForm = document.getElementById("calc-form"); //Calculation Form
     console.log(this.value);
     let endDate = this.value;
   });
+chartBtn.addEventListener('click', e => {
+  let startDate = new Date(Date.parse($("#startDate").val()));
+  let endDate = new Date(Date.parse($("#endDate").val()));
+  startDate.setMonth(startDate.getMonth() + 1);
+  endDate.setMonth(endDate.getMonth() + 1);
+  // console.log(startDate.getDay());
+  // console.log(startDate.getMonth());
+  // console.log(startDate.getFullYear());
+  
+  //let dateS = (startDate.getFullYear(), startDate.getMonth().toString().padStart(2, '0'), startDate.getDate().toString().padStart(2, '0'));
+  //console.log('Date', dateS);
+  for (let currentDate = new Date(startDate); currentDate <= endDate; currentDate.setDate(currentDate.getDate() + 1)) {
+    startDate.setDate(startDate.getDate() + 1);
+    let dateS = `${startDate.getFullYear()}${(startDate.getMonth().toString().padStart(2, '0'))}${startDate.getDate().toString().padStart(2, '0')}`;
+    console.log('Curr date', currentDate);
+     fetch(`https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=${dateS}&json`)
+     .then(response => console.log(response.json()))
+    // .then(data => {
+    // console.log(data);
+    // })
+    // .catch(error => console.error(error));
+    }
 
-  $("#btn-start").click(function (e) { 
-    let startDate = new Date(Date.parse($("#startDate").val()));
-    // console.log(startDate.getDay());
-    // console.log(startDate.getMonth());
-    // console.log(startDate.getFullYear());
-    let dateS = `${startDate.getFullYear()}${(startDate.getMonth().toString().padStart(2, '0')) + 1}${startDate.getDate().toString().padStart(2, '0')}`;
-    console.log('Date', dateS);
-    for (let currentDate = new Date(startDate); currentDate <= endDate; currentDate.setDate(currentDate.getDate() + 1)) {
-      console.log('Curr date', currentDate.toDateString());
-      // fetch('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20200302&json')
-      // .then(response => response.json())
-      // .then(data => {
-      // console.log(data);
-      // })
-      // .catch(error => console.error(error));
-      }
+  
+})
 
+  //$("#btn-start").click(function () { 
+  
     
-  });
 
   // var xmlHttp = new XMLHttpRequest();
   //   xmlHttp.onreadystatechange = function() { 
@@ -166,7 +176,6 @@ const calcForm = document.getElementById("calc-form"); //Calculation Form
       // .catch(error => {
       //   console.error('Error:', error);
       // });
-// };
 
 // Example usage
 //getDataAndDrawChart();
