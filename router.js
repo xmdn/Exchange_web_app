@@ -34,11 +34,6 @@ const route = async (event) => {
     }
 };
 
-const styleMap = {
-    "/calculate": "calculate.css",
-    "/add_user": "add_user.css",
-    "/": "login.css",
-}
 const scriptMap = {
     "/calculate": "calculate.js",
     "/add_user": "add_user.js",
@@ -64,14 +59,6 @@ const handleLocation = async () => {
         script.src = `./scripts/${scriptFile}`;
         script.type = "module";
         document.body.appendChild(script);
-    }
-    const styleFile = styleMap[path];
-    if (styleFile) {
-        const style = document.createElement("link");
-        style.href = `styles/${styleFile}`;
-        style.rel = "stylesheet";
-        style.type = "text/css";
-        document.body.appendChild(style);
     }
 };
 

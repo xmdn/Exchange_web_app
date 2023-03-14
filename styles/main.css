@@ -1,11 +1,6 @@
-* {
-    background-color:#f1f1f3;
-}
-
 body {
-    color: red;
+    background-color:#f1f1f3;
     align-items: center;
-    display: flex;
     justify-content: center;
 }
 
@@ -16,10 +11,15 @@ form {
 a {
     color: white;
     text-decoration: none;
-    background-color: #cfcfcf;
+    text-decoration-color: #cfcfcf;
+    background-color: #dedeff;
+}
+h2 {
+    background-color: #e8ebf9;
+    text-align: center;
 }
 .submit-btn {
-    background-color: #cfcfcf;
+    background-color: #a7a7a7;
     border: none;
     color: white;
     padding: 16px 32px;
@@ -32,7 +32,18 @@ a {
   }
 .submit-btn:hover {opacity: 1}
 .block {
-    width: 360px;
-    height: 43px;
-    margin: 5px;
+    margin: 3%;
+}
+.form-group {
+    align-self: auto;
+    top:auto;
+    color: black;
+    margin: 7%;
+    width: auto;
+    height: auto;
+    background-color: #e8ebf9;
+}
+header{
+    background-color: #cfcfcf;
+    display: flex;
 }
