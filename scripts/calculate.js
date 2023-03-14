@@ -53,7 +53,7 @@ const chartBtn = document.getElementById("btn-start");
 //fetch('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20200302&json') // Get the currency API Endpoint
 
 fetch("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json") // Get the currency API Endpoint
-  .then((response) => console.log(response.json())) // Getting json from responses
+  .then((response) => response.json()) // Getting json from responses
   .then(data => {  // Showing response to dropdown with forEach
     const currencyDropdown = calcForm["currency"];
     data.forEach(currency => {
@@ -104,19 +104,19 @@ calcForm.addEventListener("submit", (e) => {
   });
 });
 // function getDataAndDrawChart() {
-$("#startDate").datepicker();
+// $("#startDate").datepicker();
 
-$("#startDate").change(function (e) {
-  console.log(this.value);
-  let startDate = this.value;
-});
+// $("#startDate").change(function (e) {
+//   console.log(this.value);
+//   let startDate = this.value;
+// });
 
-$("#endDate").datepicker();
+// $("#endDate").datepicker();
 
-$("#endDate").change(function (e) {
-  console.log(this.value);
-  let endDate = this.value;
-});
+// $("#endDate").change(function (e) {
+//   console.log(this.value);
+//   let endDate = this.value;
+// });
 chartBtn.addEventListener("click", (e) => {
   let startDate = new Date(Date.parse($("#startDate").val()));
   let endDate = new Date(Date.parse($("#endDate").val()));
@@ -148,11 +148,14 @@ chartBtn.addEventListener("click", (e) => {
       .then((response) => response.json())
       .then((data) => {
         const chartData = [];
-        data.forEach((element) =>
+        const curr = data.find(({ cc }) => cc === "USD");
+        curr.forEach((element) =>
           //  {console.log(element.exchangedate); console.log(element.rate)}
           {
-            console.log(element.exchangedate);
-            console.log(element.rate);
+            console.log('elem date',element.exchangedate);
+            console.log('elem rate', element.rate);
+ 
+            console.log(element);
 
             chartData.push({
               date: element.exchangedate,
