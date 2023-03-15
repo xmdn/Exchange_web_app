@@ -129,23 +129,29 @@ chartBtn.addEventListener("click", async (e) => {
       `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=${dateS}&json`
     );
     let result = await response.json();
-    let curr = result.find(({ cc }) => cc === "AUD");
+    let curr = result.find(({ cc }) => cc === "USD");
     console.log(curr);
     chartData.push({
       date: curr.exchangedate,
       rate: curr.rate,
     });
   }
-  
-  console.log(chartData.map((rate) => rate));
+  let dates = [];
+  let rates = [];
+  chartData.forEach(element => {
+    dates.push(element.date);
+    rates.push(element.rate);
+  });
+  console.log(dates);
+  //chartData.forEach(element => element.rate);
   new Chart(document.getElementById("myChart"), {
     type: "line",
     data: {
-      labels: chartData.map((date) => date),
+      labels: dates,
       datasets: [
         {
           label: "Exchange Rates",
-          data: chartData.map((rate) => rate),
+          data: rates,
           fill: false,
           borderColor: "rgb(75, 192, 192)",
           tension: 0.1,
