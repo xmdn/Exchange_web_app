@@ -104,7 +104,8 @@ calcForm.addEventListener("submit", (e) => {
   });
 });
 // function getDataAndDrawChart() {
-// $("#startDate").datepicker();
+ $("#startDate").datepicker();
+ $("#endDate").datepicker();
 
 // $("#startDate").change(function (e) {
 //   console.log(this.value);
@@ -128,6 +129,8 @@ chartBtn.addEventListener("click", (e) => {
 
   //let dateS = (startDate.getFullYear(), startDate.getMonth().toString().padStart(2, '0'), startDate.getDate().toString().padStart(2, '0'));
   //console.log('Date', dateS);
+  const chartData = [];
+  let chartArr = [];
   for (
     let currentDate = new Date(startDate);
     currentDate <= endDate;
@@ -147,48 +150,90 @@ chartBtn.addEventListener("click", (e) => {
     )
       .then((response) => response.json())
       .then((data) => {
-        const chartData = [];
-        const curr = data.find(({ cc }) => cc === "USD");
-        curr.forEach((element) =>
-          //  {console.log(element.exchangedate); console.log(element.rate)}
-          {
-            console.log('elem date',element.exchangedate);
-            console.log('elem rate', element.rate);
- 
-            console.log(element);
 
+        //const curr = data.find(({ cc }) => cc === "USD");
+        data.forEach((element, index) =>
+          //  {console.log(element.exchangedate); console.log(element.rate)}
+          { 
+             if(index===1) {
+              //console.log(element.cc, element.rate)
+            //console.log(element[Object.keys(element)[2]])
+            //chartArr.push(element.exchangedate, element.rate)
             chartData.push({
               date: element.exchangedate,
-              rate: element.rate.toFixed(1),
-            });
+              rate: element.rate,
+              });
+
+            // chartData.push({
+            //   date: element.exchangedate,
+            //   rate: element.rate,
+            //   })
+           }
+           
+            //sconsole.log('elem date',element.exchangedate);
+            //console.log('elem rate', element.rate);
+            //console.log('element:',element)
+            // if (typeof element === 'object' && element !== null && Array.isArray(element)) {
+            //   element.forEach(item => {
+            //     console.log(item);
+            //   });
+            // } else {
+            //   console.log('element is not an array');
+            // }
+             // => {
+            //   console.log('elem obj key one:', element[Object.keys(element)[0]]);
+            // });
+            //element[Object.keys(element)[0]];
+            //console.log(element);
+            //console.log('elem obj key one:', element[Object.keys(element)[0]]);
+
+            // chartData.push({
+            //   date: chartDate,
+            //   rate: chartRates,
+            // });
+
+            //  chartData.push({
+            //    date: chartArr[0],
+            //    rate: chartArr[1],
+            //    })
+            //   console.log(chartData)
           }
-        );
-        new Chart(document.getElementById("myChart"), {
-          type: "line",
-          data: {
-            labels: chartData.map((data) => data.date),
-            datasets: [
-              {
-                label: "Exchange Rates",
-                data: chartData.map((data) => data.rate),
-                fill: false,
-                borderColor: "rgb(75, 192, 192)",
-                tension: 0.1,
-              },
-            ],
-          },
-          options: {
-            scales: {
-              y: {
-                beginAtZero: true,
-              },
-            },
-          },
-        });
+        ); 
+        // console.log(chartArr);        
+        //  chartData.push({
+        //   date: chartArr[0],
+        //   rate: chartArr[1],
+        //   });
+          console.log(chartData);
+
       })
       .catch((error) => console.error(error));
+      new Chart(document.getElementById("myChart"), {
+        type: "line",
+        data: {
+          labels: chartData.map((chartData) => chartData.exchangedate),
+          datasets: [
+            {
+              label: "Exchange Rates",
+              data: chartData.map((chartData) => chartData.rate),
+              fill: false,
+              borderColor: "rgb(75, 192, 192)",
+              tension: 0.1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
   }
 });
+
+
 
 //$("#btn-start").click(function () {
 
