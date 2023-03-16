@@ -142,8 +142,6 @@ chartBtn.addEventListener("click", async (e) => {
     dates.push(element.date);
     rates.push(element.rate);
   });
-  console.log(dates);
-  //chartData.forEach(element => element.rate);
   new Chart(document.getElementById("myChart"), {
     type: "line",
     data: {
