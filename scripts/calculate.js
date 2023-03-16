@@ -1,5 +1,3 @@
-//import { Chart } from 'https://cdn.jsdelivr.net/npm/chart.js';
-//import { callback } from 'chart.js/dist/helpers/helpers.core';
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
 import {
   getAuth,
@@ -39,18 +37,6 @@ function showLog() {
 
 const calcForm = document.getElementById("calc-form"); //Calculation Form
 const chartBtn = document.getElementById("btn-start");
-// let oldDate = new Date("Thu Jan 01 1970 21:30:00 GMT +0530(IST)");
-// let newDate = new Date();
-// newDate.setHours(oldDate.getHours());
-// newDate.setMinutes(oldDate.getMinutes());
-// newDate.setSeconds(oldDate.getSeconds());
-// console.log(newDate)
-// fetch(`https://bank.gov.ua/ua/markets/exchangerate-chart?startDate=10.03.2022&endDate=${newDate}`)
-//  .then(data => {
-//     console.log(newDate);
-//  })
-
-//fetch('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20200302&json') // Get the currency API Endpoint
 
 fetch("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json") // Get the currency API Endpoint
   .then((response) => response.json()) // Getting json from responses
@@ -115,8 +101,6 @@ chartBtn.addEventListener("click", async (e) => {
   startDate.setDate(startDate.getDate() + 1);
   endDate.setMonth(endDate.getMonth() + 1);
 
-
-
   let chartData = [];
   for (
     let currentDate = new Date(startDate);
@@ -131,7 +115,7 @@ chartBtn.addEventListener("click", async (e) => {
       `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=${dateS}&json`
     );
     let result = await response.json();
-    let curr = result.find(({ cc }) => cc === "AUD");
+    let curr = result.find(({ cc }) => cc === "USD");
     console.log(curr);
     chartData.push({
       date: curr.exchangedate,
@@ -144,8 +128,7 @@ chartBtn.addEventListener("click", async (e) => {
     dates.push(element.date);
     rates.push(element.rate);
   });
-  myChart.destroy();
-  myChart = new Chart(document.getElementById("myChart"), {
+  new Chart(document.getElementById("myChart"), {
     type: "line",
     data: {
       labels: dates,
