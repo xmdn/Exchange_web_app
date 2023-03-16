@@ -93,6 +93,11 @@ calcForm.addEventListener("submit", (e) => {
 // function getDataAndDrawChart() {
 $("#startDate").datepicker();
 $("#endDate").datepicker();
+$("#currency").val()
+
+
+
+
 
 chartBtn.addEventListener("click", async (e) => {
   let startDate = new Date(Date.parse($("#startDate").val()));
@@ -128,17 +133,15 @@ chartBtn.addEventListener("click", async (e) => {
     dates.push(element.date);
     rates.push(element.rate);
   });
-  new Chart(document.getElementById("myChart"), {
+  let myChart = new Chart(document.getElementById("myChart"), {
     type: "line",
     data: {
-      labels: dates,
       datasets: [
         {
           label: "Exchange Rates",
-          data: rates,
           fill: false,
           borderColor: "rgb(75, 192, 192)",
-          tension: 0.1,
+          tension: 0.2,
         },
       ],
     },
@@ -150,4 +153,9 @@ chartBtn.addEventListener("click", async (e) => {
       },
     },
   });
+  myChart.destroy();
+  myChart.data.labels = dates;
+  myChart.data.datasets[0].data = rates;
+  myChart.update();
+
 });
