@@ -115,6 +115,8 @@ chartBtn.addEventListener("click", async (e) => {
   startDate.setDate(startDate.getDate() + 1);
   endDate.setMonth(endDate.getMonth() + 1);
 
+
+
   let chartData = [];
   for (
     let currentDate = new Date(startDate);
@@ -136,16 +138,21 @@ chartBtn.addEventListener("click", async (e) => {
       rate: curr.rate,
     });
   }
-  
-  console.log(chartData.map((rate) => rate));
-  new Chart(document.getElementById("myChart"), {
+  let dates = [];
+  let rates = [];
+  chartData.forEach(element => {
+    dates.push(element.date);
+    rates.push(element.rate);
+  });
+  myChart.destroy();
+  myChart = new Chart(document.getElementById("myChart"), {
     type: "line",
     data: {
-      labels: chartData.map((date) => date),
+      labels: dates,
       datasets: [
         {
           label: "Exchange Rates",
-          data: chartData.map((rate) => rate),
+          data: rates,
           fill: false,
           borderColor: "rgb(75, 192, 192)",
           tension: 0.1,
