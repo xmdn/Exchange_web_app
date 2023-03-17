@@ -36,13 +36,14 @@ function showLog() {
 }
 
 const calcForm = document.getElementById("calc-form"); //Calculation Form
-
+const chartBtn = document.getElementById("btn-start");
+let currencyDropdown = calcForm["currency"];
 
 fetch("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json") // Get the currency API Endpoint
   .then((response) => response.json()) // Getting json from responses
   .then((data) => {
     // Showing response to dropdown with forEach
-    const currencyDropdown = calcForm["currency"];
+    
     data.forEach((currency) => {
       const option = document.createElement("option");
       option.value = currency.rate.toFixed(1);
@@ -96,7 +97,7 @@ $("#endDate").datepicker();
 $("#currency").val()
 
 
-const chartBtn = document.getElementById("btn-start");
+
 
 let myChart = null;
 
@@ -111,7 +112,7 @@ chartBtn.addEventListener("click", async (e) => {
     myChart.destroy();
   }
 
-
+  const selectedOption = currencyDropdown.options[currencyDropdown.selectedIndex];
   let chartData = [];
   for (
     let currentDate = new Date(startDate);
@@ -126,28 +127,33 @@ chartBtn.addEventListener("click", async (e) => {
       `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=${dateS}&json`
     );
     let result = await response.json();
-    let curr = result.find(({ cc }) => cc === "USD");
+    //const selectedValue = currencyDropdown.value;
+
+    let curr = result.find(({ cc }) => cc === selectedOption.innerHTML);
     console.log(curr);
     chartData.push({
       date: curr.exchangedate,
       rate: curr.rate,
+      name: curr.txt,
     });
   }
   let dates = [];
   let rates = [];
+
   chartData.forEach(element => {
     dates.push(element.date);
     rates.push(element.rate);
   });
-  const minRate = Math.min(rates);
-  const maxRate = Math.max(rates);
+
+  // const minRate = Math.min(rates);
+  // const maxRate = Math.max(rates);
   
   myChart = new Chart(document.getElementById("myChart"), {
     type: "line",
     data: {
       datasets: [
         {
-          label: "Exchange Rates",
+          label: chartData[1].name,
           fill: false,
           borderColor: "rgb(75, 192, 192)",
           tension: 0.2,
@@ -158,8 +164,8 @@ chartBtn.addEventListener("click", async (e) => {
       scales: {
         y: {
           beginAtZero: false,
-          min: minRate,
-          max: maxRate,
+          // min: minRate,
+          // max: maxRate,
         },
       },
       layout: {
