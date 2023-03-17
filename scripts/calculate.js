@@ -145,8 +145,8 @@ chartBtn.addEventListener("click", async (e) => {
     rates.push(element.rate);
   });
 
-  // const minRate = Math.min(rates);
-  // const maxRate = Math.max(rates);
+   const minRate = Math.min(rates - 1);
+   const maxRate = Math.max(rates + 1);
   
   myChart = new Chart(document.getElementById("myChart"), {
     type: "line",
@@ -164,8 +164,8 @@ chartBtn.addEventListener("click", async (e) => {
       scales: {
         y: {
           beginAtZero: false,
-          // min: minRate,
-          // max: maxRate,
+           min: minRate,
+           max: maxRate,
         },
       },
       layout: {
