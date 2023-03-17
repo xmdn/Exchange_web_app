@@ -36,7 +36,7 @@ function showLog() {
 }
 
 const calcForm = document.getElementById("calc-form"); //Calculation Form
-const chartBtn = document.getElementById("btn-start");
+
 
 fetch("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json") // Get the currency API Endpoint
   .then((response) => response.json()) // Getting json from responses
@@ -96,8 +96,9 @@ $("#endDate").datepicker();
 $("#currency").val()
 
 
+const chartBtn = document.getElementById("btn-start");
 
-
+let myChart = null;
 
 chartBtn.addEventListener("click", async (e) => {
   let startDate = new Date(Date.parse($("#startDate").val()));
@@ -105,6 +106,11 @@ chartBtn.addEventListener("click", async (e) => {
   startDate.setMonth(startDate.getMonth() + 1);
   startDate.setDate(startDate.getDate() + 1);
   endDate.setMonth(endDate.getMonth() + 1);
+
+  if(myChart) {
+    myChart.destroy();
+  }
+
 
   let chartData = [];
   for (
@@ -133,7 +139,10 @@ chartBtn.addEventListener("click", async (e) => {
     dates.push(element.date);
     rates.push(element.rate);
   });
-  let myChart = new Chart(document.getElementById("myChart"), {
+  const minRate = Math.min(rates);
+  const maxRate = Math.max(rates);
+  
+  myChart = new Chart(document.getElementById("myChart"), {
     type: "line",
     data: {
       datasets: [
@@ -148,12 +157,23 @@ chartBtn.addEventListener("click", async (e) => {
     options: {
       scales: {
         y: {
-          beginAtZero: true,
+          beginAtZero: false,
+          min: minRate,
+          max: maxRate,
         },
       },
+      layout: {
+        padding: {
+          left: 50,
+          right: 50,
+          top: 50,
+          bottom: 50,
+        },
+      }
     },
   });
-  myChart.destroy();
+
+  
   myChart.data.labels = dates;
   myChart.data.datasets[0].data = rates;
   myChart.update();
