@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <title>Document</title>
-    <style src="styles/main.css"></style>
     <link href="styles/main.css" rel="stylesheet" type="text/css" />
     <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-auth.js"></script>
@@ -103,28 +102,35 @@
   </head>
   <body>
     <header>
-        <a
-          id="open-crt-user-form-btn"
-          class="submit-btn"
-          href="/add_user"
-          onclick="route()"
-          >Create user</a
-        >
-        <a
-          id="open-add-user-form-btn"
-          class="submit-btn"
-          href="/calculate"
-          onclick="route()"
-          >Calculation</a
-        >
-        <a
-          id="open-add-user-form-btn"
-          class="submit-btn"
-          href="/"
-          onclick="route()"
-          >Login</a
-        >
-      </header>
+      <a
+        id="open-crt-user-form-btn"
+        class="submit-btn"
+        href="/add_user"
+        onclick="route()"
+        >Create user</a
+      >
+      <a
+        id="open-add-user-form-btn"
+        class="submit-btn"
+        href="/calculate"
+        onclick="route()"
+        >Calculation</a
+      >
+      <a
+        id="open-add-user-form-btn"
+        class="submit-btn"
+        href="/"
+        onclick="route()"
+        >Login</a
+      >
+      <a
+        id="open-crt-user-form-btn"
+        class="submit-btn"
+        href="/listing"
+        onclick="route()"
+        >List</a
+      >
+    </header>
     <div id="root">
       <div id="main-page"></div>
     </div>

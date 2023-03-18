@@ -1,4 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+import { route } from "../router";
 import {
   getAuth,
   onAuthStateChanged,
@@ -30,30 +31,34 @@ function showMessage(message) {
   //Message showing
   messageElement.textContent = message;
 }
-const logElement = document.getElementById("log"); //Message Form
-function showLog() {
-  //Message showing
-}
+
+ const listDiv = document.getElementById("listed-container");
+ listDiv.addEventListener("click", () => {
+   route();
+   window.location.href = "/calculate";
+ });
 
 const calcForm = document.getElementById("calc-form"); //Calculation Form
 const chartBtn = document.getElementById("btn-start");
 let currencyDropdown = calcForm["currency"];
 
-fetch("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json") // Get the currency API Endpoint
-  .then((response) => response.json()) // Getting json from responses
-  .then((data) => {
-    // Showing response to dropdown with forEach
+
+
+// fetch("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json") // Get the currency API Endpoint
+//   .then((response) => response.json()) // Getting json from responses
+//   .then((data) => {
+//     // Showing response to dropdown with forEach
     
-    data.forEach((currency) => {
-      const option = document.createElement("option");
-      option.value = currency.rate.toFixed(1);
-      option.innerHTML = currency.cc;
-      currencyDropdown.appendChild(option);
-    });
-  })
-  .catch((error) => {
-    console.error("Error:", error);
-  });
+//     data.forEach((currency) => {
+//       const option = document.createElement("option");
+//       option.value = currency.rate.toFixed(1);
+//       option.innerHTML = currency.cc;
+//       currencyDropdown.appendChild(option);
+//     });
+//   })
+//   .catch((error) => {
+//     console.error("Error:", error);
+//   });
 
 calcForm.addEventListener("submit", (e) => {
   // Event listener "on click" and calculating currency to amount

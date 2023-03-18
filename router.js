@@ -38,13 +38,15 @@ const scriptMap = {
     "/calculate": "calculate.js",
     "/add_user": "add_user.js",
     "/": "login.js",
+    "/listing": "listing.js",
   };
   
 const routes = {
     404: "/pages/404.html",
     "/": "/pages/login.html",
     "/calculate": "/pages/calculate.html",
-    "/add_user": "/pages/add_user.html"
+    "/add_user": "/pages/add_user.html",
+    "/listing": "/pages/listing.html"
 };
 const handleLocation = async () => {
     const path = window.location.pathname;
