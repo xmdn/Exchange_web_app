@@ -1,5 +1,4 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
-import { route } from "../router";
 import {
   getAuth,
   onAuthStateChanged,
@@ -32,15 +31,16 @@ function showMessage(message) {
   messageElement.textContent = message;
 }
 
- const listDiv = document.getElementById("listed-container");
- listDiv.addEventListener("click", () => {
-   route();
+const listingContainer = document.getElementById("listing-container"); //
+
+const listedContainer = document.getElementById("listed-container");
+listedContainer.addEventListener("click", () => {
    window.location.href = "/calculate";
+   route();
  });
 
-const calcForm = document.getElementById("calc-form"); //Calculation Form
-const chartBtn = document.getElementById("btn-start");
-let currencyDropdown = calcForm["currency"];
+
+
 
 
 

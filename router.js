@@ -37,16 +37,16 @@ const route = async (event) => {
 const scriptMap = {
     "/calculate": "calculate.js",
     "/add_user": "add_user.js",
-    "/": "login.js",
-    "/listing": "listing.js",
+    "/": "listing.js",
+    "/listing": "login.js",
   };
   
 const routes = {
     404: "/pages/404.html",
-    "/": "/pages/login.html",
+    "/": "/pages/listing.html",
     "/calculate": "/pages/calculate.html",
     "/add_user": "/pages/add_user.html",
-    "/listing": "/pages/listing.html"
+    "/listing": "/pages/login.html"
 };
 const handleLocation = async () => {
     const path = window.location.pathname;
