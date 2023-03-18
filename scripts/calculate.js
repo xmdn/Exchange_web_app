@@ -28,7 +28,7 @@ const db = getFirestore();
 const messageElement = document.getElementById("message"); //Message Form
 function showMessage(message) {
   //Message showing
-  messageElement.textContent = messaSge;
+  messageElement.textContent = message;
 }
 const logElement = document.getElementById("log"); //Message Form
 function showLog() {
@@ -94,7 +94,6 @@ calcForm.addEventListener("submit", (e) => {
 // function getDataAndDrawChart() {
 $("#startDate").datepicker();
 $("#endDate").datepicker();
-$("#currency").val()
 
 
 
@@ -114,74 +113,79 @@ chartBtn.addEventListener("click", async (e) => {
 
   const selectedOption = currencyDropdown.options[currencyDropdown.selectedIndex];
   let chartData = [];
-  for (
-    let currentDate = new Date(startDate);
-    currentDate <= endDate;
-    currentDate.setDate(currentDate.getDate() + 1)
-  ) {
-    let dateS = `${currentDate.getFullYear()}${currentDate
-      .getMonth()
-      .toString()
-      .padStart(2, "0")}${currentDate.getDate().toString().padStart(2, "0")}`;
-    let response = await fetch(
-      `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=${dateS}&json`
-    );
-    let result = await response.json();
-    //const selectedValue = currencyDropdown.value;
+  if(startDate & endDate) {
+    for (
+      let currentDate = new Date(startDate);
+      currentDate <= endDate;
+      currentDate.setDate(currentDate.getDate() + 1)
+    ) {
+      let dateS = `${currentDate.getFullYear()}${currentDate
+        .getMonth()
+        .toString()
+        .padStart(2, "0")}${currentDate.getDate().toString().padStart(2, "0")}`;
+      let response = await fetch(
+        `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=${dateS}&json`
+      );
+      let result = await response.json();
+      //const selectedValue = currencyDropdown.value;
 
-    let curr = result.find(({ cc }) => cc === selectedOption.innerHTML);
-    console.log(curr);
-    chartData.push({
-      date: curr.exchangedate,
-      rate: curr.rate,
-      name: curr.txt,
+      let curr = result.find(({ cc }) => cc === selectedOption.innerHTML);
+      console.log(curr);
+      chartData.push({
+        date: curr.exchangedate,
+        rate: curr.rate,
+        name: curr.txt,
+      });
+    }
+    let dates = [];
+    let rates = [];
+    let names = chartData[0].name;
+
+    chartData.forEach(element => {
+      dates.push(element.date);
+      rates.push(element.rate);
     });
-  }
-  let dates = [];
-  let rates = [];
 
-  chartData.forEach(element => {
-    dates.push(element.date);
-    rates.push(element.rate);
-  });
-
-   const minRate = Math.min(rates - 1);
-   const maxRate = Math.max(rates + 1);
-  
-  myChart = new Chart(document.getElementById("myChart"), {
-    type: "line",
-    data: {
-      datasets: [
-        {
-          label: chartData[1].name,
-          fill: false,
-          borderColor: "rgb(75, 192, 192)",
-          tension: 0.2,
-        },
-      ],
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: false,
-           min: minRate,
-           max: maxRate,
-        },
+    const minRate = Math.min(rates / 2);
+    const maxRate = Math.max(rates * 2);
+    
+    myChart = new Chart(document.getElementById("myChart"), {
+      type: "line",
+      data: {
+        datasets: [
+          {
+            fill: false,
+            borderColor: "rgb(75, 192, 192)",
+            tension: 0.2,
+          },
+        ],
       },
-      layout: {
-        padding: {
-          left: 50,
-          right: 50,
-          top: 50,
-          bottom: 50,
+      options: {
+        scales: {
+          y: {
+            beginAtZero: false,
+            min: minRate,
+            max: maxRate,
+          },
         },
-      }
-    },
-  });
+        layout: {
+          padding: {
+            left: 50,
+            right: 50,
+            top: 50,
+            bottom: 50,
+          },
+        }
+      },
+    });
 
-  
-  myChart.data.labels = dates;
-  myChart.data.datasets[0].data = rates;
-  myChart.update();
-
+    
+    myChart.data.labels = dates;
+    myChart.data.datasets[0].label = names
+    myChart.data.datasets[0].data = rates;
+    myChart.update();
+  }
+  else {
+    showMessage("You are not set up dates for chart");
+  }
 });
