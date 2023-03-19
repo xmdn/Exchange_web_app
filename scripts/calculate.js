@@ -30,10 +30,6 @@ function showMessage(message) {
   //Message showing
   messageElement.textContent = message;
 }
-const logElement = document.getElementById("log"); //Message Form
-function showLog() {
-  //Message showing
-}
 
 const calcForm = document.getElementById("calc-form"); //Calculation Form
 const chartBtn = document.getElementById("btn-start");

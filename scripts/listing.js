@@ -33,32 +33,45 @@ function showMessage(message) {
 
 const listingContainer = document.getElementById("listing-container"); //
 
-const listedContainer = document.getElementById("listed-container");
-listedContainer.addEventListener("click", () => {
-   window.location.href = "/calculate";
-   route();
- });
+ const listedContainer = document.getElementById("listed-container");
+
+        // script.src = `./scripts/${scriptFile}`;
+
+// listedContainer.addEventListener("click", () => {
+//    window.location.href = "/calculate";
+//    route();
+//  });s
 
 
 
 
 
 
-// fetch("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json") // Get the currency API Endpoint
-//   .then((response) => response.json()) // Getting json from responses
-//   .then((data) => {
-//     // Showing response to dropdown with forEach
+fetch("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json") // Get the currency API Endpoint
+  .then((response) => response.json()) // Getting json from responses
+  .then((data) => {
+    // Showing response to dropdown with forEach
     
-//     data.forEach((currency) => {
-//       const option = document.createElement("option");
-//       option.value = currency.rate.toFixed(1);
-//       option.innerHTML = currency.cc;
-//       currencyDropdown.appendChild(option);
-//     });
-//   })
-//   .catch((error) => {
-//     console.error("Error:", error);
-//   });
+    data.forEach((currency) => {
+      const listedContainer = document.createElement("a")
+  //     href="/calculate"
+  // onclick="route()"
+      const someCurrency = document.createElement("div");
+      const myChart = document.createElement("canvas");
+      listedContainer.id = `block-${currency.cc}`
+        listedContainer.textContent = currency.txt;
+        listedContainer.className = 'block-currency';
+          listingContainer.appendChild(listedContainer);
+        someCurrency.textContent = currency.rate.toFixed(1);
+          someCurrency.className = 'block-price';
+          listedContainer.appendChild(someCurrency);
+          myChart.id = `myChart-${currency.cc}`;
+          listedContainer.appendChild(myChart);
+    });
+  })
+  .catch((error) => {
+    console.error("Error:", error);
+  });
 
 calcForm.addEventListener("submit", (e) => {
   // Event listener "on click" and calculating currency to amount
@@ -103,7 +116,7 @@ $("#endDate").datepicker();
 
 let myChart = null;
 
-chartBtn.addEventListener("click", async (e) => {
+
   let startDate = new Date(Date.parse($("#startDate").val()));
   let endDate = new Date(Date.parse($("#endDate").val()));
   startDate.setMonth(startDate.getMonth() + 1);
@@ -122,6 +135,7 @@ chartBtn.addEventListener("click", async (e) => {
       currentDate <= endDate;
       currentDate.setDate(currentDate.getDate() + 1)
     ) {
+      
       let dateS = `${currentDate.getFullYear()}${currentDate
         .getMonth()
         .toString()
@@ -191,4 +205,4 @@ chartBtn.addEventListener("click", async (e) => {
   else {
     showMessage("You are not set up dates for chart");
   }
-});
+

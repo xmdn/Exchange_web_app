@@ -9,10 +9,11 @@ form {
     align-items: center;
 }
 a {
-    color: white;
+    color: rgb(0, 0, 0);
     text-decoration: none;
     text-decoration-color: #cfcfcf;
     background-color: #dedeff;
+    display: block;
 }
 h2 {
     background-color: #e8ebf9;
@@ -42,6 +43,16 @@ h2 {
     width: auto;
     height: auto;
     background-color: #e8ebf9;
+}
+.block-currency {
+    padding: 2%;
+    align-items: center;
+    display: flex;
+    margin: 2%;
+}
+.block-price {
+    margin: 4%;
+    text-align: left;
 }
 header{
     background-color: #cfcfcf;
