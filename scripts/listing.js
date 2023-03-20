@@ -145,6 +145,21 @@ let myChart = null;
       );
       let result = await response.json();
       //const selectedValue = currencyDropdown.value;
+      let valutes = new Map();
+      result.forEach(element =>{
+        valutes.set( element.cc, element.rates)
+      })
+      for (let [key, value] of valutes) {
+        console.log(key + " goes " + value);
+      }
+      curr = data.reduce((acc, obj) => {
+        const key = obj.age; // Change this to the property you want to group by
+        if (!acc[key]) {
+          acc[key] = [];
+        }
+        acc[key].push(obj);
+        return acc;
+      }, {});
 
       let curr = result.find(({ cc }) => cc === selectedOption.innerHTML);
       console.log(curr);
@@ -163,8 +178,8 @@ let myChart = null;
       rates.push(element.rate);
     });
 
-    const minRate = Math.min(rates / 2);
-    const maxRate = Math.max(rates * 2);
+    const minRate = Math.min(rates) / 2;
+    const maxRate = Math.max(rates) * 2;
     
     myChart = new Chart(document.getElementById("myChart"), {
       type: "line",
