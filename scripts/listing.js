@@ -65,7 +65,8 @@ fetch("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json") //
         someCurrency.textContent = currency.rate.toFixed(1);
           someCurrency.className = 'block-price';
           listedContainer.appendChild(someCurrency);
-          myChart.id = `myChart-${currency.cc}`;
+          myChart.id = "myChart";
+          myChart.value = `${currency.cc}`;
           listedContainer.appendChild(myChart);
     });
   })
@@ -129,6 +130,9 @@ let myChart = null;
 
   const selectedOption = currencyDropdown.options[currencyDropdown.selectedIndex];
   let chartData = [];
+  let dates = [];
+  let rates = [];
+  let names = chartData[0].name;
   if(startDate & endDate) {
     for (
       let currentDate = new Date(startDate);
@@ -150,33 +154,21 @@ let myChart = null;
         valutes.set( element.cc, element.rates)
       })
       for (let [key, value] of valutes) {
+        if(myChart.value)
         console.log(key + " goes " + value);
+        curr = result.reduce(() => {
+          chartData.push({
+            date: curr.exchangedate,
+            rate: curr.rate,
+            name: curr.txt,
+          });
+        }, {});
       }
-      curr = data.reduce((acc, obj) => {
-        const key = obj.age; // Change this to the property you want to group by
-        if (!acc[key]) {
-          acc[key] = [];
-        }
-        acc[key].push(obj);
-        return acc;
-      }, {});
 
-      let curr = result.find(({ cc }) => cc === selectedOption.innerHTML);
-      console.log(curr);
-      chartData.push({
-        date: curr.exchangedate,
-        rate: curr.rate,
-        name: curr.txt,
-      });
+
     }
-    let dates = [];
-    let rates = [];
-    let names = chartData[0].name;
 
-    chartData.forEach(element => {
-      dates.push(element.date);
-      rates.push(element.rate);
-    });
+
 
     const minRate = Math.min(rates) / 2;
     const maxRate = Math.max(rates) * 2;
