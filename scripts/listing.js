@@ -140,7 +140,8 @@ chartBtn.addEventListener("click", async (e) => {
         valueMap.set( element.cc, []);
         }
 
-        valueMap.get(element.cc).push(rates = element.rate, dates = element.exchangedate);
+        valueMap.get(element.cc).push({rate: element.rate, date: element.exchangedate});
+        //valueMap.get(element.rate).push(element.rate, element.exchangedate);
       })
 
       
@@ -148,8 +149,10 @@ chartBtn.addEventListener("click", async (e) => {
     const minRate = Math.min(rates) / 2;
     const maxRate = Math.max(rates) * 2;
     
-      for (let [key, value] of valueMap) {
-        console.log(key + " goes " + value);
+      // for (let [value] of valueMap) { //For all elements
+
+        //console.log(value);
+
         // rates = valueMap.rate;
         // dates = valueMap.exchangedate
         // for(value) {
@@ -159,11 +162,15 @@ chartBtn.addEventListener("click", async (e) => {
         //     // name: valueMap.txt,
         //   });
         // };
-  
-        value.forEach((element) => {
-          console.log(element);
-
+        //console.log('getting val', valueMap.get("USD").rate)
+        //console.log(rate)
+        let getingUSD = valueMap.get("ILS")
+        console.log(getingUSD[1].rate)
+         let getingUSDrate = getingUSD.forEach((element) => {
+          rates.push(element.rate)
+          dates.push(element.date)
         })
+         console.log(rates, dates)
 
         const listedContainer = document.createElement("a")
         //     href="/calculate"
@@ -198,8 +205,8 @@ chartBtn.addEventListener("click", async (e) => {
                     scales: {
                       y: {
                         beginAtZero: false,
-                        min: minRate,
-                        max: maxRate,
+                        // min: minRate,
+                        // max: maxRate,
                       },
                     },
                     layout: {
@@ -214,11 +221,12 @@ chartBtn.addEventListener("click", async (e) => {
                 });
 
 
-          myChart.data.labels = value[0];
+          myChart.data.labels = dates;
           // myChart.data.datasets[0].label = chartData[0].name;
-          myChart.data.datasets[0].data = value[1];
+          myChart.data.datasets[0].data = rates;
           myChart.update();
-      }
+
+      // } End for all
 
 
     
