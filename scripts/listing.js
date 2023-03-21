@@ -33,7 +33,7 @@ function showMessage(message) {
 
 const listingContainer = document.getElementById("listing-container"); //
 
- const listedContainer = document.getElementById("listed-container");
+//const listedContainer = document.getElementById("listed-container");
 
         // script.src = `./scripts/${scriptFile}`;
 
@@ -117,6 +117,7 @@ chartBtn.addEventListener("click", async (e) => {
   let chartData = [];
   let dates = [];
   let rates = [];
+  let names = [];
   let valueMap = new Map();
   if(startDate & endDate) {
     for (
@@ -140,57 +141,51 @@ chartBtn.addEventListener("click", async (e) => {
         valueMap.set( element.cc, []);
         }
 
-        valueMap.get(element.cc).push({rate: element.rate, date: element.exchangedate});
+        valueMap.get(element.cc).push({rate: element.rate, date: element.exchangedate, text: element.txt});
         //valueMap.get(element.rate).push(element.rate, element.exchangedate);
       })
 
       
     }
-    const minRate = Math.min(rates) / 2;
-    const maxRate = Math.max(rates) * 2;
-    
-      // for (let [value] of valueMap) { //For all elements
 
-        //console.log(value);
-
-        // rates = valueMap.rate;
-        // dates = valueMap.exchangedate
-        // for(value) {
-        //   chartData.push({
-        //     date: value[1],
-        //     rate: value[0],
-        //     // name: valueMap.txt,
-        //   });
-        // };
-        //console.log('getting val', valueMap.get("USD").rate)
-        //console.log(rate)
         let getingUSD = valueMap.get("ILS")
         console.log(getingUSD[1].rate)
-         let getingUSDrate = getingUSD.forEach((element) => {
+        getingUSD.forEach((element) => {
           rates.push(element.rate)
           dates.push(element.date)
         })
+        names.push(getingUSD.shift())
+
+
          console.log(rates, dates)
+        //  const minRate = Math.min(rates); // /2
+        //  const maxRate = Math.max(rates); // *2
 
         const listedContainer = document.createElement("a")
         //     href="/calculate"
         // onclick="route()"
             const someCurrency = document.createElement("div");
-            //const myChart = document.createElement("canvas");
-            // listedContainer.id = `block-${currency.cc}`
+            const chart = document.createElement("canvas");
+            const scrChart = document.createElement("script")
+            const scrChartmin = document.createElement("script")
+             listedContainer.id = "blockvalue";
               // listedContainer.textContent = currency.txt;
               listedContainer.className = 'block-currency';
                 listingContainer.appendChild(listedContainer);
-              // someCurrency.textContent = currency.rate.toFixed(1);
+               someCurrency.textContent = rates[0].toFixed(1);
                 someCurrency.className = 'block-price';
                 listedContainer.appendChild(someCurrency);
-                //myChart.id = "myChart";
+                chart.id = "myChart";
+                scrChart.src = "https://cdn.jsdelivr.net/npm/chart.js@3.7.1";
+                scrChartmin.src = "https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js";
                 // myChart.value = `${currency.cc}`;
-                //listedContainer.appendChild(myChart);
-                // if(myChart) {
-                //   myChart.destroy();
-                // }
-                myChart = new Chart(document.getElementById("myChart"), {
+                someCurrency.appendChild(chart);
+                someCurrency.appendChild(scrChart)
+                someCurrency.appendChild(scrChartmin)
+                 if(myChart) {
+                   myChart.destroy();
+                 }
+                myChart = new Chart(chart, {
                   type: "line",
                   data: {
                     datasets: [
@@ -205,8 +200,8 @@ chartBtn.addEventListener("click", async (e) => {
                     scales: {
                       y: {
                         beginAtZero: false,
-                        // min: minRate,
-                        // max: maxRate,
+                          // min: minRate,
+                          // max: maxRate,
                       },
                     },
                     layout: {
@@ -226,47 +221,7 @@ chartBtn.addEventListener("click", async (e) => {
           myChart.data.datasets[0].data = rates;
           myChart.update();
 
-      // } End for all
-
-
-    
-
-
-
-    // const minRate = Math.min(rates) / 2;
-    // const maxRate = Math.max(rates) * 2;
-    
-    // myChart = new Chart(document.getElementById("myChart"), {
-    //   type: "line",
-    //   data: {
-    //     datasets: [
-    //       {
-    //         fill: false,
-    //         borderColor: "rgb(75, 192, 192)",
-    //         tension: 0.2,
-    //       },
-    //     ],
-    //   },
-    //   options: {
-    //     scales: {
-    //       y: {
-    //         beginAtZero: false,
-    //         min: minRate,
-    //         max: maxRate,
-    //       },
-    //     },
-    //     layout: {
-    //       padding: {
-    //         left: 50,
-    //         right: 50,
-    //         top: 50,
-    //         bottom: 50,
-    //       },
-    //     }
-    //   },
-    // });
-
-    
+       //} //End for all
 
   }
   else {
