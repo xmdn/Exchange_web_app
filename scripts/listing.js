@@ -33,70 +33,6 @@ function showMessage(message) {
 
 const listingContainer = document.getElementById("listing-container"); //
 
-//const listedContainer = document.getElementById("listed-container");
-
-        // script.src = `./scripts/${scriptFile}`;
-
-// listedContainer.addEventListener("click", () => {
-//    window.location.href = "/calculate";
-//    route();
-//  });s
-
-
-
-
-
-
-// fetch("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json") // Get the currency API Endpoint
-//   .then((response) => response.json()) // Getting json from responses
-//   .then((data) => {
-//     // Showing response to dropdown with forEach
-    
-//     data.forEach((currency) => {
-      
-//     });
-//   })
-//   .catch((error) => {
-//     console.error("Error:", error);
-//   });
-
-// calcForm.addEventListener("submit", (e) => {
-//   // Event listener "on click" and calculating currency to amount
-//   e.preventDefault();
-//   const rate = calcForm["currency"].value;
-//   const amount = calcForm["amount"].value;
-//   const result = calcForm["result"];
-//   result.value = amount * rate;
-//   onAuthStateChanged(auth, (user) => {
-//     // If user loged result will be sended to current history list results of calculation
-//     if (user) {
-//       if (result.value != "NaN") {
-//         // Also checking for Not A Number
-//         addDoc(collection(db, "users/", user.uid, "/history"), {
-//           Amount: amount,
-//           Result: result.value,
-//         })
-//           .then(() => {
-//             console.log("success");
-//           })
-//           .catch((err) => {
-//             console.log(err.message);
-//           });
-//       } else {
-//         console.log(
-//           "Dont use Not a Number chars again, understand me, fucking punk?"
-//         );
-//       }
-//     } else {
-//       console.log(
-//         "you dont even a user, fuck you, why you pretending like being you its ok?"
-//       );
-//       showMessage("You are not loged");
-//       showLog();
-//     }
-//   });
-// });
-// function getDataAndDrawChart() {
 $("#startDate").datepicker();
 $("#endDate").datepicker();
 
@@ -112,9 +48,6 @@ chartBtn.addEventListener("click", async (e) => {
   endDate.setMonth(endDate.getMonth() + 1);
 
  
-
-  const selectedOption = "USD";
-  let chartData = [];
   let dates = [];
   let rates = [];
   let names = [];
@@ -147,9 +80,12 @@ chartBtn.addEventListener("click", async (e) => {
 
       
     }
-
-        let getingUSD = valueMap.get("ILS")
-        console.log(getingUSD[1].rate)
+    valueMap.forEach(element =>{
+      let getingUSD;
+      //let nextVal = valueMap.keys().next().value;
+      for (const [key] of valueMap.entries()) {
+        getingUSD = valueMap.get(key)
+      }
         getingUSD.forEach((element) => {
           rates.push(element.rate)
           dates.push(element.date)
@@ -217,10 +153,10 @@ chartBtn.addEventListener("click", async (e) => {
 
 
           myChart.data.labels = dates;
-          // myChart.data.datasets[0].label = chartData[0].name;
+           myChart.data.datasets[0].label = names;
           myChart.data.datasets[0].data = rates;
           myChart.update();
-
+              })
        //} //End for all
 
   }
