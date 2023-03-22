@@ -40,9 +40,12 @@ $("#endDate").datepicker();
 let myChart = null;
 
 const chartBtn = document.getElementById("btn-start");
-chartBtn.addEventListener("click", async (e) => {
-  let startDate = new Date(Date.parse($("#startDate").val()));
-  let endDate = new Date(Date.parse($("#endDate").val()));
+window.addEventListener("load", async (e) => {
+  const currentDate = new Date(); // create a new Date object
+  const startDate = new Date(currentDate); // create a copy of currentDate
+
+  startDate.setDate(startDate.getDate() - 30);
+  let endDate = new Date();
   startDate.setMonth(startDate.getMonth() + 1);
   startDate.setDate(startDate.getDate() + 1);
   endDate.setMonth(endDate.getMonth() + 1);
@@ -167,3 +170,6 @@ chartBtn.addEventListener("click", async (e) => {
     showMessage("You are not set up dates for chart");
   }
 })
+// const paginationLimit = 10;
+// const pageCount = Math.ceil(listItems.length / paginationLimit);
+// let currentPage;
