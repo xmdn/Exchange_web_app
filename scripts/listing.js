@@ -43,17 +43,12 @@ const chartBtn = document.getElementById("btn-start");
 window.addEventListener("load", async (e) => {
   const currentDate = new Date(); // create a new Date object
   const startDate = new Date(currentDate); // create a copy of currentDate
-
-  startDate.setDate(startDate.getDate() - 30);
+  startDate.setDate(startDate.getMonth());
   let endDate = new Date();
   startDate.setMonth(startDate.getMonth() + 1);
-  startDate.setDate(startDate.getDate() + 1);
+  startDate.setDate(startDate.getDate() - 1);
   endDate.setMonth(endDate.getMonth() + 1);
 
- 
-  let dates = [];
-  let rates = [];
-  let names = [];
   let valueMap = new Map();
   if(startDate & endDate) {
     for (
@@ -87,7 +82,6 @@ window.addEventListener("load", async (e) => {
       let trydates = [];
       let tryrates = [];
       
-
       let gettingCurrency = valueMap.get(`${key}`);
 
       gettingCurrency.forEach((element) => {
@@ -112,8 +106,8 @@ window.addEventListener("load", async (e) => {
                 someCurrency.id = `${key}`;
                 listedContainer.appendChild(someCurrency);
                 chart.id = "myChart";
-                 chart.width = 900;
-                 chart.height = 300;
+                 chart.width = 400;
+                 chart.height = 200;
                 scrChart.src = "https://cdn.jsdelivr.net/npm/chart.js@3.7.1";
                 scrChartmin.src = "https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js";
                 someCurrency.appendChild(chart);
