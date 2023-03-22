@@ -75,25 +75,23 @@ chartBtn.addEventListener("click", async (e) => {
         }
 
         valueMap.get(element.cc).push({rate: element.rate, date: element.exchangedate, text: element.txt});
-        //valueMap.get(element.rate).push(element.rate, element.exchangedate);
       })
-
-      
     }
-    valueMap.forEach(element =>{
-      let getingUSD;
-      //let nextVal = valueMap.keys().next().value;
-      for (const [key] of valueMap.entries()) {
-        getingUSD = valueMap.get(key)
-      }
-        getingUSD.forEach((element) => {
-          rates.push(element.rate)
-          dates.push(element.date)
-        })
-        names.push(getingUSD.shift())
 
 
-         console.log(rates, dates)
+    valueMap.forEach((element, key) =>{
+
+      let trydates = [];
+      let tryrates = [];
+      
+
+      let gettingCurrency = valueMap.get(`${key}`);
+
+      gettingCurrency.forEach((element) => {
+          trydates.push(element.date)
+          tryrates.push(element.rate)
+         })
+        
         //  const minRate = Math.min(rates); // /2
         //  const maxRate = Math.max(rates); // *2
 
@@ -104,23 +102,23 @@ chartBtn.addEventListener("click", async (e) => {
             const chart = document.createElement("canvas");
             const scrChart = document.createElement("script")
             const scrChartmin = document.createElement("script")
-             listedContainer.id = "blockvalue";
-              // listedContainer.textContent = currency.txt;
+               listedContainer.textContent = `${key}`;
               listedContainer.className = 'block-currency';
                 listingContainer.appendChild(listedContainer);
-               someCurrency.textContent = rates[0].toFixed(1);
                 someCurrency.className = 'block-price';
+                someCurrency.id = `${key}`;
                 listedContainer.appendChild(someCurrency);
                 chart.id = "myChart";
+                 chart.width = 900;
+                 chart.height = 300;
                 scrChart.src = "https://cdn.jsdelivr.net/npm/chart.js@3.7.1";
                 scrChartmin.src = "https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js";
-                // myChart.value = `${currency.cc}`;
                 someCurrency.appendChild(chart);
                 someCurrency.appendChild(scrChart)
                 someCurrency.appendChild(scrChartmin)
-                 if(myChart) {
-                   myChart.destroy();
-                 }
+                //  if(myChart) {
+                //    myChart.destroy();
+                //  }
                 myChart = new Chart(chart, {
                   type: "line",
                   data: {
@@ -133,6 +131,12 @@ chartBtn.addEventListener("click", async (e) => {
                     ],
                   },
                   options: {
+                    plugins: {
+                      legend: {
+                      display: false,
+                    },
+                  },
+                    
                     scales: {
                       y: {
                         beginAtZero: false,
@@ -152,12 +156,11 @@ chartBtn.addEventListener("click", async (e) => {
                 });
 
 
-          myChart.data.labels = dates;
-           myChart.data.datasets[0].label = names;
-          myChart.data.datasets[0].data = rates;
+          myChart.data.labels = trydates;
+       //    myChart.data.datasets[0].label = names;
+          myChart.data.datasets[0].data = tryrates;
           myChart.update();
               })
-       //} //End for all
 
   }
   else {
