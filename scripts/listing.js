@@ -92,10 +92,10 @@ window.addEventListener("load", async (e) => {
         //  const minRate = Math.min(rates); // /2
         //  const maxRate = Math.max(rates); // *2
 
-        const listedContainer = document.createElement("a")
+        const listedContainer = document.createElement("li") //"a"
         //     href="/calculate"
         // onclick="route()"
-            const someCurrency = document.createElement("div");
+            const someCurrency = document.createElement("li"); // "div"
             const chart = document.createElement("canvas");
             const scrChart = document.createElement("script")
             const scrChartmin = document.createElement("script")
@@ -163,7 +163,48 @@ window.addEventListener("load", async (e) => {
   else {
     showMessage("You are not set up dates for chart");
   }
+  const paginatedList = document.getElementById("listing-container");
+  const paginationNumbers = document.getElementById("pagination-numbers");
+  const listItems = paginatedList.querySelectorAll("li");
+
+  const nextButton = document.getElementById("btn-next");
+  const prevButton = document.getElementById("btn-prev");
+
+  const paginationLimit = 10;
+  let currentPage = 1;
+
+  const pageCount = Math.ceil(listItems.length / paginationLimit);
+  for (let i = 1; i <= pageCount; i++) {
+    appendPageNumber(i);
+  }
+  const setCurrentPage = (pageNum) => {
+    currentPage = pageNum;
+  };
+  if (currentPage === 1) {
+    disableButton(prevButton);
+  } else {
+    enableButton(prevButton);
+  }
+
+  if (pageCount === currentPage) {
+    disableButton(nextButton);
+  } else {
+    enableButton(nextButton);
+  }
+  prevButton.addEventListener("click", () => {
+    setCurrentPage(currentPage - 1);
+  });
+
+  nextButton.addEventListener("click", () => {
+    setCurrentPage(currentPage + 1);
+  });
+  document.querySelectorAll(".pagination-number").forEach((button) => {
+    const pageIndex = Number(button.getAttribute("page-index"));
+
+    if (pageIndex) {
+      button.addEventListener("click", () => {
+        setCurrentPage(pageIndex);
+      });
+    }
+  });
 })
-// const paginationLimit = 10;
-// const pageCount = Math.ceil(listItems.length / paginationLimit);
-// let currentPage;
