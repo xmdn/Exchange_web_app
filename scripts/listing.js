@@ -39,8 +39,23 @@ $("#endDate").datepicker();
 
 let myChart = null;
 
-const chartBtn = document.getElementById("btn-start");
+const paginationLimit = 10;
+const pageSize = 10;
+
+let elementsNum = null;
+const paginatedList = document.getElementById("listing-container");
+let listItems = paginatedList.querySelectorAll("li");
+const nextButton = document.getElementById("btn-next");
+const prevButton = document.getElementById("btn-prev");
+let currentPage = 1;
+
+
+
+
+
 window.addEventListener("load", async (e) => {
+  
+  let contentArr = [];
   const currentDate = new Date(); // create a new Date object
   const startDate = new Date(currentDate); // create a copy of currentDate
   startDate.setDate(startDate.getMonth());
@@ -76,9 +91,10 @@ window.addEventListener("load", async (e) => {
       })
     }
 
-
+    
     valueMap.forEach((element, key) =>{
 
+      elementsNum++;
       let trydates = [];
       let tryrates = [];
       
@@ -91,28 +107,33 @@ window.addEventListener("load", async (e) => {
         
         //  const minRate = Math.min(rates); // /2
         //  const maxRate = Math.max(rates); // *2
+        
+        contentArr.push()
 
         const listedContainer = document.createElement("li") //"a"
         //     href="/calculate"
         // onclick="route()"
-            const someCurrency = document.createElement("li"); // "div"
+            // const someCurrency = document.createElement("li"); // "div"
             const chart = document.createElement("canvas");
             const scrChart = document.createElement("script")
             const scrChartmin = document.createElement("script")
                listedContainer.textContent = `${key}`;
-              listedContainer.className = 'block-currency';
-                listingContainer.appendChild(listedContainer);
-                someCurrency.className = 'block-price';
-                someCurrency.id = `${key}`;
-                listedContainer.appendChild(someCurrency);
+               //listedContainer.id = "listed-value"
+              //listedContainer.className = 'block-currency';
+                //listingContainer.appendChild(listedContainer);
+                //listedContainer.className = 'block-price';
+                listedContainer.id = `${key}`;
+                //listedContainer.appendChild(someCurrency);
                 chart.id = "myChart";
                  chart.width = 400;
                  chart.height = 200;
                 scrChart.src = "https://cdn.jsdelivr.net/npm/chart.js@3.7.1";
                 scrChartmin.src = "https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js";
-                someCurrency.appendChild(chart);
-                someCurrency.appendChild(scrChart)
-                someCurrency.appendChild(scrChartmin)
+                listedContainer.appendChild(chart);
+                listedContainer.appendChild(scrChart);
+                listedContainer.appendChild(scrChartmin);
+                contentArr.push(listingContainer);
+                console.log(contentArr);
                 //  if(myChart) {
                 //    myChart.destroy();
                 //  }
@@ -123,7 +144,7 @@ window.addEventListener("load", async (e) => {
                       {
                         fill: false,
                         borderColor: "rgb(75, 192, 192)",
-                        tension: 0.2,
+                        tension: 0.1,
                       },
                     ],
                   },
@@ -163,42 +184,59 @@ window.addEventListener("load", async (e) => {
   else {
     showMessage("You are not set up dates for chart");
   }
-  const paginatedList = document.getElementById("listing-container");
-  const paginationNumbers = document.getElementById("pagination-numbers");
-  const listItems = paginatedList.querySelectorAll("li");
+  
+  // const paginatedList = document.getElementById("listing-container");
+  // const paginationNumbers = document.getElementById("pagination-numbers");
+  // const listItems = paginatedList.querySelectorAll("li");
 
-  const nextButton = document.getElementById("btn-next");
-  const prevButton = document.getElementById("btn-prev");
+  // const nextButton = document.getElementById("btn-next");
+  // const prevButton = document.getElementById("btn-prev");
 
-  const paginationLimit = 10;
-  let currentPage = 1;
 
-  const pageCount = Math.ceil(listItems.length / paginationLimit);
-  for (let i = 1; i <= pageCount; i++) {
-    appendPageNumber(i);
-  }
-  const setCurrentPage = (pageNum) => {
-    currentPage = pageNum;
-  };
-  if (currentPage === 1) {
-    disableButton(prevButton);
-  } else {
-    enableButton(prevButton);
-  }
 
-  if (pageCount === currentPage) {
-    disableButton(nextButton);
-  } else {
-    enableButton(nextButton);
-  }
+  // const pageCount = Math.ceil(listItems.length / paginationLimit);
+  // for (let i = 1; i <= pageCount; i++) {
+  //   appendPageNumber(i);
+  // }
+  // const setCurrentPage = (pageNum) => {
+  //   currentPage = pageNum;
+  // };
+  // if (currentPage === 1) {
+  //   disableButton(prevButton);
+  // } else {
+  //   enableButton(prevButton);
+  // }
+
+  // if (pageCount === currentPage) {
+  //   disableButton(nextButton);
+  // } else {
+  //   enableButton(nextButton);
+  // }
+  // prevButton.addEventListener("click", () => {
+  //   setCurrentPage(currentPage - 1);
+  // });
+
+  // nextButton.addEventListener("click", () => {
+  //   setCurrentPage(currentPage + 1);
+  // });
+  // document.querySelectorAll(".pagination-number").forEach((button) => {
+  //   const pageIndex = Number(button.getAttribute("page-index"));
+
+  //   if (pageIndex) {
+  //     button.addEventListener("click", () => {
+  //       setCurrentPage(pageIndex);
+  //     });
+  //   }
+  // });
+  
+  setCurrentPage(1);
   prevButton.addEventListener("click", () => {
     setCurrentPage(currentPage - 1);
   });
-
   nextButton.addEventListener("click", () => {
     setCurrentPage(currentPage + 1);
   });
-  document.querySelectorAll(".pagination-number").forEach((button) => {
+  document.querySelectorAll("li").forEach((button) => {
     const pageIndex = Number(button.getAttribute("page-index"));
 
     if (pageIndex) {
@@ -206,5 +244,29 @@ window.addEventListener("load", async (e) => {
         setCurrentPage(pageIndex);
       });
     }
-  });
+  })
+
 })
+const pageCount = Math.ceil(listItems.length / pageSize);
+console.log('length', listItems.length);
+const setCurrentPage = (pageNum) => {
+  currentPage = pageNum;
+
+  //document.getElementById("listed-value").style.display = "none";
+  //elems.className = "hidden";
+  
+
+  const prevRange = (pageNum - 1) * pageSize;
+  const currRange = pageNum * pageSize;
+  
+  listItems.forEach((item, index) => {
+    item.classList.add("hidden");
+    if (index >= prevRange && index < currRange) {
+      item.classList.remove("hidden");
+    }
+  });
+
+  //console.log(pageCount);
+}
+
+
