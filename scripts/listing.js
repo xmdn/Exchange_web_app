@@ -250,9 +250,16 @@ window.addEventListener("load", async (e) => {
     }
   })
 
+  const prevRange = 10;
+  const currRange = 20;
+  contentArr.forEach((item, index) => {
+    console.log(item, index + 1);
+  })
+  console.log(contentArr.slice(`${prevRange}`, `${currRange}`))
 })
 const pageCount = Math.ceil(listItems.length / pageSize);
 console.log('length', listItems.length);
+
 const setCurrentPage = (pageNum) => {
   currentPage = pageNum;
 
@@ -263,10 +270,17 @@ const setCurrentPage = (pageNum) => {
   const prevRange = (pageNum - 1) * pageSize;
   const currRange = pageNum * pageSize;
   
+
+let m_array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
+
   listItems.forEach((item, index) => {
     item.classList.add("hidden");
     if (index >= prevRange && index < currRange) {
       item.classList.remove("hidden");
+      //let result = m_array.slice(`${prevRange}`, `${currRange}`)
+      console.log(m_array.slice(10, 20))
+      console.log(prevRange);
+      console.log(currRange);
     }
   });
 
