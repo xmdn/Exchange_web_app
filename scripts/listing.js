@@ -174,7 +174,6 @@ window.addEventListener("load", async (e) => {
                   },
                 });
 
-
           myChart.data.labels = trydates;
        //    myChart.data.datasets[0].label = names;
           myChart.data.datasets[0].data = tryrates;
