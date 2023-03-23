@@ -180,6 +180,7 @@ window.addEventListener("load", async (e) => {
           myChart.update();
               })
 
+              
   }
   else {
     showMessage("You are not set up dates for chart");
