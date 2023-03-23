@@ -123,6 +123,7 @@ window.addEventListener("load", async (e) => {
                 //listingContainer.appendChild(listedContainer);
                 //listedContainer.className = 'block-price';
                 listedContainer.id = `${key}`;
+                
                 //listedContainer.appendChild(someCurrency);
                 chart.id = "myChart";
                  chart.width = 400;
