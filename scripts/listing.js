@@ -36,7 +36,6 @@ const listingContainer = document.getElementById("listing-container"); //
 $("#startDate").datepicker();
 $("#endDate").datepicker();
 
-
 let myChart = null;
 
 const paginationLimit = 10;
@@ -48,14 +47,9 @@ let listItems = paginatedList.querySelectorAll("li");
 const nextButton = document.getElementById("btn-next");
 const prevButton = document.getElementById("btn-prev");
 let currentPage = 1;
-
-
-
-
+let contentArr = [];
 
 window.addEventListener("load", async (e) => {
-  
-  let contentArr = [];
   const currentDate = new Date(); // create a new Date object
   const startDate = new Date(currentDate); // create a copy of currentDate
   startDate.setDate(startDate.getMonth());
@@ -65,13 +59,12 @@ window.addEventListener("load", async (e) => {
   endDate.setMonth(endDate.getMonth() + 1);
 
   let valueMap = new Map();
-  if(startDate & endDate) {
+  if (startDate & endDate) {
     for (
       let currentDate = new Date(startDate);
       currentDate <= endDate;
       currentDate.setDate(currentDate.getDate() + 1)
     ) {
-      
       let dateS = `${currentDate.getFullYear()}${currentDate
         .getMonth()
         .toString()
@@ -82,209 +75,132 @@ window.addEventListener("load", async (e) => {
       let result = await response.json();
       //const selectedValue = currencyDropdown.value;
 
-      result.forEach(element =>{
-        if(!valueMap.has(element.cc)){
-        valueMap.set( element.cc, []);
+      result.forEach((element) => {
+        if (!valueMap.has(element.cc)) {
+          valueMap.set(element.cc, []);
         }
 
-        valueMap.get(element.cc).push({rate: element.rate, date: element.exchangedate, text: element.txt});
-      })
+        valueMap
+          .get(element.cc)
+          .push({
+            rate: element.rate,
+            date: element.exchangedate,
+            text: element.txt,
+          });
+      });
     }
 
-    
-    valueMap.forEach((element, key) =>{
-
-      elementsNum++;
+    valueMap.forEach((element, key) => {
+      //elementsNum++;
       let trydates = [];
       let tryrates = [];
-      
+
       let gettingCurrency = valueMap.get(`${key}`);
 
       gettingCurrency.forEach((element) => {
-          trydates.push(element.date)
-          tryrates.push(element.rate)
-         })
-        
-        //  const minRate = Math.min(rates); // /2
-        //  const maxRate = Math.max(rates); // *2
-        
-        
+        trydates.push(element.date);
+        tryrates.push(element.rate);
+      });
 
-        const listedContainer = document.createElement("li") //"a"
-        //     href="/calculate"
-        // onclick="route()"
-            // const someCurrency = document.createElement("li"); // "div"
-            const chart = document.createElement("canvas");
-            const scrChart = document.createElement("script")
-            const scrChartmin = document.createElement("script")
-               listedContainer.textContent = `${key}`;
-               //listedContainer.id = "listed-value"
-              //listedContainer.className = 'block-currency';
-                //listingContainer.appendChild(listedContainer);
-                //listedContainer.className = 'block-price';
-                listedContainer.id = `${key}`;
-                
-                //listedContainer.appendChild(someCurrency);
-                chart.id = "myChart";
-                 chart.width = 400;
-                 chart.height = 200;
-                scrChart.src = "https://cdn.jsdelivr.net/npm/chart.js@3.7.1";
-                scrChartmin.src = "https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js";
-                listedContainer.appendChild(chart);
-                listedContainer.appendChild(scrChart);
-                listedContainer.appendChild(scrChartmin);
-                contentArr.push({ elem: listedContainer, rate: tryrates, date: trydates});
-                // contentArr.push(trydates);
-                // contentArr.push(tryrates);
-                
-                //  if(myChart) {
-                //    myChart.destroy();
-                //  }
-                myChart = new Chart(chart, {
-                  type: "line",
-                  data: {
-                    datasets: [
-                      {
-                        fill: false,
-                        borderColor: "rgb(75, 192, 192)",
-                        tension: 0.1,
-                      },
-                    ],
-                  },
-                  options: {
-                    plugins: {
-                      legend: {
-                      display: false,
-                    },
-                  },
-                    
-                    scales: {
-                      y: {
-                        beginAtZero: false,
-                          // min: minRate,
-                          // max: maxRate,
-                      },
-                    },
-                    layout: {
-                      padding: {
-                        left: 50,
-                        right: 50,
-                        top: 50,
-                        bottom: 50,
-                      },
-                    }
-                  },
-                });
+        //const minRate = Math.min(tryrates); // /2
+        //const maxRate = Math.max(tryrates); // *2
 
-          myChart.data.labels = trydates;
-       //    myChart.data.datasets[0].label = names;
-          myChart.data.datasets[0].data = tryrates;
-          myChart.update();
-              })
-              console.log(contentArr);
+      const listedContainer = document.createElement("li"); //"a"
+      //     href="/calculate"
+      // onclick="route()"
+      // const someCurrency = document.createElement("li"); // "div"
+      const chart = document.createElement("canvas");
+      const scrChart = document.createElement("script");
+      const scrChartmin = document.createElement("script");
+      listedContainer.textContent = `${key}`;
+      //listedContainer.id = "listed-value"
+      //listedContainer.className = 'block-currency';
+      //listingContainer.appendChild(listedContainer);
+      //listedContainer.className = 'block-price';
+      listedContainer.id = `${key}`;
 
-              
-  }
-  else {
+      //listedContainer.appendChild(someCurrency);
+      chart.id = "myChart";
+      chart.width = 400;
+      chart.height = 200;
+      scrChart.src = "https://cdn.jsdelivr.net/npm/chart.js@3.7.1";
+      scrChartmin.src =
+        "https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js";
+      listedContainer.appendChild(chart);
+      listedContainer.appendChild(scrChart);
+      listedContainer.appendChild(scrChartmin);
+      //contentArr.push({ elem: listedContainer, rate: tryrates, date: trydates});
+      contentArr.push(listedContainer);
+      // contentArr.push(tryrates);
+
+      //  if(myChart) {
+      //    myChart.destroy();
+      //  }
+      myChart = new Chart(chart, {
+        type: "line",
+        data: {
+          datasets: [
+            {
+              fill: false,
+              borderColor: "rgb(75, 192, 192)",
+              tension: 0.1,
+            },
+          ],
+        },
+        options: {
+          plugins: {
+            legend: {
+              display: false,
+            },
+          },
+
+          scales: {
+            y: {
+              beginAtZero: false,
+               //min: minRate,
+               //max: maxRate,
+            },
+          },
+          layout: {
+            padding: {
+              left: 50,
+              right: 50,
+              top: 50,
+              bottom: 50,
+            },
+          },
+        },
+      });
+
+      myChart.data.labels = trydates;
+      //    myChart.data.datasets[0].label = names;
+      myChart.data.datasets[0].data = tryrates;
+      myChart.update();
+    });
+  } else {
     showMessage("You are not set up dates for chart");
   }
-  
-  // const paginatedList = document.getElementById("listing-container");
-  // const paginationNumbers = document.getElementById("pagination-numbers");
-  // const listItems = paginatedList.querySelectorAll("li");
 
-  // const nextButton = document.getElementById("btn-next");
-  // const prevButton = document.getElementById("btn-prev");
-
-
-
-  // const pageCount = Math.ceil(listItems.length / paginationLimit);
-  // for (let i = 1; i <= pageCount; i++) {
-  //   appendPageNumber(i);
-  // }
-  // const setCurrentPage = (pageNum) => {
-  //   currentPage = pageNum;
-  // };
-  // if (currentPage === 1) {
-  //   disableButton(prevButton);
-  // } else {
-  //   enableButton(prevButton);
-  // }
-
-  // if (pageCount === currentPage) {
-  //   disableButton(nextButton);
-  // } else {
-  //   enableButton(nextButton);
-  // }
-  // prevButton.addEventListener("click", () => {
-  //   setCurrentPage(currentPage - 1);
-  // });
-
-  // nextButton.addEventListener("click", () => {
-  //   setCurrentPage(currentPage + 1);
-  // });
-  // document.querySelectorAll(".pagination-number").forEach((button) => {
-  //   const pageIndex = Number(button.getAttribute("page-index"));
-
-  //   if (pageIndex) {
-  //     button.addEventListener("click", () => {
-  //       setCurrentPage(pageIndex);
-  //     });
-  //   }
-  // });
-  
-  setCurrentPage(1);
   prevButton.addEventListener("click", () => {
     setCurrentPage(currentPage - 1);
   });
   nextButton.addEventListener("click", () => {
     setCurrentPage(currentPage + 1);
   });
-  document.querySelectorAll("li").forEach((button) => {
-    const pageIndex = Number(button.getAttribute("page-index"));
 
-    if (pageIndex) {
-      button.addEventListener("click", () => {
-        setCurrentPage(pageIndex);
-      });
-    }
-  })
-
-  const prevRange = 10;
-  const currRange = 20;
-  contentArr.forEach((item, index) => {
-    console.log(item, index + 1);
-  })
-  console.log(contentArr.slice(`${prevRange}`, `${currRange}`))
-})
-const pageCount = Math.ceil(listItems.length / pageSize);
-console.log('length', listItems.length);
+setCurrentPage(1);
+});
 
 const setCurrentPage = (pageNum) => {
   currentPage = pageNum;
-
-  //document.getElementById("listed-value").style.display = "none";
-  //elems.className = "hidden";
-  
-
   const prevRange = (pageNum - 1) * pageSize;
   const currRange = pageNum * pageSize;
-  
 
-let m_array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
+  let result = contentArr.slice(`${prevRange}`, `${currRange}`);
+  console.log(result);
+  listingContainer.innerHTML = '';
+    result.forEach((element) => {
 
-  listItems.forEach((item, index) => {
-    item.classList.add("hidden");
-    if (index >= prevRange && index < currRange) {
-      item.classList.remove("hidden");
-      //let result = m_array.slice(`${prevRange}`, `${currRange}`)
-      console.log(m_array.slice(10, 20))
-      console.log(prevRange);
-      console.log(currRange);
-    }
-  });
-
-  //console.log(pageCount);
-}
-
-
+    listingContainer.appendChild(element);
+    })
+};
