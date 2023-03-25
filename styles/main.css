@@ -19,6 +19,9 @@ h2 {
     background-color: #e8ebf9;
     text-align: center;
 }
+li {
+    list-style-type: none;
+  }
 .submit-btn {
     background-color: #a7a7a7;
     border: none;

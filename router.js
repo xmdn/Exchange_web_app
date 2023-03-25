@@ -1,5 +1,6 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js';
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js';
+import { renderContent } from './scripts/listing.js';
 const firebaseApp = initializeApp({  //FireBase csonfiguration of application
     apiKey: "AIzaSyAci7cExKpy7KdcaKtV-NynPs3kNWOUegA",
     authDomain: "currency-f1988.firebaseapp.com",
@@ -24,13 +25,13 @@ const checkAuth = () => {
 const route = async (event) => {
     event = event || window.event;
     event.preventDefault();
-    const path = event.target.href;
+    const path = event.currentTarget.href;
     const isAuthenticated = await checkAuth();
     if (path.endsWith('/calculate') && !isAuthenticated) {
         window.location.href = '/';
     } else {
         window.history.pushState({}, "", path);
-        handleLocation();
+        handleLocation(event);
     }
 };
 
@@ -62,7 +63,18 @@ const handleLocation = async () => {
         script.type = "module";
         document.body.appendChild(script);
     }
+    const script = document.createElement("script");
+        script.src = "./router.js";
+        script.type = "module";
+        document.body.appendChild(script);
+
+    if(path === "/") {
+        window.addEventListener("load", async () => {
+          await renderContent();
+        });
+      }
 };
+
 
 window.onpopstate = handleLocation;
 window.route = route;

@@ -33,23 +33,20 @@ function showMessage(message) {
 
 const listingContainer = document.getElementById("listing-container"); //
 
-$("#startDate").datepicker();
-$("#endDate").datepicker();
-
 let myChart = null;
 
-const paginationLimit = 10;
 const pageSize = 10;
 
-let elementsNum = null;
 const paginatedList = document.getElementById("listing-container");
-let listItems = paginatedList.querySelectorAll("li");
 const nextButton = document.getElementById("btn-next");
 const prevButton = document.getElementById("btn-prev");
 let currentPage = 1;
 let contentArr = [];
 
-window.addEventListener("load", async (e) => {
+
+
+// window.addEventListener("popstate", async () => {
+export async function renderContent () {
   const currentDate = new Date(); // create a new Date object
   const startDate = new Date(currentDate); // create a copy of currentDate
   startDate.setDate(startDate.getMonth());
@@ -80,13 +77,11 @@ window.addEventListener("load", async (e) => {
           valueMap.set(element.cc, []);
         }
 
-        valueMap
-          .get(element.cc)
-          .push({
-            rate: element.rate,
-            date: element.exchangedate,
-            text: element.txt,
-          });
+        valueMap.get(element.cc).push({
+          rate: element.rate,
+          date: element.exchangedate,
+          text: element.txt,
+        });
       });
     }
 
@@ -102,10 +97,12 @@ window.addEventListener("load", async (e) => {
         tryrates.push(element.rate);
       });
 
-        //const minRate = Math.min(tryrates); // /2
-        //const maxRate = Math.max(tryrates); // *2
+      //const minRate = Math.min(tryrates); // /2
+      //const maxRate = Math.max(tryrates); // *2
 
-      const listedContainer = document.createElement("li"); //"a"
+      const listedContainer = document.createElement("a"); //"a"
+      listedContainer.href = "/calculate";
+      listedContainer.onclick = route;
       //     href="/calculate"
       // onclick="route()"
       // const someCurrency = document.createElement("li"); // "div"
@@ -144,6 +141,7 @@ window.addEventListener("load", async (e) => {
               fill: false,
               borderColor: "rgb(75, 192, 192)",
               tension: 0.1,
+              //hidden: true,
             },
           ],
         },
@@ -155,11 +153,23 @@ window.addEventListener("load", async (e) => {
           },
 
           scales: {
-            y: {
-              beginAtZero: false,
-               //min: minRate,
-               //max: maxRate,
+            x: {
+              display: false // hide the x axis
             },
+            y: {
+              display: false,
+              beginAtZero: false,
+              //min: minRate,
+              //max: maxRate,
+            },
+          },
+          elements: {
+            point: {
+              radius: 0 // hide the data points
+            },
+            line: {
+              //borderWidth: 0 // hide the line between data points
+            }
           },
           layout: {
             padding: {
@@ -172,7 +182,18 @@ window.addEventListener("load", async (e) => {
         },
       });
 
+      
+      let secondFromLast = tryrates[tryrates.length - 3];
+      let theLastOne = tryrates[tryrates.length - 1];
+      if(secondFromLast < theLastOne) {
+        myChart.data.datasets[0].borderColor = "blue";
+      } else if (secondFromLast > theLastOne) {
+        myChart.data.datasets[0].borderColor = "red";
+      } else {
+        myChart.data.datasets[0].borderColor = "grey";
+      }
       myChart.data.labels = trydates;
+      //myChart.data.datasets[0].data[2].hidden = true;
       //    myChart.data.datasets[0].label = names;
       myChart.data.datasets[0].data = tryrates;
       myChart.update();
@@ -181,15 +202,19 @@ window.addEventListener("load", async (e) => {
     showMessage("You are not set up dates for chart");
   }
 
-  prevButton.addEventListener("click", () => {
-    setCurrentPage(currentPage - 1);
-  });
-  nextButton.addEventListener("click", () => {
-    setCurrentPage(currentPage + 1);
-  });
+  // prevButton.addEventListener("click", () => {
+  //   setCurrentPage(currentPage - 1);
+  // });
+  // nextButton.addEventListener("click", () => {
+  //   setCurrentPage(currentPage + 1);
+  // });
 
-setCurrentPage(1);
-});
+  setCurrentPage(1);
+};
+// );
+// document.addEventListener("DOMContentLoaded", async () => {
+//   await renderContent();
+// });
 
 const setCurrentPage = (pageNum) => {
   currentPage = pageNum;
@@ -198,9 +223,8 @@ const setCurrentPage = (pageNum) => {
 
   let result = contentArr.slice(`${prevRange}`, `${currRange}`);
   console.log(result);
-  listingContainer.innerHTML = '';
-    result.forEach((element) => {
-
+  listingContainer.innerHTML = "";
+  result.forEach((element) => {
     listingContainer.appendChild(element);
-    })
+  });
 };
