@@ -1,6 +1,6 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js';
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js';
-import { renderContent } from './scripts/listing.js';
+import { initialize } from './scripts/listing.js';
 const firebaseApp = initializeApp({  //FireBase csonfiguration of application
     apiKey: "AIzaSyAci7cExKpy7KdcaKtV-NynPs3kNWOUegA",
     authDomain: "currency-f1988.firebaseapp.com",
@@ -31,7 +31,7 @@ const route = async (event) => {
         window.location.href = '/';
     } else {
         window.history.pushState({}, "", path);
-        handleLocation(event);
+        handleLocation();
     }
 };
 
@@ -39,7 +39,7 @@ const scriptMap = {
     "/calculate": "calculate.js",
     "/add_user": "add_user.js",
     "/": "listing.js",
-    "/listing": "login.js",
+    "/login": "login.js",
   };
   
 const routes = {
@@ -47,7 +47,7 @@ const routes = {
     "/": "/pages/listing.html",
     "/calculate": "/pages/calculate.html",
     "/add_user": "/pages/add_user.html",
-    "/listing": "/pages/login.html"
+    "/login": "/pages/login.html"
 };
 const handleLocation = async () => {
     const path = window.location.pathname;
@@ -62,16 +62,14 @@ const handleLocation = async () => {
         script.src = `./scripts/${scriptFile}`;
         script.type = "module";
         document.body.appendChild(script);
-    }
+    } else {
     const script = document.createElement("script");
         script.src = "./router.js";
         script.type = "module";
         document.body.appendChild(script);
-
+    }
     if(path === "/") {
-        window.addEventListener("load", async () => {
-          await renderContent();
-        });
+          await initialize();
       }
 };
 
