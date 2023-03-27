@@ -217,7 +217,7 @@ export async function initialize () {
           });
     
           
-          let secondFromLast = tryrates[tryrates.length - 3];
+          let secondFromLast = tryrates[tryrates.length - 2];
           let theLastOne = tryrates[tryrates.length - 1];
           if(secondFromLast < theLastOne) {
             myChart.data.datasets[0].borderColor = "blue";

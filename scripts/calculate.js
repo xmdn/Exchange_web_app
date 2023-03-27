@@ -101,11 +101,25 @@ $("#endDate").datepicker();
 
 let currencyDropdown = calcForm["currency"];
 
+//let hasSelectorChanged
+
 const initialStartDate = $("#startDate").val();
 const initialEndDate = $("#startDate").val();
 let selectedBefore = currencyDropdown.selectedIndex;
 
+$("#currency").on("change", function() {
+  $(this).prop("changed", true);
+});
+
+
 chartBtn.addEventListener("click", async (e) => {
+  // if ($("#currency").prop("changed")) {
+  //   console.log("true");
+  // } else {
+  //   console.log("false");
+  // }
+ 
+
   let startDate = new Date(Date.parse($("#startDate").val()));
   let endDate = new Date(Date.parse($("#endDate").val()));
   startDate.setMonth(startDate.getMonth() + 1);
@@ -127,14 +141,15 @@ chartBtn.addEventListener("click", async (e) => {
   //valueOfSeeking = selectedOption.innerHTML;
   let myValue = localStorage.getItem("myKey");
   console.log("myvalue", myValue);
-   if (myValue == null) {
+   if (myValue == null || $("#currency").prop("changed")) {
     valueOfSeeking = selectedOption.innerHTML;
-    console.log("values from picker")
+    //console.log("values from picker")
   } else {
     valueOfSeeking = myValue;
-    console.log("values from localStorage", myValue)
+    //console.log("values from localStorage", myValue)
   } 
-
+  $(this).prop("changed", false);
+  myValue = null;
 
   let chartData = [];
   if(startDate & endDate) {
