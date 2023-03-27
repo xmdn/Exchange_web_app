@@ -33,7 +33,15 @@ function showMessage(message) {
 
 const calcForm = document.getElementById("calc-form"); //Calculation Form
 const chartBtn = document.getElementById("btn-start");
-let currencyDropdown = calcForm["currency"];
+
+
+let myChart = null;
+//let myValue = sessionStorage.getItem("myKey");
+
+
+
+let valueOfSeeking = null;
+
 
 fetch("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json") // Get the currency API Endpoint
   .then((response) => response.json()) // Getting json from responses
@@ -87,13 +95,15 @@ calcForm.addEventListener("submit", (e) => {
     }
   });
 });
-// function getDataAndDrawChart() {
+
 $("#startDate").datepicker();
 $("#endDate").datepicker();
 
+let currencyDropdown = calcForm["currency"];
 
-let myChart = null;
-let myValue = sessionStorage.getItem("myKey");
+const initialStartDate = $("#startDate").val();
+const initialEndDate = $("#startDate").val();
+let selectedBefore = currencyDropdown.selectedIndex;
 
 chartBtn.addEventListener("click", async (e) => {
   let startDate = new Date(Date.parse($("#startDate").val()));
@@ -106,21 +116,25 @@ chartBtn.addEventListener("click", async (e) => {
     myChart.destroy();
   }
 
+
+  let selectedOption = currencyDropdown.options[currencyDropdown.selectedIndex];
+  let hasSelectorChanged = (currencyDropdown.selectedIndex !== selectedBefore);
+  //const hasEndDateChanged = ($("#endDate").val() !== initialEndDate);
   //const selectedOption = null;
 
   //let myValue = sessionStorage.getItem("myKey");
-  const selectedOption = currencyDropdown.options[currencyDropdown.selectedIndex];
-  let valueOfSeeking = null;
+ 
+  //valueOfSeeking = selectedOption.innerHTML;
   let myValue = localStorage.getItem("myKey");
-  console.log(myValue);
-   if ($("#startDate").chang) {
-     valueOfSeeking = myValue;
-  } else if (myValue !== null) {
-     valueOfSeeking = selectedOption.innerHTML;
-  }
+  console.log("myvalue", myValue);
+   if (myValue == null) {
+    valueOfSeeking = selectedOption.innerHTML;
+    console.log("values from picker")
+  } else {
+    valueOfSeeking = myValue;
+    console.log("values from localStorage", myValue)
+  } 
 
-
-  
 
   let chartData = [];
   if(startDate & endDate) {

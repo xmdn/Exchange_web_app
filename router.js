@@ -1,5 +1,6 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js';
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js';
+//import { initializeCalc } from './scripts/calculate.js';
 import { initialize } from './scripts/listing.js';
 const firebaseApp = initializeApp({  //FireBase csonfiguration of application
     apiKey: "AIzaSyAci7cExKpy7KdcaKtV-NynPs3kNWOUegA",
@@ -49,6 +50,13 @@ const routes = {
     "/add_user": "/pages/add_user.html",
     "/login": "/pages/login.html"
 };
+// const routes = {
+//   404: ["/pages/404.html", null],
+//   "/": ["/pages/listing.html", "/scripts/listing.js"],
+//   "/calculate": ["/pages/calculate.html", "/scripts/calculate.js"],
+//   "/add_user": ["/pages/add_user.html", "/scripts/add_user.js"],
+//   "/login": ["/pages/login.html", "/scripts/login.js"]
+// }
 const handleLocation = async () => {
     const path = window.location.pathname;
 
@@ -57,6 +65,7 @@ const handleLocation = async () => {
     document.getElementById("main-page").innerHTML = html;
 
     const scriptFile = scriptMap[path]; 
+    // const scriptFile = route[1]
     if (scriptFile) {
         const script = document.createElement("script");
         script.src = `./scripts/${scriptFile}`;
@@ -70,7 +79,10 @@ const handleLocation = async () => {
     }
     if(path === "/") {
           await initialize();
-      }
+      } 
+      // else if (path === "/calculate") {
+      //     await initializeCalc();
+      // }
 };
 
 
