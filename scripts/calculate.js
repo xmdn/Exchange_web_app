@@ -93,6 +93,7 @@ $("#endDate").datepicker();
 
 
 let myChart = null;
+let myValue = sessionStorage.getItem("myKey");
 
 chartBtn.addEventListener("click", async (e) => {
   let startDate = new Date(Date.parse($("#startDate").val()));
@@ -105,7 +106,22 @@ chartBtn.addEventListener("click", async (e) => {
     myChart.destroy();
   }
 
+  //const selectedOption = null;
+
+  //let myValue = sessionStorage.getItem("myKey");
   const selectedOption = currencyDropdown.options[currencyDropdown.selectedIndex];
+  let valueOfSeeking = null;
+  let myValue = localStorage.getItem("myKey");
+  console.log(myValue);
+   if ($("#startDate").chang) {
+     valueOfSeeking = myValue;
+  } else if (myValue !== null) {
+     valueOfSeeking = selectedOption.innerHTML;
+  }
+
+
+  
+
   let chartData = [];
   if(startDate & endDate) {
     for (
@@ -123,7 +139,7 @@ chartBtn.addEventListener("click", async (e) => {
       let result = await response.json();
       //const selectedValue = currencyDropdown.value;
 
-      let curr = result.find(({ cc }) => cc === selectedOption.innerHTML);
+      let curr = result.find(({ cc }) => cc === valueOfSeeking);
       console.log(curr);
       chartData.push({
         date: curr.exchangedate,
@@ -140,8 +156,8 @@ chartBtn.addEventListener("click", async (e) => {
       rates.push(element.rate);
     });
 
-    const minRate = Math.min(rates / 2);
-    const maxRate = Math.max(rates * 2);
+    //const minRate = Math.min(rates / 2);
+    //const maxRate = Math.max(rates * 2);
     
     myChart = new Chart(document.getElementById("myChart"), {
       type: "line",
@@ -158,8 +174,8 @@ chartBtn.addEventListener("click", async (e) => {
         scales: {
           y: {
             beginAtZero: false,
-            min: minRate,
-            max: maxRate,
+            //min: minRate,
+            //max: maxRate,
           },
         },
         layout: {

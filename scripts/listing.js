@@ -25,30 +25,11 @@ const firebaseApp = initializeApp({
 const auth = getAuth(firebaseApp);
 const db = getFirestore();
 
-
-
 const messageElement = document.getElementById("message"); //Message Form
 function showMessage(message) {
   //Message showing
   messageElement.textContent = message;
 }
-
- //
-
-
-
-
-
-// window.addEventListener("popstate", async () => {
-
-
-
-
-// window.addEventListener("load", async () => {
-//   await renderContent();
-// });
-
-
 
 export async function initialize () {
 //window.addEventListener("load", async () => {
@@ -68,11 +49,22 @@ let contentArr = [];
 
 const setCurrentPage = (pageNum) => {
   currentPage = pageNum;
+  const pageCount = Math.ceil(contentArr.length / pageSize);
   const prevRange = (pageNum - 1) * pageSize;
   const currRange = pageNum * pageSize;
+  nextButton.style = "";
+  prevButton.style = "";
+  if (pageNum === pageCount) {
+    console.log("disabled next");
+    //prevButton.classList.add("hidden");
+    nextButton.style.display = "none";
+  } else if (pageNum === 1) {
+    console.log("disabled prev");
+    prevButton.style.display = "none";
+  }
 
   let result = contentArr.slice(`${prevRange}`, `${currRange}`);
-  console.log(result);
+  //console.log(result);
   listingContainer.innerHTML = "";
   result.forEach((element) => {
     listingContainer.appendChild(element);
@@ -128,7 +120,7 @@ const setCurrentPage = (pageNum) => {
           });
         });
       }
-  
+
       valueMap.forEach((element, key) => {
         //elementsNum++;
         let trydates = [];
@@ -146,7 +138,12 @@ const setCurrentPage = (pageNum) => {
   
         const listedContainer = document.createElement("a"); //"a"
         listedContainer.href = "/calculate";
-        listedContainer.onclick = route;
+        listedContainer.onclick = function() {
+          localStorage.setItem("myKey", `${key}`);
+
+          route();
+        };
+        
         //     href="/calculate"
         // onclick="route()"
         // const someCurrency = document.createElement("li"); // "div"
