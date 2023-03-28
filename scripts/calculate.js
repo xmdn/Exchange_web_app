@@ -186,22 +186,24 @@ chartBtn.addEventListener("click", async (e) => {
     });
 
     let percBox = document.getElementById("percentageBox");
+    let algoBox = document.getElementById("algoBox");
 
     percBox.textContent = "";
 
-    let secondFromLast = rates[rates.length - 2];
+    let closestValue = rates[rates.length - 2];
     let theLastOne = rates[rates.length - 1];
-    let percentage = (secondFromLast / theLastOne).toFixed(3) + " %";
+    let percentage = (closestValue / theLastOne).toFixed(3) + " %";
 
     
     percBox.height = 40;
     percBox.width = 50;
+    percBox.align = "right";
     percBox.textContent = percentage;
 
 
-      if(secondFromLast < theLastOne) {
+      if(closestValue < theLastOne) {
         percBox.style.backgroundColor = "#8888d1";
-      } else if (secondFromLast > theLastOne) {
+      } else if (closestValue > theLastOne) {
         percBox.style.backgroundColor = "red";
       } else {
         percBox.style.backgroundColor = "grey";
@@ -252,8 +254,25 @@ chartBtn.addEventListener("click", async (e) => {
       let arr = values;
       let anchorValue = theLastOne;
 
-      const closestValue = findClosestValue(arr, anchorValue);
-      console.log(closestValue); // Output: 26.5076
+      const closestValues = findClosestValue(arr, anchorValue);
+      
+      console.log(closestValues); // Output: 26.5076
+
+      let percentageAlgo = (closestValues / theLastOne).toFixed(3) + " %";
+
+      algoBox.textContent = "";
+      algoBox.height = 40;
+      algoBox.width = 50;
+      algoBox.align = "left";
+      algoBox.textContent = percentageAlgo;
+
+      if(closestValues < theLastOne) {
+        algoBox.style.backgroundColor = "#8888d1";
+      } else if (closestValues > theLastOne) {
+        algoBox.style.backgroundColor = "red";
+      } else {
+        algoBox.style.backgroundColor = "grey";
+      }
       //console.log(closest); // Output: 2
 
     //const minRate = Math.min(rates / 2);
