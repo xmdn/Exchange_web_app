@@ -168,12 +168,12 @@ chartBtn.addEventListener("click", async (e) => {
       let result = await response.json();
       //const selectedValue = currencyDropdown.value;
 
-      let curr = result.find(({ cc }) => cc === valueOfSeeking);
-      console.log(curr);
+      let currVal = result.find(({ cc }) => cc === valueOfSeeking);
+      console.log("Value of Currency: ", currVal);
       chartData.push({
-        date: curr.exchangedate,
-        rate: curr.rate,
-        name: curr.txt,
+        date: currVal.exchangedate,
+        rate: currVal.rate,
+        name: currVal.txt,
       });
     }
     let dates = [];
@@ -184,6 +184,31 @@ chartBtn.addEventListener("click", async (e) => {
       dates.push(element.date);
       rates.push(element.rate);
     });
+
+    let percBox = document.getElementById("percentageBox");
+
+    percBox.textContent = "";
+
+    let secondFromLast = rates[rates.length - 2];
+    let theLastOne = rates[rates.length - 1];
+    console.log (secondFromLast, theLastOne);
+    let percentage = (secondFromLast / theLastOne).toFixed(3) + " %";
+
+    
+    percBox.height = 40;
+    percBox.width = 50;
+    percBox.textContent = percentage;
+  
+
+
+      if(secondFromLast < theLastOne) {
+        percBox.style.backgroundColor = "#8888d1";
+      } else if (secondFromLast > theLastOne) {
+        percBox.style.backgroundColor = "red";
+      } else {
+        percBox.style.backgroundColor = "grey";
+      }
+    
 
     //const minRate = Math.min(rates / 2);
     //const maxRate = Math.max(rates * 2);
