@@ -191,14 +191,12 @@ chartBtn.addEventListener("click", async (e) => {
 
     let secondFromLast = rates[rates.length - 2];
     let theLastOne = rates[rates.length - 1];
-    console.log (secondFromLast, theLastOne);
     let percentage = (secondFromLast / theLastOne).toFixed(3) + " %";
 
     
     percBox.height = 40;
     percBox.width = 50;
     percBox.textContent = percentage;
-  
 
 
       if(secondFromLast < theLastOne) {
@@ -208,7 +206,55 @@ chartBtn.addEventListener("click", async (e) => {
       } else {
         percBox.style.backgroundColor = "grey";
       }
-    
+
+      //let valuesBuffer = [];
+      let valuesBuffer = rates.slice();
+      valuesBuffer.pop()
+      const values = valuesBuffer;
+      console.log(values);
+      // function findClosestBiggestDiff(values, theLastOne, n) {
+      //   const sortedvalues = values.slice().sort((a, b) => a - b);
+      //   const diffs = sortedvalues.map((value) => Math.abs(theLastOne - value));
+      //   const maxDiffs = diffs.slice().sort((a, b) => b - a).slice(0, n);
+      //   const maxDiffValues = sortedvalues.filter((value) => maxDiffs.includes(Math.abs(theLastOne - value)));
+      //   const closestValue = maxDiffValues.reduce((closest, value) => Math.abs(values.indexOf(value) - values.length + 1) < Math.abs(values.indexOf(closest) - values.length + 1) ? value : closest);
+      //   return closestValue;
+      // }
+
+      
+      
+      // const n = 3;
+      // const closestBiggestDiff = findClosestBiggestDiff(values, theLastOne, n);
+      // console.log("result algo: ", closestBiggestDiff); // Output: 26.5076
+      // //const closest = findClosestValue(values, theLastOne);
+      
+      function findClosestValue(arr, anchorValue) {
+        let closestValue = arr[arr.length - 1];
+        let largestDifference = Math.abs(anchorValue - closestValue);
+      
+        for (let i = arr.length - 2; i >= 0; i--) {
+          const currentValue = arr[i];
+          const currentDifference = Math.abs(anchorValue - currentValue);
+      
+          if (currentValue < anchorValue) {
+            return closestValue;
+          }
+      
+          if (currentDifference > largestDifference) {
+            closestValue = currentValue;
+            largestDifference = currentDifference;
+          }
+        }
+      
+        return closestValue;
+      }
+
+      let arr = values;
+      let anchorValue = theLastOne;
+
+      const closestValue = findClosestValue(arr, anchorValue);
+      console.log(closestValue); // Output: 26.5076
+      //console.log(closest); // Output: 2
 
     //const minRate = Math.min(rates / 2);
     //const maxRate = Math.max(rates * 2);
