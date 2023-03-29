@@ -12,6 +12,7 @@ const firebaseApp = initializeApp({  //FireBase csonfiguration of application
     appId: "1:1009009054053:web:3df8a1eef37bac6a70d18c"
   });
 const auth = getAuth(firebaseApp);
+//console.log("firebaseApp");
 const checkAuth = () => {
     return new Promise((resolve) => {
       onAuthStateChanged(auth, user => {
