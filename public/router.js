@@ -85,7 +85,7 @@ const handleLocation = async () => {
     //   console.log("not Buba :(")
     //   console.log(key);
     // };
-    //  const path = window.location.pathname;
+      const path = window.location.pathname;
     //  //console.log(path);
     //  checkPath(path);
     
@@ -128,7 +128,7 @@ const handleLocation = async () => {
       // }
 };
 // const routePaths = Object.keys(routes);
- const path = window.location.pathname;
+ //const path = window.location.pathname;
 
 
 // if (path === routes[path]) {

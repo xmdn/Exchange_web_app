@@ -1,7 +1,5 @@
 {
     "liveServer.settings.mount": [
-        ["/", "${workspaceFolder}"],
-        ["/404", "${workspaceFolder}/404.html"]
-      ],
-      "liveServer.settings.404Path": "/404"
+        ["./myapp", "./"]
+    ]
   } 
