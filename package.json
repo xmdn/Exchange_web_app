@@ -1,10 +1,11 @@
 {
   "name": "jsprjct",
   "version": "1.0.0",
-  "main": "./scripts/login.js",
+  "main": "../router.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
     "build": "webpack --mode=development"
   },
   "keywords": [],
@@ -17,9 +18,15 @@
   "dependencies": {
     "bower": "^1.8.14",
     "chart.js": "^4.2.1",
+    "connect": "^3.7.0",
+    "connect-history-api-fallback": "^2.0.0",
+    "esm": "^3.2.25",
+    "express": "^4.18.2",
     "firebase": "^9.17.2",
     "firebaseui": "^6.0.2",
-    "ui": "^0.2.4"
+    "path": "^0.12.7",
+    "ui": "^0.2.4",
+    "url": "^0.11.0"
   },
   "repository": {
     "type": "git",
@@ -29,5 +36,5 @@
     "url": "https://github.com/xmdn/Exchange_web_app/issues"
   },
   "homepage": "https://github.com/xmdn/Exchange_web_app#readme",
-  "description": ""
+  "description": "Firebase + Vanilla JS\r On this project i did routing with auth checking for access pages where you need to be logged.\r Better understanding basical principle tools of library like React or framework Angular, concept of component model of web-application.\r Working with async\\await, promises, fetch, firebase database, making charts from api data, and dynamically creating elements from api with charts to see what happend with value."
 }
