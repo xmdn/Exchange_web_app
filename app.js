@@ -1,11 +1,14 @@
 
 //import fetch from 'node-fetch';
-// import fileURLToPath from 'url';
+//import fileUrl from 'file-url';
+import fileURLToPath from 'url';
 import express from 'express';
 import history from 'connect-history-api-fallback'
 import path from 'path';
-import __dirname from 'path';
-
+//var path = import ('path');
+//import __dirname from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 //const path = require('path');
 
 
@@ -26,7 +29,7 @@ const app = express();
 //     next();
 //   }
 // });
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname + '/public')));
 
 
 
@@ -47,7 +50,7 @@ app.use(history({
     res.status(404).send('what???');
     if (err.statusCode === 404) {
       // Redirect to the home page
-      res.redirect('/');
+      req.redirect('/');
     } else {
       // If it's not a 404 error, let the default handler handle it
       next();
