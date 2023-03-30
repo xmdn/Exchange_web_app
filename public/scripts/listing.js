@@ -130,9 +130,6 @@ export async function initialize () {
             tryrates.push(element.rate);
           });
     
-          //const minRate = Math.min(tryrates); // /2
-          //const maxRate = Math.max(tryrates); // *2
-    
           const listedContainer = document.createElement("a"); //"a"
           listedContainer.href = "/calculate";
           listedContainer.onclick = function() {
@@ -144,13 +141,7 @@ export async function initialize () {
           const scrChart = document.createElement("script");
           const scrChartmin = document.createElement("script");
           listedContainer.textContent = `${key}`;
-          //listedContainer.id = "listed-value"
-          //listedContainer.className = 'block-currency';
-          //listingContainer.appendChild(listedContainer);
-          //listedContainer.className = 'block-price';
           listedContainer.id = `${key}`;
-    
-          //listedContainer.appendChild(someCurrency);
           chart.id = "myChart";
           chart.width = 400;
           chart.height = 200;
@@ -160,13 +151,7 @@ export async function initialize () {
           listedContainer.appendChild(chart);
           listedContainer.appendChild(scrChart);
           listedContainer.appendChild(scrChartmin);
-          //contentArr.push({ elem: listedContainer, rate: tryrates, date: trydates});
           contentArr.push(listedContainer);
-          // contentArr.push(tryrates);
-    
-          //  if(myChart) {
-          //    myChart.destroy();
-          //  }
           myChart = new Chart(chart, {
             type: "line",
             data: {
@@ -175,7 +160,6 @@ export async function initialize () {
                   fill: false,
                   borderColor: "rgb(75, 192, 192)",
                   tension: 0.1,
-                  //hidden: true,
                 },
               ],
             },
@@ -193,8 +177,6 @@ export async function initialize () {
                 y: {
                   display: false,
                   beginAtZero: false,
-                  //min: minRate,
-                  //max: maxRate,
                 },
               },
               elements: {
@@ -227,15 +209,12 @@ export async function initialize () {
             myChart.data.datasets[0].borderColor = "grey";
           }
           myChart.data.labels = trydates;
-          //myChart.data.datasets[0].data[2].hidden = true;
-          //    myChart.data.datasets[0].label = names;
           myChart.data.datasets[0].data = tryrates;
           myChart.update();
         });
       } else {
         showMessage("You are not set up dates for chart");
       }
-    
       setCurrentPage(1);
     };
 }

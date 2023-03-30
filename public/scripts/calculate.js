@@ -27,7 +27,6 @@ const db = getFirestore();
 
 const messageElement = document.getElementById("message"); //Message Form
 function showMessage(message) {
-  //Message showing
   messageElement.textContent = message;
 }
 
@@ -36,13 +35,7 @@ export async function initializeCalculate () {
   const calcForm = document.getElementById("calc-form"); //Calculation Form
   const chartBtn = document.getElementById("btn-start");
 
-
-
-
   let myChart = null;
-  //let myValue = sessionStorage.getItem("myKey");
-
-
 
   let valueOfSeeking = null;
 
@@ -107,8 +100,6 @@ export async function initializeCalculate () {
 
   let currencyDropdown = calcForm["currency"];
 
-  //let hasSelectorChanged
-
   const initialStartDate = $("#startDate").val();
   const initialEndDate = $("#startDate").val();
   let selectedBefore = currencyDropdown.selectedIndex;
@@ -116,63 +107,6 @@ export async function initializeCalculate () {
   $("#currency").on("change", function() {
     $(this).prop("changed", true);
   });
-  // $("#startDate").on("change", function() {
-  //   $(this).prop("changed", true);
-  // });
-  // $("#endDate").on("change", function() {
-  //   $(this).prop("changed", true);
-  // });
-
-  // if ($("#startDate").prop("changed") || $("#endDate").prop("changed")) {
-    
-  // }
-
-
-
-  // let startDate = new Date(new Date);
-  // let endDate = new Date();
-  // startDate.setDate(startDate.getMonth() - 1 );
-  // $('#startDate').datepicker('setDate', startDate);
-  // $('#endDate').datepicker('setDate', endDate);
-
-
-
-
-  // $('#startDate, #endDate').on('click', function(event) {
-  //   if (!$(event.target).closest('#startDate').length || !$(event.target).closest('#endDate').length) {
-  //     // Hide the datepicker element
-  //     // $('#startDate').datepicker('show');
-  //     // $('#endDate').datepicker('show');
-  //     $('#startDate').datepicker('setDate', null);
-  //     $('#endDate').datepicker('setDate', null);
-  //   } else {
-  //     $('#startDate').datepicker('setDate', startDate);
-  //     $('#endDate').datepicker('setDate', endDate);
-
-  //   }
-  // })
-
-
-  // $(document).on('click', function(event) {
-  //   if (!$(event.target).closest('#startDate').length && !$(event.target).closest('#endDate').length) {
-  //     // Get the startDate and endDate values
-      
-  //     // Do something with the startDate and endDate values
-  //     // console.log("Start date: ", startDate);
-  //     // console.log("End date: ", endDate);
-  //     $('#startDate').datepicker('setDate', startDate);
-  //     $('#endDate').datepicker('setDate', endDate);
-  //   } else if ($(event.target).closest('#startDate').length || $(event.target).closest('#endDate').length) {
-  //     $('#startDate').datepicker('setDate', null);
-  //     $('#endDate').datepicker('setDate', null);
-  //   }
-  // });
-
-
-  // $('#startDate').datepicker('setDate', startDate);
-  // $('#endDate').datepicker('setDate', endDate);
-
-  //chartBtn.addEventListener("click", async (e) => {
     const currentDate = new Date(); // create a new Date object
     const startDate = new Date(currentDate); // create a copy of currentDate
     startDate.setDate(startDate.getMonth());
@@ -184,40 +118,18 @@ export async function initializeCalculate () {
     await renderCalculate();
 
   async function renderCalculate () {
-    // if ($("#currency").prop("changed")) {
-    //   console.log("true");
-    // } else {
-    //   console.log("false");
-    // }
-
-    // let startDate = new Date(new Date);
-    // let endDate = new Date();
-    // // let startDate = new Date(Date.parse($("#startDate").val()));
-    // // let endDate = new Date(Date.parse($("#endDate").val()));
-    // startDate.setMonth(startDate.getMonth() + 1);
-    // startDate.setDate(startDate.getDate() + 1);
-    // endDate.setMonth(endDate.getMonth() + 1);
-
     if(myChart) {
       myChart.destroy();
     }
 
 
     let selectedOption = currencyDropdown.options[currencyDropdown.selectedIndex];
-    //const hasEndDateChanged = ($("#endDate").val() !== initialEndDate);
-    //const selectedOption = null;
-
-    //let myValue = sessionStorage.getItem("myKey");
-  
-    //valueOfSeeking = selectedOption.innerHTML;
     let myValue = localStorage.getItem("myKey");
     console.log("myvalue", myValue);
     if (myValue == null || $("#currency").prop("changed")) {
       valueOfSeeking = selectedOption.innerHTML;
-      //console.log("values from picker")
     } else {
       valueOfSeeking = myValue;
-      //console.log("values from localStorage", myValue)
     } 
     $(this).prop("changed", false);
     myValue = null;
@@ -237,7 +149,6 @@ export async function initializeCalculate () {
           `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=${dateS}&json`
         );
         let result = await response.json();
-        //const selectedValue = currencyDropdown.value;
 
         let currVal = result.find(({ cc }) => cc === "AUD");
         console.log("Value of Currency: ", currVal);
@@ -344,10 +255,6 @@ export async function initializeCalculate () {
         } else {
           algoBox.style.backgroundColor = "grey";
         }
-        //console.log(closest); // Output: 2
-
-      //const minRate = Math.min(rates / 2);
-      //const maxRate = Math.max(rates * 2);
       
       myChart = new Chart(document.getElementById("myChart"), {
         type: "line",
@@ -364,8 +271,6 @@ export async function initializeCalculate () {
           scales: {
             y: {
               beginAtZero: false,
-              //min: minRate,
-              //max: maxRate,
             },
           },
           layout: {
@@ -389,5 +294,4 @@ export async function initializeCalculate () {
       showMessage("You are not set up dates for chart");
     }
   }
-// );
 }
