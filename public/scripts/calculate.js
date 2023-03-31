@@ -42,7 +42,7 @@ export async function initializeCalculate () {
 
 let indexMap = new Map();
 
-async function getOption(myValue, myIndex) {
+async function getOption(myValue) {
   let index = 0;
   await fetch("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json") // Get the currency API Endpoint
     .then((response) => response.json()) // Getting json from responses
@@ -69,9 +69,11 @@ async function getOption(myValue, myIndex) {
         console.log(option.innerHTML)
         //let selectElement = document.getElementById('currency');
 
-        $("#currency").val("`${myValue}`")
+        //$("#currency").val("`${myValue}`")
 
-        //selectElement.querySelector(`option[value="${myValue}"]`);
+        let some = currencyDropdown.querySelector(`option[data-tick="${myValue}"]`);
+        some.selected = true;
+        //console.log('option dataset:', some)
         //currencyDropdown.selectedIndex = myIndex;
         //option.innerHTML = myValue;
       } else if (!myValue) {
