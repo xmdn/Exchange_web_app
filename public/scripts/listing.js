@@ -88,6 +88,8 @@ export async function initialize () {
       startDate.setDate(startDate.getDate() - 1);
       endDate.setMonth(endDate.getMonth() + 1);
     
+      let index = 0;
+      //let outIndex;
       let valueMap = new Map();
       if (startDate & endDate) {
         for (
@@ -104,36 +106,47 @@ export async function initialize () {
           );
           let result = await response.json();
           //const selectedValue = currencyDropdown.value;
-    
+          //console.log(result);
           result.forEach((element) => {
+            
             if (!valueMap.has(element.cc)) {
               valueMap.set(element.cc, []);
             }
+
     
             valueMap.get(element.cc).push({
+              cc:   element.cc,
               rate: element.rate,
               date: element.exchangedate,
               text: element.txt,
             });
           });
         }
-
-        valueMap.forEach((element, key) => {
+        console.log(valueMap.cc);
+        //let index = null;
+        valueMap.forEach((index, key) => {
           //elementsNum++;
           let trydates = [];
           let tryrates = [];
-    
           let gettingCurrency = valueMap.get(`${key}`);
-    
+          //let gettingIndex = valueMap.indexOf(`${key}`)
+          //let index = valueMap.indexOf(`${key}`)
+          //index++;
           gettingCurrency.forEach((element) => {
             trydates.push(element.date);
             tryrates.push(element.rate);
+            
           });
     
           const listedContainer = document.createElement("a"); //"a"
           listedContainer.href = "/calculate";
-          listedContainer.onclick = function() {
+          listedContainer.onclick = function(valueMap) {
             localStorage.setItem("myKey", `${key}`);
+            console.log('index: ', index);
+            //valueMap.get(`${key}`)
+            //let index = valueMap.indexOf(gettingIndex);
+            //let ndd = valueMap[index];
+            //localStorage.setItem("myIndex", gettingIndex)
             route();
           };
           

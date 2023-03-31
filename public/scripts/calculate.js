@@ -38,24 +38,49 @@ export async function initializeCalculate () {
   let myChart = null;
 
   let valueOfSeeking = null;
+  let currencyDropdown = calcForm["currency"];
 
+let indexMap = new Map();
 
-  fetch("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json") // Get the currency API Endpoint
+async function getOption(myValue, myIndex) {
+  let index = 0;
+  await fetch("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json") // Get the currency API Endpoint
     .then((response) => response.json()) // Getting json from responses
     .then((data) => {
       // Showing response to dropdown with forEach
-      
+      let option;
       data.forEach((currency) => {
-        const option = document.createElement("option");
+        index++;
+        if (!indexMap.has(currency.cc)) {
+          indexMap.set(index, currency.cc);
+        }
+        // indexMap.get(index).push({
+        //   cc: currency.cc
+        // })
+        option = document.createElement("option");
         option.value = currency.rate.toFixed(1);
         option.innerHTML = currency.cc;
         currencyDropdown.appendChild(option);
+        
       });
+      
+      if (myValue) {
+        console.log(option.innerHTML)
+         
+        currencyDropdown.selectedIndex = myIndex;
+        //option.innerHTML = myValue;
+      } else if (!myValue) {
+        //option.innerHTML = Val;
+        console.log("something");
+      }
     })
     .catch((error) => {
       console.error("Error:", error);
     });
+    console.log('indexMap', indexMap);
 
+  }
+  
   calcForm.addEventListener("submit", (e) => {
     // Event listener "on click" and calculating currency to amount
     e.preventDefault();
@@ -98,14 +123,17 @@ export async function initializeCalculate () {
   $('#startDate').datepicker('hide');
   $('#endDate').datepicker('hide');
 
-  let currencyDropdown = calcForm["currency"];
+ 
 
   const initialStartDate = $("#startDate").val();
   const initialEndDate = $("#startDate").val();
   let selectedBefore = currencyDropdown.selectedIndex;
 
+
+  
   $("#currency").on("change", function() {
     $(this).prop("changed", true);
+    
   });
     const currentDate = new Date(); // create a new Date object
     const startDate = new Date(currentDate); // create a copy of currentDate
@@ -122,20 +150,39 @@ export async function initializeCalculate () {
       myChart.destroy();
     }
 
-
+    let chngCurr = $("#currency").prop("changed");
     let selectedOption = currencyDropdown.options[currencyDropdown.selectedIndex];
     let myValue = localStorage.getItem("myKey");
-    console.log("myvalue", myValue);
-    if (myValue == null || $("#currency").prop("changed")) {
+    let myIndex = localStorage.getItem("myIndex");
+    if (myValue !== null) {
+      
+    }
+    let mySelect = $('#currency');
+
+    if (myValue == null || chngCurr) {
       valueOfSeeking = selectedOption.innerHTML;
-    } else {
+    } else if (myValue !== null && !chngCurr) {
       valueOfSeeking = myValue;
-    } 
+      //selectedOption.innerHTML = myValue;
+      //mySelect.val(`${myValue}`);
+      currencyDropdown.selectedIndex = myIndex;
+      getOption(myValue, myIndex);
+      
+
+    }  
+
+    
     $(this).prop("changed", false);
-    myValue = null;
+    
 
     let chartData = [];
+    let currVal;
+    let currIndx;
+    let combinedMap = new Map();
+
     if(startDate & endDate) {
+      //let chartData = [];
+      
       for (
         let currentDate = new Date(startDate);
         currentDate <= endDate;
@@ -150,14 +197,47 @@ export async function initializeCalculate () {
         );
         let result = await response.json();
 
-        let currVal = result.find(({ cc }) => cc === "AUD");
+        
+
+        currVal = result.find(({ cc }) => cc === valueOfSeeking);
+        //currIndx = indexMap.find(({ cc }) => cc === valueOfSeeking);
+
         console.log("Value of Currency: ", currVal);
         chartData.push({
+          //index: currIndx.indx,
+          cc: currVal.cc,
           date: currVal.exchangedate,
           rate: currVal.rate,
           name: currVal.txt,
         });
       }
+      //let indSet = currVal.get(currVal.cc);
+       indexMap.forEach((value, index) => {
+         const key = currVal.get(value);
+      //   currVal[cc].push({
+      //     indx: index
+      // })
+         combinedMap.set(index, {key, value});
+       })
+      //console.log('currValue', indSet);
+      console.log('chartData', chartData);
+      const getVal = await myValue;
+      async function setElementOption (myValue) {
+        //currencyDropdown.option.innerHTML = myValue;
+        //$("#currencyDropdown").val(myValue);
+      }
+      console.log('combined', currVal)
+      
+      setElementOption(getVal);
+      myValue = null;
+      // chartData[0].forEach((currency) => {
+      //   console.log(currency);
+      //   // const option = document.createElement("option");
+      //   // option.value = currency.rate.toFixed(1);
+      //   // option.innerHTML = currency.cc;
+      //   // currencyDropdown.appendChild(option);
+      // });
+      
       let dates = [];
       let rates = [];
       let names = chartData[0].name;
@@ -293,5 +373,7 @@ export async function initializeCalculate () {
     else {
       showMessage("You are not set up dates for chart");
     }
+    console.log(currVal);
+    index = currVal.cc
   }
 }
