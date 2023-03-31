@@ -58,6 +58,7 @@ async function getOption(myValue, myIndex) {
         //   cc: currency.cc
         // })
         option = document.createElement("option");
+        option.dataset.tick = currency.cc;
         option.value = currency.rate.toFixed(1);
         option.innerHTML = currency.cc;
         currencyDropdown.appendChild(option);
@@ -66,8 +67,12 @@ async function getOption(myValue, myIndex) {
       
       if (myValue) {
         console.log(option.innerHTML)
-         
-        currencyDropdown.selectedIndex = myIndex;
+        //let selectElement = document.getElementById('currency');
+
+        $("#currency").val("`${myValue}`")
+
+        //selectElement.querySelector(`option[value="${myValue}"]`);
+        //currencyDropdown.selectedIndex = myIndex;
         //option.innerHTML = myValue;
       } else if (!myValue) {
         //option.innerHTML = Val;
@@ -155,7 +160,7 @@ async function getOption(myValue, myIndex) {
     let myValue = localStorage.getItem("myKey");
     let myIndex = localStorage.getItem("myIndex");
     if (myValue !== null) {
-      
+      currencyDropdown.querySelector(`option[data-tick=${myValue}]`);
     }
     let mySelect = $('#currency');
 
@@ -165,7 +170,7 @@ async function getOption(myValue, myIndex) {
       valueOfSeeking = myValue;
       //selectedOption.innerHTML = myValue;
       //mySelect.val(`${myValue}`);
-      currencyDropdown.selectedIndex = myIndex;
+      
       getOption(myValue, myIndex);
       
 
@@ -212,13 +217,13 @@ async function getOption(myValue, myIndex) {
         });
       }
       //let indSet = currVal.get(currVal.cc);
-       indexMap.forEach((value, index) => {
-         const key = currVal.get(value);
-      //   currVal[cc].push({
-      //     indx: index
-      // })
-         combinedMap.set(index, {key, value});
-       })
+      //  indexMap.forEach((value, index) => {
+      //    const key = currVal.get(value);
+      // //   currVal[cc].push({
+      // //     indx: index
+      // // })
+      //    combinedMap.set(index, {key, value});
+      //  })
       //console.log('currValue', indSet);
       console.log('chartData', chartData);
       const getVal = await myValue;
