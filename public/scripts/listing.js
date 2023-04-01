@@ -80,13 +80,13 @@ export async function initialize () {
     await renderContent();
     
     async function renderContent () {
-      const currentDate = new Date(); // create a new Date object
-      const startDate = new Date(currentDate); // create a copy of currentDate
-      startDate.setDate(startDate.getMonth());
+      //const currDate = new Date(); // create a new Date object
+      const startDate = new Date(); // create a copy of currentDate
+      //startDate.setDate(startDate.getMonth());
       let endDate = new Date();
-      startDate.setMonth(startDate.getMonth() + 1);
-      startDate.setDate(startDate.getDate() - 1);
-      endDate.setMonth(endDate.getMonth() + 1);
+      startDate.setMonth(startDate.getMonth() - 1);
+      //startDate.setDate(startDate.getDate() - 2);
+      //endDate.setMonth(endDate.getMonth() + 1);
     
       let index = 0;
       //let outIndex;
@@ -97,10 +97,8 @@ export async function initialize () {
           currentDate <= endDate;
           currentDate.setDate(currentDate.getDate() + 1)
         ) {
-          let dateS = `${currentDate.getFullYear()}${currentDate
-            .getMonth()
-            .toString()
-            .padStart(2, "0")}${currentDate.getDate().toString().padStart(2, "0")}`;
+          let monthRequest = currentDate.getMonth() + 1;
+          let dateS = `${currentDate.getFullYear()}${monthRequest.toString().padStart(2, "0")}${currentDate.getDate().toString().padStart(2, "0")}`;
           let response = await fetch(
             `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=${dateS}&json`
           );

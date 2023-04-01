@@ -84,7 +84,7 @@ export async function initialize () {
       const startDate = new Date(currentDate); // create a copy of currentDate
       startDate.setDate(startDate.getMonth());
       let endDate = new Date();
-      startDate.setMonth(startDate.getMonth() + 1);
+      startDate.setMonth(startDate.getMonth());
       startDate.setDate(startDate.getDate() - 1);
       endDate.setMonth(endDate.getMonth() + 1);
     
