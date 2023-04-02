@@ -45,6 +45,7 @@ const scriptMap = {
     "/add_user": "add_user.js",
     "/": "listing.js",
     "/login": "login.js",
+    "/user": "user.js"
   };
   
 const routes = {
@@ -52,7 +53,8 @@ const routes = {
     "/": "/pages/listing.html",
     "/calculate": "/pages/calculate.html",
     "/add_user": "/pages/add_user.html",
-    "/login": "/pages/login.html"
+    "/login": "/pages/login.html",
+    "/user": "/pages/user.html"
 };
 
 const handleLocation = async () => {
