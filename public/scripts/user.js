@@ -9,6 +9,7 @@ import {
   doc,
   setDoc,
   getDoc,
+  collection,
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
 //import { initializeApp } from 'firebase/app'; //Imports of FireBase
 //import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword } from 'firebase/auth';
@@ -31,11 +32,12 @@ const db = getFirestore(firebaseApp); //Get DataBase
 
 const userForm = document.getElementById("user-form"); //Create user
 
-userForm.addEventListener("submit", async (e) => {
+const docRef = db.collection("users");
 
-
-    const docRef = doc(db, "users", "ls6Bm2QRrQNemZfMoVMygeCafSU2");
-    const docSnap = await getDoc(docRef);
+userForm.addEventListener("submit", async () => {
+    
+  //setDoc(doc(db, "users", cred.user.uid)
+    const docSnap = await getDocs(docRef);
     
     if (docSnap.exists()) {
       console.log("Document data:", docSnap.data());
