@@ -75,38 +75,45 @@ export async function initializeCalculate() {
   calcForm.addEventListener("submit", (e) => {
     // Event listener "on click" and calculating currency to amount
     e.preventDefault();
-    const rate = calcForm["currency"].value;
-    const amount = calcForm["amount"].value;
-    const result = calcForm["result"];
-    result.value = amount * rate;
-    onAuthStateChanged(auth, (user) => {
-      // If user loged result will be sended to current history list results of calculation
-      if (user) {
-        if (result.value != "NaN") {
-          // Also checking for Not A Number
-          addDoc(collection(db, "users/", user.uid, "/history"), {
-            Amount: amount,
-            Result: result.value,
-          })
-            .then(() => {
-              console.log("success");
+    let amount = calcForm["amount"].value;
+
+    if (amount)
+    { 
+      const rate = calcForm["currency"].value;
+      //const amount = calcForm["amount"].value;
+      const result = calcForm["result"];
+      result.value = amount * rate;
+      onAuthStateChanged(auth, (user) => {
+        // If user loged result will be sended to current history list results of calculation
+        if (user) {
+          if (result.value != "NaN") {
+            // Also checking for Not A Number
+            addDoc(collection(db, "users/", user.uid, "/history"), {
+              Amount: amount,
+              Result: result.value,
             })
-            .catch((err) => {
-              console.log(err.message);
-            });
+              .then(() => {
+                console.log("success");
+              })
+              .catch((err) => {
+                console.log(err.message);
+              });
+          } else {
+            console.log(
+              "Dont use Not a Number chars again, understand me, fucking punk?"
+            );
+          }
         } else {
           console.log(
-            "Dont use Not a Number chars again, understand me, fucking punk?"
+            "you dont even a user, fuck you, why you pretending like being you its ok?"
           );
+          showMessage("You are not loged");
+          showLog();
         }
-      } else {
-        console.log(
-          "you dont even a user, fuck you, why you pretending like being you its ok?"
-        );
-        showMessage("You are not loged");
-        showLog();
-      }
-    });
+      });
+    } else {
+      showMessage("Set the number!");
+    }
   });
   
 
