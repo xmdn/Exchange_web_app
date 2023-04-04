@@ -7,6 +7,7 @@ import {
   getFirestore,
   doc,
   setDoc,
+  getDocs,
   collection,
   addDoc,
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
@@ -33,6 +34,8 @@ function showMessage(message) {
 export async function initializeCalculate() {
   const calcForm = document.getElementById("calc-form"); //Calculation Form
   const chartBtn = document.getElementById("btn-start");
+  const userForm = document.getElementById("user-form"); 
+  const getButton = document.getElementById("getBtn");
 
   let myChart = null;
 
@@ -105,6 +108,22 @@ export async function initializeCalculate() {
       }
     });
   });
+  
+
+
+  async function getHistory() {
+  const currentId = auth.currentUser;
+  const querySnapshot = await getDocs(collection(db, "users", currentId.uid, "history"));
+
+    querySnapshot.forEach((doc) => {
+      console.log(`${doc.id} => ${doc.data().Amount}`);
+      const outInfo = document.createElement("div");
+      outInfo.name = "hist";
+      outInfo.id = "hist";
+      outInfo.textContent = `Amount: ${doc.data().Amount}  Result: ${doc.data().Result}`
+      userForm.appendChild(outInfo);
+    });
+  }
 
   $("#startDate").datepicker();
   $("#endDate").datepicker();
@@ -119,6 +138,7 @@ export async function initializeCalculate() {
   startDate.setMonth(startDate.getMonth() - 1);
 
   await renderCalculate();
+  getHistory();
 
   async function renderCalculate() {
     if (myChart) {
