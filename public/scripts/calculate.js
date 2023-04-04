@@ -42,6 +42,7 @@ export async function initializeCalculate() {
   let valueOfSeeking = null;
   let currencyDropdown = calcForm["currency"];
 
+
   async function getOption(myValue) {
     await fetch(
       "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json"
@@ -76,7 +77,7 @@ export async function initializeCalculate() {
     // Event listener "on click" and calculating currency to amount
     e.preventDefault();
     let amount = calcForm["amount"].value;
-
+    let selected = currencyDropdown.options[currencyDropdown.selectedIndex].innerHTML;
     if (amount)
     { 
       const rate = calcForm["currency"].value;
@@ -91,6 +92,7 @@ export async function initializeCalculate() {
             addDoc(collection(db, "users/", user.uid, "/history"), {
               Amount: amount,
               Result: result.value,
+              Ticker: selected,
             })
               .then(() => {
                 console.log("success");
@@ -127,7 +129,7 @@ export async function initializeCalculate() {
       const outInfo = document.createElement("div");
       outInfo.name = "hist";
       outInfo.id = "hist";
-      outInfo.textContent = `Amount: ${doc.data().Amount}  Result: ${doc.data().Result}`
+      outInfo.textContent = `${doc.data().Ticker} Amount: ${doc.data().Amount}  Result: ${doc.data().Result}`
       userForm.appendChild(outInfo);
     });
   }
