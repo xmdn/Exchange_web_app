@@ -36,6 +36,7 @@ export async function initializeCalculate() {
   const chartBtn = document.getElementById("btn-start");
   const userForm = document.getElementById("user-form"); 
   const getButton = document.getElementById("getBtn");
+  const calcBtn = document.getElementById("btn-calc");
 
   let myChart = null;
 

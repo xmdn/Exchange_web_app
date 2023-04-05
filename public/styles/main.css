@@ -9,6 +9,7 @@ form {
     align-items: center;
 }
 a {
+    margin: 4%;
     color: rgb(0, 0, 0);
     text-decoration: none;
     text-decoration-color: #cfcfcf;
@@ -22,6 +23,12 @@ h2 {
 li {
     list-style-type: none;
   }
+.form-history {
+    margin: 0%;
+}
+.container-buttons {
+    margin: auto;
+}
 .submit-btn {
     background-color: #a7a7a7;
     border: none;
