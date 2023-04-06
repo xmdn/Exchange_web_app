@@ -85,6 +85,7 @@ export async function initializeCalculate() {
       //const amount = calcForm["amount"].value;
       const result = calcForm["result"];
       result.value = amount * rate;
+      const transactionDate = new Date();
       onAuthStateChanged(auth, (user) => {
         // If user loged result will be sended to current history list results of calculation
         if (user) {
@@ -94,6 +95,7 @@ export async function initializeCalculate() {
               Amount: amount,
               Result: result.value,
               Ticker: selected,
+              Date: transactionDate,
             })
               .then(() => {
                 console.log("success");
@@ -117,6 +119,7 @@ export async function initializeCalculate() {
     } else {
       showMessage("Set the number!");
     }
+    getHistory();
   });
   
 
@@ -130,7 +133,15 @@ export async function initializeCalculate() {
       const outInfo = document.createElement("div");
       outInfo.name = "hist";
       outInfo.id = "hist";
-      outInfo.textContent = `${doc.data().Ticker} Amount: ${doc.data().Amount}  Result: ${doc.data().Result}`
+      let calcInfo = doc.data();
+      let date = calcInfo.Date.toDate()
+      const day = date.getDate().toString().padStart(2, '0'); 
+      const month = (date.getMonth() + 1).toString().padStart(2, '0'); 
+      const year = date.getFullYear(); 
+      const hours = date.getHours().toString().padStart(2, '0'); 
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+      const formattedDate = `${hours}:${minutes} ${day}-${month}-${year}`;
+      outInfo.textContent = `${calcInfo.Ticker} Amount: ${calcInfo.Amount}  Result: ${calcInfo.Result} Date: ${formattedDate}`
       userForm.appendChild(outInfo);
     });
   }
