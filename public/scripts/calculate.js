@@ -127,6 +127,8 @@ export async function initializeCalculate() {
 
 
   async function getHistory() {
+  //const usrForm = document.getElementById("user-form");
+  userForm.innerHTML = "";
   const currentId = auth.currentUser;
   const q = query(collection(db, "users", currentId.uid, "history"), orderBy("Date", "desc"))
   const querySnapshot = await getDocs(q);
@@ -144,9 +146,14 @@ export async function initializeCalculate() {
       const hours = date.getHours().toString().padStart(2, '0'); 
       const minutes = date.getMinutes().toString().padStart(2, '0');
       const formattedDate = `${hours}:${minutes} ${day}-${month}-${year}`;
-      outInfo.textContent = `${calcInfo.Ticker} Amount: ${calcInfo.Amount}  Result: ${calcInfo.Result} Date: ${formattedDate}`
+      const formattedResult = parseFloat(calcInfo.Result).toFixed(1);
+
+      outInfo.textContent = `${calcInfo.Ticker} Amount: ${calcInfo.Amount}  Result: ${formattedResult} Date: ${formattedDate}`
       userForm.appendChild(outInfo);
     });
+  }
+  async function createTransactions (){
+
   }
 
   $("#startDate").datepicker();
