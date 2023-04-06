@@ -110,7 +110,6 @@ export async function initializeCalculate() {
 
 
   async function getHistory() {
-
   userForm.innerHTML = "";
   const currentId = auth.currentUser;
   const q = query(collection(db, "users", currentId.uid, "history"), orderBy("Date", "desc"))
@@ -142,9 +141,6 @@ export async function initializeCalculate() {
       userInfo.style.display = 'none';
     }
   })
-  // async function createTransactions (){
-
-  // }
 
   $("#startDate").datepicker();
   $("#endDate").datepicker();
@@ -246,19 +242,6 @@ export async function initializeCalculate() {
       let valuesBuffer = rates.slice();
       valuesBuffer.pop();
       const values = valuesBuffer;
-      // function findClosestBiggestDiff(values, theLastOne, n) {
-      //   const sortedvalues = values.slice().sort((a, b) => a - b);
-      //   const diffs = sortedvalues.map((value) => Math.abs(theLastOne - value));
-      //   const maxDiffs = diffs.slice().sort((a, b) => b - a).slice(0, n);
-      //   const maxDiffValues = sortedvalues.filter((value) => maxDiffs.includes(Math.abs(theLastOne - value)));
-      //   const closestValue = maxDiffValues.reduce((closest, value) => Math.abs(values.indexOf(value) - values.length + 1) < Math.abs(values.indexOf(closest) - values.length + 1) ? value : closest);
-      //   return closestValue;
-      // }
-
-      // const n = 3;
-      // const closestBiggestDiff = findClosestBiggestDiff(values, theLastOne, n);
-      // console.log("result algo: ", closestBiggestDiff); // Output: 26.5076
-      // //const closest = findClosestValue(values, theLastOne);
 
       function findClosestValue(arr, anchorValue) {
         let closestValue = arr[arr.length - 1];
@@ -339,7 +322,5 @@ export async function initializeCalculate() {
     } else {
       showMessage("You are not set up dates for chart");
     }
-    //console.log(currVal);
-    //index = currVal.cc
   }
 }

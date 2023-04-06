@@ -3,10 +3,20 @@ import {
   onAuthStateChanged,
   signOut,
   signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  signInWithPopup,
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
 
 const logout_btn = document.getElementById("logout-btn");
-const signupForm = document.getElementById("login-form"); //Create user
+const messageElement = document.getElementById("message");
+const signupForm = document.getElementById("login-form");
+const googleBtn = document.getElementById("googleAuth");
+const facebookBtn = document.getElementById("faceAuth");
+
+const providerG = new GoogleAuthProvider();
+const providerF = new FacebookAuthProvider();
+
 signupForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const email = signupForm["email"].value;
@@ -27,8 +37,52 @@ signupForm.addEventListener("submit", (e) => {
     }
   });
 });
+googleBtn.addEventListener("click", () => {
+  signInWithPopup(auth, providerG)
+  .then((result) => {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    // The signed-in user info.
+    const user = result.user;
+    // IdP data available using getAdditionalUserInfo(result)
+    // ...
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    // ...
+  });
+})
 
-const messageElement = document.getElementById("message"); //Message Form
+facebookBtn.addEventListener("click", () => {
+  signInWithPopup(auth, providerF)
+  .then((result) => {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    // The signed-in user info.
+    const user = result.user;
+    // IdP data available using getAdditionalUserInfo(result)
+    // ...
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    // ...
+  });
+})
+
+
+
 function showMessage(message) {
   //Message showing
   messageElement.textContent = message;
