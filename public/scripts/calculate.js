@@ -1,32 +1,14 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
 import {
-  getAuth,
   onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
 import {
-  getFirestore,
-  doc,
-  setDoc,
   getDocs,
   collection,
   addDoc,
   query,
   orderBy,
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
-//import { initializeApp } from "./app.js";
-
-const firebaseApp = initializeApp({
-  //FireBase csonfiguration of application
-  apiKey: "AIzaSyAci7cExKpy7KdcaKtV-NynPs3kNWOUegA",
-  authDomain: "currency-f1988.firebaseapp.com",
-  databaseURL: "https://currency-f1988-default-rtdb.firebaseio.com",
-  projectId: "currency-f1988",
-  storageBucket: "currency-f1988.appspot.com",
-  messagingSenderId: "1009009054053",
-  appId: "1:1009009054053:web:3df8a1eef37bac6a70d18c",
-});
-const auth = getAuth(firebaseApp);
-const db = getFirestore();
+import { auth, db } from "../fire.js";
 
 const messageElement = document.getElementById("message"); //Message Form
 function showMessage(message) {
@@ -65,7 +47,7 @@ export async function initializeCalculate() {
           `option[data-tick="${myValue}"]`
         );
         if (myValue) {
-          console.log(option.innerHTML);
+          //console.log(option.innerHTML);
           some.selected = true;
         } else if (!myValue) {
           console.log("something");
@@ -127,14 +109,13 @@ export async function initializeCalculate() {
 
 
   async function getHistory() {
-  //const usrForm = document.getElementById("user-form");
   userForm.innerHTML = "";
   const currentId = auth.currentUser;
   const q = query(collection(db, "users", currentId.uid, "history"), orderBy("Date", "desc"))
   const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
-      console.log(`${doc.id} => ${doc.data().Amount}`);
+      //console.log(`${doc.id} => ${doc.data().Amount}`);
       const outInfo = document.createElement("div");
       outInfo.name = "hist";
       outInfo.id = "hist";
@@ -152,9 +133,9 @@ export async function initializeCalculate() {
       userForm.appendChild(outInfo);
     });
   }
-  async function createTransactions (){
+  // async function createTransactions (){
 
-  }
+  // }
 
   $("#startDate").datepicker();
   $("#endDate").datepicker();
@@ -213,14 +194,12 @@ export async function initializeCalculate() {
 
         currVal = result.find(({ cc }) => cc === valueOfSeeking);
 
-        console.log("Value of Currency: ", currVal);
         chartData.push({
           date: currVal.exchangedate,
           rate: currVal.rate,
           name: currVal.txt,
         });
       }
-      console.log("chartData", chartData);
       myValue = null;
 
       let dates = [];
@@ -258,7 +237,6 @@ export async function initializeCalculate() {
       let valuesBuffer = rates.slice();
       valuesBuffer.pop();
       const values = valuesBuffer;
-      console.log(values);
       // function findClosestBiggestDiff(values, theLastOne, n) {
       //   const sortedvalues = values.slice().sort((a, b) => a - b);
       //   const diffs = sortedvalues.map((value) => Math.abs(theLastOne - value));
@@ -299,7 +277,7 @@ export async function initializeCalculate() {
 
       const closestValues = findClosestValue(arr, anchorValue);
 
-      console.log(closestValues); // Output: 26.5076
+      //console.log(closestValues); // Output: 26.5076
 
       let percentageAlgo = (closestValues / theLastOne).toFixed(3) + " %";
 
