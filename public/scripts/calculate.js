@@ -10,6 +10,8 @@ import {
   getDocs,
   collection,
   addDoc,
+  query,
+  orderBy,
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
 //import { initializeApp } from "./app.js";
 
@@ -126,7 +128,8 @@ export async function initializeCalculate() {
 
   async function getHistory() {
   const currentId = auth.currentUser;
-  const querySnapshot = await getDocs(collection(db, "users", currentId.uid, "history"));
+  const q = query(collection(db, "users", currentId.uid, "history"), orderBy("Date", "desc"))
+  const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
       console.log(`${doc.id} => ${doc.data().Amount}`);
