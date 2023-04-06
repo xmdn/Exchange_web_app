@@ -1,3 +1,4 @@
+import { auth, db } from "../fire.js";
 import {
   onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
@@ -8,7 +9,7 @@ import {
   query,
   orderBy,
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
-import { auth, db } from "../fire.js";
+
 
 const messageElement = document.getElementById("message"); //Message Form
 function showMessage(message) {
@@ -17,11 +18,11 @@ function showMessage(message) {
 
 export async function initializeCalculate() {
   const calcForm = document.getElementById("calc-form"); //Calculation Form
-  const chartBtn = document.getElementById("btn-start");
+  const userInfo = document.getElementById("user-inf");
   const userForm = document.getElementById("user-form"); 
-  const getButton = document.getElementById("getBtn");
+  const userBtn = document.getElementById("btn-user");
   const calcBtn = document.getElementById("btn-calc");
-
+  userInfo.style.display = 'none';
   let myChart = null;
 
   let valueOfSeeking = null;
@@ -109,6 +110,7 @@ export async function initializeCalculate() {
 
 
   async function getHistory() {
+
   userForm.innerHTML = "";
   const currentId = auth.currentUser;
   const q = query(collection(db, "users", currentId.uid, "history"), orderBy("Date", "desc"))
@@ -133,6 +135,13 @@ export async function initializeCalculate() {
       userForm.appendChild(outInfo);
     });
   }
+  userBtn.addEventListener("click", () =>  {
+    if (userInfo.style.display === 'none') {
+      userInfo.style.display = 'block';
+    } else {
+      userInfo.style.display = 'none';
+    }
+  })
   // async function createTransactions (){
 
   // }
