@@ -1,16 +1,35 @@
 <section id="add-user-module" >
     <form method="get" id="login-form" class="form-group">
-        <div class="form-group">
-        <div class="form-group"><h2>Login</h2></div>
-        <button type="submit" id="logout-btn" class="submit-btn">LogOut</button>
-        <div class="form-group">email:
-        <input type='email' placeholder="Email" name='email' id='email'></div>
-        <div class="form-group">password:
-        <input id='password' type="password" name='password' placeholder='Password'></div>
-        <div class="form-group"><button type="submit" class="submit-btn">Log In</button></div>
+        <div class="group-all">
+            <div class="login-group">
+                <div class="login-element">
+                    <h2>Login</h2>
+                </div>
+                    <button type="submit" id="logout-btn" class="submit-btn">
+                        LogOut
+                    </button>
+                <div class="login-element">
+                    email:
+                    <input type='email' placeholder="Email" name='email' id='email'></div>
+                <div class="login-element">
+                    password:
+                    <input id='password' type="password" name='password' placeholder='Password'></div>
+                <div class="login-element">
+                    <button type="submit" class="submit-btn">
+                        Log In
+                    </button>
+                </div>
+            </div>
+            <div class="auth-group">
+                <button id="googleAuth" class="auth-btn">
+                    <img src="../icons/google.png" alt="Icon Google" />
+                </button>
+                <button id="faceAuth" class="auth-btn">
+                    <img src="../icons/facebook.png" alt="Icon Facebook" />
+                </button>
+            </div>
         </div>
 </form>
-<button id="googleAuth">Google Auth</button>
-<button id="faceAuth">Facebook Auth</button>
+
 <div id="message"></div>
 </section>
