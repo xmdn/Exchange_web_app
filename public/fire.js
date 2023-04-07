@@ -1,6 +1,7 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js';
 import { getAuth } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js';
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js";
 // import { initializeCalculate } from './scripts/calculate.js';
 // import { initialize } from './scripts/listing.js';
 const firebaseApp = initializeApp({  //FireBase csonfiguration of application
@@ -10,10 +11,11 @@ const firebaseApp = initializeApp({  //FireBase csonfiguration of application
     projectId: "currency-f1988",
     storageBucket: "currency-f1988.appspot.com",
     messagingSenderId: "1009009054053",
-    appId: "1:1009009054053:web:3df8a1eef37bac6a70d18c"
+    appId: "1:1009009054053:web:3df8a1eef37bac6a70d18c",
   });
 
 const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
+const storage = getStorage(firebaseApp);
 
-export { auth, db };
+export { auth, db, storage };

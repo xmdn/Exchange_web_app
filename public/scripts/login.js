@@ -1,4 +1,4 @@
-import { auth } from "../fire.js";
+import { auth, db, storage } from "../fire.js";
 import {
   onAuthStateChanged,
   signOut,
@@ -7,12 +7,20 @@ import {
   FacebookAuthProvider,
   signInWithPopup,
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
+import {
+  collection,
+  setDoc,
+  doc,
+  getDoc,
+} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
+import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js";
 
 const logout_btn = document.getElementById("logout-btn");
 const messageElement = document.getElementById("message");
 const signupForm = document.getElementById("login-form");
 const googleBtn = document.getElementById("googleAuth");
 const facebookBtn = document.getElementById("faceAuth");
+const mainContainer = document.getElementById("main-page");
 
 
 
@@ -40,12 +48,28 @@ signupForm.addEventListener("submit", (e) => {
 googleBtn.addEventListener("click", () => {
   const provider = new GoogleAuthProvider();
   signInWithPopup(auth, provider)
-  .then((result) => {
+  .then(async (result) => {
+
+    const user = result.user;
+    const userId = user.uid;
+    const avatarRef = ref(storage, `avatars/${userId}.jpg`);
+    const avatarUrl = user.photoURL;
+    const response = await fetch(avatarUrl);
+    const blob = await response.blob();
+    await uploadBytes(avatarRef, blob)
+    const userAvatar = await getDownloadURL(avatarRef);
+
+    setDoc(doc(db, "users", userId), {
+      Type: result.providerId,
+      Name: user.displayName,
+      Email: user.email,
+      Avatart: userAvatar,
+    })
     // This gives you a Google Access Token. You can use it to access the Google API.
     const credential = GoogleAuthProvider.credentialFromResult(result);
     const token = credential.accessToken;
     // The signed-in user info.
-    const user = result.user;
+    //const user = result.user;
     // IdP data available using getAdditionalUserInfo(result)
     // ...
   }).catch((error) => {
@@ -62,12 +86,27 @@ googleBtn.addEventListener("click", () => {
 
 facebookBtn.addEventListener("click", () => {
   const provider = new FacebookAuthProvider();
+  
   signInWithPopup(auth, provider)
-  .then((result) => {
-    // The signed-in user info.
-    console.log(result);
-    const user = result.user;
+  .then(async (result) => {
 
+    const user = result.user;
+    const userId = user.uid;
+    const avatarRef = ref(storage, `avatars/${userId}.jpg`);
+    const avatarUrl = user.photoURL;
+    const response = await fetch(avatarUrl);
+    const blob = await response.blob();
+    await uploadBytes(avatarRef, blob)
+    const userAvatar = await getDownloadURL(avatarRef);
+
+    setDoc(doc(db, "users", userId), {
+      Type: result.providerId,
+      Name: user.displayName,
+      Email: user.email,
+      Avatart: userAvatar,
+    })
+    
+    //const mountainsRef = ref(storage, 'mountains.jpg');
     // This gives you a Facebook Access Token. You can use it to access the Facebook API.
     const credential = FacebookAuthProvider.credentialFromResult(result);
     const accessToken = credential.accessToken;
@@ -81,12 +120,22 @@ facebookBtn.addEventListener("click", () => {
     const errorCode = error.code;
     const errorMessage = error.message;
     // The email of the user's account used.
-    const email = error.customData.email;
+    //const email = error.customData.email;
     // The AuthCredential type that was used.
     const credential = FacebookAuthProvider.credentialFromError(error);
 
     // ...
   });
+  // getDownloadURL(avatarRef)
+  // .then((url) => {
+  //   // Set the user's avatar as the source for the image tag
+  //   const avatarImg = document.createElement('img');
+  //   avatarImg.id = "avatar-img";
+  //   avatarImg.src = url;
+  // })
+  // .catch((error) => {
+  //   console.log(error);
+  // });
 })
 
 
