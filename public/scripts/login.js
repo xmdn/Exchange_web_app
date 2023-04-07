@@ -14,8 +14,8 @@ const signupForm = document.getElementById("login-form");
 const googleBtn = document.getElementById("googleAuth");
 const facebookBtn = document.getElementById("faceAuth");
 
-const providerG = new GoogleAuthProvider();
-const providerF = new FacebookAuthProvider();
+
+
 
 signupForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -38,7 +38,8 @@ signupForm.addEventListener("submit", (e) => {
   });
 });
 googleBtn.addEventListener("click", () => {
-  signInWithPopup(auth, providerG)
+  const provider = new GoogleAuthProvider();
+  signInWithPopup(auth, provider)
   .then((result) => {
     // This gives you a Google Access Token. You can use it to access the Google API.
     const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -60,23 +61,30 @@ googleBtn.addEventListener("click", () => {
 })
 
 facebookBtn.addEventListener("click", () => {
-  signInWithPopup(auth, providerF)
+  const provider = new FacebookAuthProvider();
+  signInWithPopup(auth, provider)
   .then((result) => {
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    const token = credential.accessToken;
     // The signed-in user info.
+    console.log(result);
     const user = result.user;
+
+    // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+    const credential = FacebookAuthProvider.credentialFromResult(result);
+    const accessToken = credential.accessToken;
+
     // IdP data available using getAdditionalUserInfo(result)
     // ...
-  }).catch((error) => {
+  })
+  .catch((error) => {
+    console.log(error.message)
     // Handle Errors here.
     const errorCode = error.code;
     const errorMessage = error.message;
     // The email of the user's account used.
     const email = error.customData.email;
     // The AuthCredential type that was used.
-    const credential = GoogleAuthProvider.credentialFromError(error);
+    const credential = FacebookAuthProvider.credentialFromError(error);
+
     // ...
   });
 })
