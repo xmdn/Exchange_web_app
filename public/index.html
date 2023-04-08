@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Document</title>
-    <link href="styles/main.css" rel="stylesheet" type="text/css" />
+    <title>Exchange</title>
+    <link href="styles/def.css" rel="stylesheet" type="text/css" />
     <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-auth.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -102,34 +102,45 @@
   </head>
   <body>
     <header>
-      <a
-        id="open-crt-user-form-btn"
-        class="submit-btn"
-        href="/add_user"
-        onclick="route()"
-        >Create user</a
-      >
-      <a
-        id="open-add-user-form-btn"
-        class="submit-btn"
-        href="/calculate"
-        onclick="route()"
-        >Calculation</a
-      >
-      <a
-        id="open-add-user-form-btn"
-        class="submit-btn"
-        href="/login"
-        onclick="route()"
-        >Login</a
-      >
-      <a
-        id="open-crt-user-form-btn"
-        class="submit-btn"
-        href="/"
-        onclick="route()"
-        >List</a
-      >
+      <nav>
+        <ul class="menu-nav">
+          <h1 class="title-nav">Exchange for Joy</h1>
+          <a
+          id="open-add-user-form-btn"
+          class="submit-btn"
+          href="/calculate"
+          onclick="route()"
+          >Calculation</a
+          >
+          <a
+          id="open-crt-user-form-btn"
+          class="submit-btn"
+          href="/"
+          onclick="route()"
+          >List</a
+          >
+          <li class="dropdown">
+            <a><img src="./icons/no-user.png"/>User</a>
+            <ul class="dropdown-menu">
+              <a
+              id="open-add-user-form-btn"
+              class="submit-btn"
+              href="/login"
+              onclick="route()"
+              >Log In</a
+              >
+              <a
+              id="open-crt-user-form-btn"
+              class="submit-btn"
+              href="/add_user"
+              onclick="route()"
+              >Sign In</a
+              >
+
+            </ul>
+          </li>
+        </ul>
+      </nav>
     </header>
     <div id="root">
       <div id="main-page"></div>
