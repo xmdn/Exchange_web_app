@@ -87,12 +87,18 @@ header .submit-btn {
     text-align: left;
 }
 header{
-    background-color: #cfcfcf;
     display: flex;
+    align-items: center;
+    background-color: #cfcfcf;
+    height: 80px;
 }
 
 .menu-nav {
+    align-items: center;
     display: flex;
+}
+.item {
+    text-align: center;
 }
 .dropdown {
     position: absolute;
@@ -123,9 +129,15 @@ nav ul {
     display: none;
     position: absolute;
     top: 100%;
-    left: 0;
+    right: 0;
   }
   
   .dropdown-menu li {
     display: block;
+  }
+  .user-box {
+    height: 60px;
+    padding: 0%;
+    border: none;
+    border-radius: 50%;
   }

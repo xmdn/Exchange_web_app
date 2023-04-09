@@ -55,13 +55,15 @@ googleBtn.addEventListener("click", () => {
     const avatarRef = ref(storage, `avatars/${userId}.jpg`);
     const avatarUrl = user.photoURL;
     const response = await fetch(avatarUrl);
+    const userName = user.displayName.split(' ')[0];
     const blob = await response.blob();
     await uploadBytes(avatarRef, blob)
     const userAvatar = await getDownloadURL(avatarRef);
 
     setDoc(doc(db, "users", userId), {
       Type: result.providerId,
-      Name: user.displayName,
+      Name: userName,
+      fullName: user.displayName,
       Email: user.email,
       Avatart: userAvatar,
     })
