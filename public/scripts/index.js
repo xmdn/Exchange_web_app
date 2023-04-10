@@ -20,7 +20,8 @@ onAuthStateChanged(auth, async (user) => {
     // console.log(querySnapshot.data());
      console.log(user);
     if (user != null) {
-        firstItem.href = "/user";
+        //firstItem.href = "/user";
+        firstItem.href = "/login";
         //fistItem.onclick = "route()";
         firstItem.textContent = "Profile"
         secondItem.href = "/add_user";
@@ -40,10 +41,8 @@ onAuthStateChanged(auth, async (user) => {
         
     } else {
         firstItem.href = "/login";
-        //fistItem.onclick = "route()";
         firstItem.textContent = "Log In"
         secondItem.href = "/add_user";
-        //secondItem.onclick = "route()";
         secondItem.textContent = "Sign In"
         console.log("no user");
         userImage.src = "./icons/no-user.png";

@@ -5,7 +5,7 @@
                 <div class="login-element">
                     <h2>Login</h2>
                 </div>
-                    <button type="submit" id="logout-btn" class="submit-btn">
+                    <button type="button" id="logout-btn" class="submit-btn">
                         LogOut
                     </button>
                 <div class="login-element">
@@ -21,10 +21,10 @@
                 </div>
             </div>
             <div class="auth-group">
-                <button id="googleAuth" class="auth-btn" type="button">
+                <button onclick="signinPopup('google')" class="auth-btn" type="button">
                     <img src="../icons/google.png" alt="Icon Google" />
                 </button>
-                <button id="faceAuth" class="auth-btn" type="button">
+                <button onclick="signinPopup('facebook')" class="auth-btn" type="button">
                     <img src="../icons/facebook.png" alt="Icon Facebook" />
                 </button>
             </div>
