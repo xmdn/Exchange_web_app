@@ -46,9 +46,14 @@ signupForm.addEventListener("submit", (e) => {
     }
   });
 });
-googleBtn.addEventListener("click", () => {
-  const provider = new GoogleAuthProvider();
-  signInWithPopup(auth, provider)
+function signinPopup(provider) {
+  let authProvider;
+  if (provider === 'google') {
+    authProvider = new GoogleAuthProvider();
+  } else if (provider === 'facebook') {
+    authProvider = new FacebookAuthProvider();
+  }
+  signInWithPopup(auth, authProvider)
   .then(async (result) => {
 
     const user = result.user;
@@ -85,61 +90,102 @@ googleBtn.addEventListener("click", () => {
     const credential = GoogleAuthProvider.credentialFromError(error);
     // ...
   });
-})
 
-facebookBtn.addEventListener("click", () => {
-  const provider = new FacebookAuthProvider();
+}
+// googleBtn.addEventListener("click", () => {
+//   const provider = new GoogleAuthProvider();
+//   signInWithPopup(auth, provider)
+//   .then(async (result) => {
+
+//     const user = result.user;
+//     const userId = user.uid;
+//     const avatarRef = ref(storage, `avatars/${userId}.jpg`);
+//     const avatarUrl = user.photoURL;
+//     const response = await fetch(avatarUrl);
+//     const userName = user.displayName.split(' ')[0];
+//     const blob = await response.blob();
+//     await uploadBytes(avatarRef, blob)
+//     const userAvatar = await getDownloadURL(avatarRef);
+
+//     setDoc(doc(db, "users", userId), {
+//       Type: result.providerId,
+//       Name: userName,
+//       fullName: user.displayName,
+//       Email: user.email,
+//       Avatart: userAvatar,
+//     })
+//     // This gives you a Google Access Token. You can use it to access the Google API.
+//     const credential = GoogleAuthProvider.credentialFromResult(result);
+//     const token = credential.accessToken;
+//     // The signed-in user info.
+//     //const user = result.user;
+//     // IdP data available using getAdditionalUserInfo(result)
+//     // ...
+//   }).catch((error) => {
+//     // Handle Errors here.
+//     const errorCode = error.code;
+//     const errorMessage = error.message;
+//     // The email of the user's account used.
+//     const email = error.customData.email;
+//     // The AuthCredential type that was used.
+//     const credential = GoogleAuthProvider.credentialFromError(error);
+//     // ...
+//   });
+// })
+
+// facebookBtn.addEventListener("click", () => {
+//   const provider = new FacebookAuthProvider();
   
-  signInWithPopup(auth, provider)
-  .then(async (result) => {
+//   signInWithPopup(auth, provider)
+//   .then(async (result) => {
 
-    const user = result.user;
-    const userId = user.uid;
-    const avatarRef = ref(storage, `avatars/${userId}.jpg`);
-    const avatarUrl = user.photoURL;
-    const response = await fetch(avatarUrl);
-    const blob = await response.blob();
-    await uploadBytes(avatarRef, blob)
-    const userAvatar = await getDownloadURL(avatarRef);
+//     const user = result.user;
+//     const userId = user.uid;
+//     const avatarRef = ref(storage, `avatars/${userId}.jpg`);
+//     const avatarUrl = user.photoURL;
+//     const response = await fetch(avatarUrl);
+//     const blob = await response.blob();
+//     await uploadBytes(avatarRef, blob)
+//     const userAvatar = await getDownloadURL(avatarRef);
 
-    setDoc(doc(db, "users", userId), {
-      Type: result.providerId,
-      Name: user.displayName,
-      Email: user.email,
-      Avatart: userAvatar,
-    })
+//     setDoc(doc(db, "users", userId), {
+//       Type: result.providerId,
+//       Name: user.displayName,
+//       Email: user.email,
+//       Avatart: userAvatar,
+//     })
     
-    //const mountainsRef = ref(storage, 'mountains.jpg');
-    // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-    const credential = FacebookAuthProvider.credentialFromResult(result);
-    const accessToken = credential.accessToken;
+//     //const mountainsRef = ref(storage, 'mountains.jpg');
+//     // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+//     const credential = FacebookAuthProvider.credentialFromResult(result);
+//     const accessToken = credential.accessToken;
 
-    // IdP data available using getAdditionalUserInfo(result)
-    // ...
-  })
-  .catch((error) => {
-    console.log(error.message)
-    // Handle Errors here.
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // The email of the user's account used.
-    //const email = error.customData.email;
-    // The AuthCredential type that was used.
-    const credential = FacebookAuthProvider.credentialFromError(error);
+//     // IdP data available using getAdditionalUserInfo(result)
+//     // ...
+//   })
+//   .catch((error) => {
+//     console.log(error.message)
+//     // Handle Errors here.
+//     const errorCode = error.code;
+//     const errorMessage = error.message;
+//     // The email of the user's account used.
+//     //const email = error.customData.email;
+//     // The AuthCredential type that was used.
+//     const credential = FacebookAuthProvider.credentialFromError(error);
 
-    // ...
-  });
-  // getDownloadURL(avatarRef)
-  // .then((url) => {
-  //   // Set the user's avatar as the source for the image tag
-  //   const avatarImg = document.createElement('img');
-  //   avatarImg.id = "avatar-img";
-  //   avatarImg.src = url;
-  // })
-  // .catch((error) => {
-  //   console.log(error);
-  // });
-})
+//     // ...
+//   });
+//   // getDownloadURL(avatarRef)
+//   // .then((url) => {
+//   //   // Set the user's avatar as the source for the image tag
+//   //   const avatarImg = document.createElement('img');
+//   //   avatarImg.id = "avatar-img";
+//   //   avatarImg.src = url;
+//   // })
+//   // .catch((error) => {
+//   //   console.log(error);
+//   // });
+// })
 
 
 
