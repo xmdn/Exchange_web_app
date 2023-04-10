@@ -21,6 +21,7 @@ const signupForm = document.getElementById("login-form");
 const googleBtn = document.getElementById("googleAuth");
 const facebookBtn = document.getElementById("faceAuth");
 const mainContainer = document.getElementById("main-page");
+const subBtn = document.getElementById("submit-btn");
 
 
 
