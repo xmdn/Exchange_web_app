@@ -102,7 +102,7 @@ header{
 }
 .dropdown {
     position: absolute;
-    left: 90%;
+    right: 1%;
     border: 20%;
 }
 nav ul {
@@ -126,10 +126,18 @@ nav ul {
   }
   
   .dropdown-menu {
+    width: 100px;
+    opacity: 0.5;
+    background-color: #7c7979;
     display: none;
     position: absolute;
     top: 100%;
     right: 0;
+  }
+  .menu-item {
+    
+    opacity: 1;
+    
   }
   
   .dropdown-menu li {

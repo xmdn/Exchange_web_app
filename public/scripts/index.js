@@ -12,13 +12,20 @@ import {
   const userImage = document.getElementById("user-pic");
   const dropMenu = document.getElementById("dropdown-menu");
   const userName = document.getElementById("user-name");
+  const firstItem = document.getElementById("first-menu-item");
+  const secondItem = document.getElementById("second-menu-item");
 
 onAuthStateChanged(auth, async (user) => {
 //Check the login state
-
     // console.log(querySnapshot.data());
      console.log(user);
     if (user != null) {
+        firstItem.href = "/user";
+        //fistItem.onclick = "route()";
+        firstItem.textContent = "Profile"
+        secondItem.href = "/add_user";
+        //secondItem.onclick = "route()";
+        secondItem.textContent = "Sign Out"
         const currentId = user.uid;
         const querySnapshot = await getDoc(doc(db, "users", currentId));
         const fireUser = querySnapshot.data();
@@ -32,9 +39,14 @@ onAuthStateChanged(auth, async (user) => {
         //console.log(firstName);
         
     } else {
+        firstItem.href = "/login";
+        //fistItem.onclick = "route()";
+        firstItem.textContent = "Log In"
+        secondItem.href = "/add_user";
+        //secondItem.onclick = "route()";
+        secondItem.textContent = "Sign In"
         console.log("no user");
         userImage.src = "./icons/no-user.png";
-
         userName.textContent = "No User";
 
         //userImage.src = 
