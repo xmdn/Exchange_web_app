@@ -20,8 +20,8 @@ onAuthStateChanged(auth, async (user) => {
     // console.log(querySnapshot.data());
      console.log(user);
     if (user != null) {
-        //firstItem.href = "/user";
-        firstItem.href = "/login";
+        firstItem.href = "/user";
+        //firstItem.href = "/login";
         //fistItem.onclick = "route()";
         firstItem.textContent = "Profile"
         secondItem.href = "/add_user";
