@@ -2,6 +2,7 @@ import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.17.1/fi
 import { initializeCalculate } from './scripts/calculate.js';
 import { initialize } from './scripts/listing.js';
 import { auth } from './fire.js';
+//import { initializeLogin } from './scripts/login.js';
 
 const checkAuth = () => {
     return new Promise((resolve) => {
@@ -51,14 +52,16 @@ const handleLocation = async () => {
     const path = window.location.pathname;
     const route = routes[path] || routes[404];
     const html = await fetch(route).then((data) => data.text());
-    document.getElementById("main-page").innerHTML = html;
+    let mainpage = document.getElementById("main-page");
+    const load = mainpage.innerHTML = html;
+
 
     const scriptFile = scriptMap[path]; 
     if (scriptFile) {
         const script = document.createElement("script");
         script.src = `./scripts/${scriptFile}`;
         script.type = "module";
-        document.body.appendChild(script);
+        mainpage.appendChild(script);
     } else {
     const script = document.createElement("script");
         script.src = "./router.js";
@@ -67,10 +70,12 @@ const handleLocation = async () => {
     }
     if(path === "/") {
           await initialize();
-      }
-    if(path === "/calculate") {
+      }else if(path === "/calculate") {
           await initializeCalculate();
+    } else if(path === "/login") {
+        //await initializeLogin();
     }
+    load;
 };
 
 window.onpopstate = handleLocation;

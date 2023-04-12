@@ -15,6 +15,8 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
 import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js";
 
+//export async function initializeLogin() {
+
 const logout_btn = document.getElementById("logout-btn");
 const messageElement = document.getElementById("message");
 const signupForm = document.getElementById("login-form");
@@ -46,6 +48,13 @@ signupForm.addEventListener("submit", (e) => {
     }
   });
 });
+googleBtn.addEventListener("click", ()=> {
+  signinPopup('google');
+})
+facebookBtn.addEventListener("click", ()=> {
+  signinPopup('facebook');
+})
+
 function signinPopup(provider) {
   let authProvider;
   if (provider === 'google') {
@@ -59,6 +68,7 @@ function signinPopup(provider) {
     const user = result.user;
     const userId = user.uid;
     const avatarRef = ref(storage, `avatars/${userId}.jpg`);
+
     const avatarUrl = user.photoURL;
     const response = await fetch(avatarUrl);
     const userName = user.displayName.split(' ')[0];
@@ -213,3 +223,5 @@ onAuthStateChanged(auth, (user) => {
     showMessage("Not loged");
   }
 });
+
+//}
