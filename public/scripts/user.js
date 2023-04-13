@@ -15,6 +15,7 @@ const someBtn = document.getElementById("some-btn");
 const formuser = document.getElementById("formUser");
 const cont_pics = document.getElementById("pic-container");
 const profileForm = document.getElementById("formUser");
+const CheckBtn = document.getElementById("theCheck-btn");
 
 
 
@@ -25,6 +26,7 @@ let avatarsRef = ref(storage, 'stock-avatars/');
 let imgSource;
 const currentUser = auth.currentUser;
 const userId = currentUser.uid;
+let checkImage = false;
 
 listAll(avatarsRef)
   .then((result) => {
@@ -44,40 +46,49 @@ listAll(avatarsRef)
     console.error(error);
   });
 
+  CheckBtn.addEventListener("click", (e)=>{
+    e.preventDefault();
+    console.log(checkImage);
+  })
 
 someBtn.addEventListener("click", async(e)=>{
     e.preventDefault();
     changePassword();
 
+    let avatarUrl = null;
+    let avatarRef = null; 
+    let userAvatar = null;
+    const querySnapshot = await getDoc(doc(db, "users", userId));
+    const fireUser = querySnapshot.data();
+    if(checkImage) {
+      avatarRef = ref(storage, `avatars/${userId}.jpg`);
+      avatarUrl = imgSource;
+      const response = await fetch(avatarUrl);
+      const blob = await response.blob();
+      await uploadBytes(avatarRef, blob);
+      userAvatar = await getDownloadURL(avatarRef);
+    } else { 
+      userAvatar = fireUser.Avatart;
+      // avatarRef = ref(storage, `avatars/default.png`);
+      // userAvatar = await getDownloadURL(avatarRef);
+    }
+    
 
-    const avatarRef = ref(storage, `avatars/${userId}.jpg`);
-    const avatarUrl = imgSource;
-    try {
-        const response = await fetch(avatarUrl);
-        const blob = await response.blob();
-        await uploadBytes(avatarRef, blob);
-        const userAvatar = await getDownloadURL(avatarRef);
-        const querySnapshot = await getDoc(doc(db, "users", userId));
-        const fireUser = querySnapshot.data();
-        const type = "EmailAndPassword";
-        const newname = profileForm["name"].value;
-        const newemail = profileForm["email"].value;
-        const newfullname = profileForm["fullname"].value;
-        const newpassword = profileForm["password"].value;
+      const type = "EmailAndPassword";
+      const newname = profileForm["name"].value;
+      const newemail = profileForm["email"].value;
+      const newfullname = profileForm["fullname"].value;
+      const newpassword = profileForm["password"].value;
 
+      setDoc(doc(db, "users", userId), {
+        Type: type,
+        Name: newname,
+        fullName: newfullname,
+        Email: newemail,
+        Avatart: userAvatar,
+        Password: newpassword,
+      });
 
-        //userImage.src = userPic;
-        setDoc(doc(db, "users", userId), {
-          Type: type,
-          Name: newname,
-          fullName: newfullname,
-          Email: newemail,
-          Avatart: userAvatar,
-          Password: newpassword,
-        });
-      } catch (error) {
-        console.error(error);
-      }
 
 })
 async function changePassword() {
@@ -88,7 +99,6 @@ async function changePassword() {
 
     const querySnapshot = await getDoc(doc(db, "users", userId));
     const fireUser = querySnapshot.data();
-    const Type = fireUser.Type;
     const Name = fireUser.Name;
     const Fullname = fireUser.fullName;
     const Email = fireUser.Email;
@@ -101,8 +111,8 @@ async function changePassword() {
 changePassword()
 
 const getImg = async (event) => {
-  const imgElements = document.querySelectorAll("img");
-
+  const imgElements = cont_pics.querySelectorAll("img");
+  checkImage = true;
     imgElements.forEach((imgElement) => {
       imgElement.removeAttribute("style");
       imgElement.className = "";
@@ -111,5 +121,5 @@ const getImg = async (event) => {
     imgElement.style.border = "2px solid green";
     const imgSrc = imgElement.getAttribute("src");
     imgSource = imgSrc;
-    return imgSource;
+    return imgSource, checkImage;
 }

@@ -19,9 +19,6 @@ signupForm.addEventListener("submit", async (e) => {
   const password = signupForm["password"].value;
   const avatarRef = ref(storage, `avatars/default.png`);
   const type = "EmailAndPassword";
-  //const response = await fetch(avatarUrl);
-  //const blob = await response.blob();
-  //await uploadBytes(avatarRef, blob)
   const userAvatar = await getDownloadURL(avatarRef);
 
   //const default_avatar = "./icons/default.png"; 
