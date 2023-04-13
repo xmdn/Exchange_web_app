@@ -1,4 +1,10 @@
 import { auth, db } from "../fire.js";
+import {
+  doc,
+  setDoc,
+  addDoc,
+  collection,
+} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
 
 const messageElement = document.getElementById("message"); //Message Form
 function showMessage(message) {
@@ -7,6 +13,7 @@ function showMessage(message) {
 }
 
 export async function initialize() {
+
   //window.addEventListener("load", async () => {
   //const paginatedList = document.getElementById("listing-container");
   const nextButton = document.getElementById("btn-next");
@@ -55,8 +62,9 @@ export async function initialize() {
   await renderContent();
 
   async function renderContent() {
-    const currentUser = auth;
-    const userId = currentUser.uid;
+    //const currentUser = auth.currentUser;
+    //const userId = auth.currentUser.uid;
+
     const startDate = new Date();
     let endDate = new Date();
     startDate.setMonth(startDate.getMonth() - 1);
@@ -107,9 +115,11 @@ export async function initialize() {
         // currencyContainer.style.display;
         const listedContainer = document.createElement("a"); //"a"
         const addFavorite = document.createElement("a");
+        addFavorite.textContent = "shit"
         addFavorite.onclick = function () {
+          console.log("favs");
           const date = new Date();
-          addDoc(collection(db, "users/", userId, "/favorite"), {
+          addDoc(collection(db, "users/", auth.currentUser.uid, "/favorite"), {
             Key: `${key}`,
             Date: date
           })
