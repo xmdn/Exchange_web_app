@@ -1,4 +1,4 @@
-//import { auth, db } from "../fire.js";
+import { auth, db } from "../fire.js";
 
 const messageElement = document.getElementById("message"); //Message Form
 function showMessage(message) {
@@ -55,6 +55,8 @@ export async function initialize() {
   await renderContent();
 
   async function renderContent() {
+    const currentUser = auth;
+    const userId = currentUser.uid;
     const startDate = new Date();
     let endDate = new Date();
     startDate.setMonth(startDate.getMonth() - 1);
@@ -101,9 +103,19 @@ export async function initialize() {
           tryrates.push(element.rate);
         });
 
+        const currencyContainer = document.createElement("div");
+        // currencyContainer.style.display;
         const listedContainer = document.createElement("a"); //"a"
+        const addFavorite = document.createElement("a");
+        addFavorite.onclick = function () {
+          const date = new Date();
+          addDoc(collection(db, "users/", userId, "/favorite"), {
+            Key: `${key}`,
+            Date: date
+          })
+        }
         listedContainer.href = "/calculate";
-        listedContainer.onclick = function (valueMap) {
+        listedContainer.onclick = function () {
           localStorage.setItem("myKey", `${key}`);
           console.log("index: ", index);
           route();
@@ -123,7 +135,9 @@ export async function initialize() {
         listedContainer.appendChild(chart);
         listedContainer.appendChild(scrChart);
         listedContainer.appendChild(scrChartmin);
-        contentArr.push(listedContainer);
+        currencyContainer.appendChild(addFavorite);
+        currencyContainer.appendChild(listedContainer);
+        contentArr.push(currencyContainer);
         myChart = new Chart(chart, {
           type: "line",
           data: {

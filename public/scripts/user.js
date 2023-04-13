@@ -15,7 +15,6 @@ const someBtn = document.getElementById("some-btn");
 const formuser = document.getElementById("formUser");
 const cont_pics = document.getElementById("pic-container");
 const profileForm = document.getElementById("formUser");
-const CheckBtn = document.getElementById("theCheck-btn");
 
 
 
@@ -69,11 +68,7 @@ someBtn.addEventListener("click", async(e)=>{
       userAvatar = await getDownloadURL(avatarRef);
     } else { 
       userAvatar = fireUser.Avatart;
-      // avatarRef = ref(storage, `avatars/default.png`);
-      // userAvatar = await getDownloadURL(avatarRef);
     }
-    
-
       const type = "EmailAndPassword";
       const newname = profileForm["name"].value;
       const newemail = profileForm["email"].value;
