@@ -6,6 +6,7 @@ import {
 import {
   doc,
   setDoc,
+  getDoc,
   addDoc,
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
 import { ref, uploadBytes, getDownloadURL, listAll } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js";
@@ -13,11 +14,17 @@ import { ref, uploadBytes, getDownloadURL, listAll } from "https://www.gstatic.c
 const someBtn = document.getElementById("some-btn");
 const formuser = document.getElementById("formUser");
 const cont_pics = document.getElementById("pic-container");
+const profileForm = document.getElementById("formUser");
+
+
+
+console.log(profileForm["password"]);
 
 
 let avatarsRef = ref(storage, 'stock-avatars/');
 let imgSource;
 const currentUser = auth.currentUser;
+const userId = currentUser.uid;
 
 listAll(avatarsRef)
   .then((result) => {
@@ -42,8 +49,7 @@ someBtn.addEventListener("click", async(e)=>{
     e.preventDefault();
     changePassword();
 
-    //const user = result.user;
-    const userId = currentUser.uid;
+
     const avatarRef = ref(storage, `avatars/${userId}.jpg`);
     const avatarUrl = imgSource;
     try {
@@ -51,22 +57,58 @@ someBtn.addEventListener("click", async(e)=>{
         const blob = await response.blob();
         await uploadBytes(avatarRef, blob);
         const userAvatar = await getDownloadURL(avatarRef);
+        const querySnapshot = await getDoc(doc(db, "users", userId));
+        const fireUser = querySnapshot.data();
+        const type = "EmailAndPassword";
+        const newname = profileForm["name"].value;
+        const newemail = profileForm["email"].value;
+        const newfullname = profileForm["fullname"].value;
+        const newpassword = profileForm["password"].value;
+
+
+        //userImage.src = userPic;
         setDoc(doc(db, "users", userId), {
+          Type: type,
+          Name: newname,
+          fullName: newfullname,
+          Email: newemail,
           Avatart: userAvatar,
+          Password: newpassword,
         });
       } catch (error) {
         console.error(error);
       }
 
 })
-function changePassword() {
-    const changes = document.createElement("div");
-    changes.textContent = "💩💩💩shit happend!💩💩💩";
-    formuser.appendChild(changes);
+async function changePassword() {
+    let name = document.getElementById("name");
+    let fullname = document.getElementById("fullname");
+    let email = document.getElementById("email");
+    let password = document.getElementById("password");
+
+    const querySnapshot = await getDoc(doc(db, "users", userId));
+    const fireUser = querySnapshot.data();
+    const Type = fireUser.Type;
+    const Name = fireUser.Name;
+    const Fullname = fireUser.fullName;
+    const Email = fireUser.Email;
+    const Password = fireUser.Password;
+    name.value = Name;
+    fullname.value = Fullname;
+    email.value = Email;
+    password.value = Password;
 }
+changePassword()
 
 const getImg = async (event) => {
+  const imgElements = document.querySelectorAll("img");
+
+    imgElements.forEach((imgElement) => {
+      imgElement.removeAttribute("style");
+      imgElement.className = "";
+    });
     const imgElement = event.currentTarget;
+    imgElement.style.border = "2px solid green";
     const imgSrc = imgElement.getAttribute("src");
     imgSource = imgSrc;
     return imgSource;

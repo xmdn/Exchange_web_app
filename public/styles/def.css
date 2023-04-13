@@ -150,6 +150,13 @@ nav ul {
     border-radius: 50%;
   }
 
-  .pic-container{
+  .pic-container {
     display: flex;
+  }
+  .form-profile {
+    margin: 5%;
+    display: block;
+  }
+  .form-profile div {
+    margin: 5%;
   }

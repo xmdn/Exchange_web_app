@@ -36,8 +36,6 @@ onAuthStateChanged(auth, async (user) => {
         const Name = fireUser.Name;
         userImage.src = userPic;
         userName.textContent = Name;
-        //const userName = user.displayName.split(' ')[0];
-        //console.log(firstName);
         
     } else {
         firstItem.href = "/login";
