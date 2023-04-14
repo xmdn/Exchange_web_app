@@ -1,9 +1,18 @@
 import { auth, db } from "../fire.js";
+import { resolveUserId } from "../router.js";
+import {
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
 import {
   doc,
   setDoc,
+  getDocs,
   addDoc,
+  deleteDoc,
   collection,
+  query,
+  orderBy,
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
 
 const messageElement = document.getElementById("message"); //Message Form
@@ -13,6 +22,26 @@ function showMessage(message) {
 }
 
 export async function initialize() {
+  let favorite = new Map();
+  const userId = await resolveUserId();
+  // console.log(userId);
+  const q = query(collection(db, "users/", userId, "/favorite"), orderBy("Date", "desc"))
+  const querySnapshot = await getDocs(q);
+  console.log(querySnapshot);
+  querySnapshot.forEach((doc) => {
+    console.log(doc.data());
+       if (!favorite.has(doc.data().Key)) {
+        favorite.set(doc.data().Key, []);
+      }
+
+      favorite.get(doc.data().Key).push({
+        id: doc.id,
+      });
+    let favsInfo = doc.data();
+    // valueMap.push(favsInfo.Key, `${doc.id}`)
+    //console.log(valueMap);
+  });
+  console.log('Favorite', favorite.keys());
 
   //window.addEventListener("load", async () => {
   //const paginatedList = document.getElementById("listing-container");
@@ -58,19 +87,20 @@ export async function initialize() {
   nextButton.addEventListener("click", () => {
     setCurrentPage(currentPage + 1);
   });
-
+  // await getUserId();
   await renderContent();
 
+
   async function renderContent() {
-    //const currentUser = auth.currentUser;
-    //const userId = auth.currentUser.uid;
 
     const startDate = new Date();
     let endDate = new Date();
     startDate.setMonth(startDate.getMonth() - 1);
 
     let valueMap = new Map();
+    let sortedByFavs = new Map();
     if (startDate & endDate) {
+
       for (
         let currentDate = new Date(startDate);
         currentDate <= endDate;
@@ -101,11 +131,20 @@ export async function initialize() {
           });
         });
       }
+      valueMap.forEach((key) => {
+        if (valueMap.has(key)) {
+          sortedByFavs.set(key, valueMap.get(key));
+          valueMap.delete(key);
+        }
+      });
+      valueMap.forEach((value, key) => {
+        sortedByFavs.set(key, value);
+      })
 
-      valueMap.forEach((index, key) => {
+      sortedByFavs.forEach((index, key) => {
         let trydates = [];
         let tryrates = [];
-        let gettingCurrency = valueMap.get(`${key}`);
+        let gettingCurrency = sortedByFavs.get(`${key}`);
         gettingCurrency.forEach((element) => {
           trydates.push(element.date);
           tryrates.push(element.rate);
@@ -116,13 +155,21 @@ export async function initialize() {
         const listedContainer = document.createElement("a"); //"a"
         const addFavorite = document.createElement("a");
         addFavorite.textContent = "shit"
-        addFavorite.onclick = function () {
-          console.log("favs");
-          const date = new Date();
-          addDoc(collection(db, "users/", auth.currentUser.uid, "/favorite"), {
-            Key: `${key}`,
-            Date: date
-          })
+        addFavorite.onclick = async function () {
+          if (!favorite.has(`${key}`)) { 
+            // console.log("this ticket is not exist");
+            const date = new Date();
+            // if (`${key}` !== favs) {
+              addDoc(collection(db, "users/", userId, "/favorite"), {
+                Key: `${key}`,
+                Date: date
+              })
+          } else {
+            console.log("this ticket is do exist, deleted");
+              deleteDoc(doc(db, "users/", userId, "/favorite", `${id}`))
+
+          }
+          //console.log('favs:', valueMap.value);
         }
         listedContainer.href = "/calculate";
         listedContainer.onclick = function () {

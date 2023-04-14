@@ -4,17 +4,18 @@ import { initialize } from './scripts/listing.js';
 import { auth } from './fire.js';
 //import { initializeLogin } from './scripts/login.js';
 
-const checkAuth = () => {
-    return new Promise((resolve) => {
+export async function resolveUserId() {
+    return new Promise((resolve, reject) => {
       onAuthStateChanged(auth, user => {
         if (user) {
-          resolve(true);
+          resolve(user.uid);
         } else {
-          resolve(false);
+          reject(new Error("User is not authenticated"));
         }
       })
     });
-  };
+}
+
 
 
 const route = async (event) => {
