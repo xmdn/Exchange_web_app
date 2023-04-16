@@ -22,6 +22,7 @@ export async function initializeCalculate() {
   const userForm = document.getElementById("user-form"); 
   const userBtn = document.getElementById("btn-user");
   const calcBtn = document.getElementById("btn-calc");
+  const startBtn = document.getElementById("btn-start");
   userInfo.style.display = 'none';
   let myChart = null;
 
@@ -150,177 +151,204 @@ export async function initializeCalculate() {
   $("#currency").on("change", function () {
     $(this).prop("changed", true);
   });
-  const startDate = new Date();
-  let endDate = new Date();
-  startDate.setMonth(startDate.getMonth() - 1);
+
 
   await renderCalculate();
   getHistory();
-
-  async function renderCalculate() {
+  function destroyChart() {
     if (myChart) {
       myChart.destroy();
     }
+  }
+
+  async function renderCalculate() {
+    destroyChart()
 
     let chngCurr = $("#currency").prop("changed");
-    let selectedOption =
-      currencyDropdown.options[currencyDropdown.selectedIndex];
+    //let selectedOption = currencyDropdown.selected;
+      // currencyDropdown.options[currencyDropdown.selectedIndex];
+    
     let myValue = localStorage.getItem("myKey");
 
-    if (myValue == null || chngCurr) {
+    // let startDate = $("#startDate").datepicker("getDate");
+    // let endDate = $("#startDate").datepicker("getDate");
+
+    let startDate; 
+    let endDate; 
+
+    let btnCheck = false;
+    // $("#startDate").datepicker();
+    // $("#endDate").datepicker();
+    startBtn.addEventListener("click", () => {
+      destroyChart()
+      btnCheck = true;
+      valueOfSeeking = currencyDropdown.selectedOptions[0].innerHTML;
+      startDate = document.getElementById('startDate').value;
+      endDate = document.getElementById('endDate').value;
+      chartLoad(startDate, endDate, valueOfSeeking);
+    })
+
+    if (btnCheck && myValue == null || chngCurr) {
       valueOfSeeking = selectedOption.innerHTML;
+      startDate = new Date($("startDate").val);
+      endDate = new Date($("endDate").val);
+      chartLoad(startDate, endDate, valueOfSeeking);
     } else if (myValue !== null && !chngCurr) {
+      startDate = new Date();
+      endDate = new Date();
+      startDate.setMonth(startDate.getMonth() - 1);
       valueOfSeeking = myValue;
       getOption(myValue);
+      chartLoad(startDate, endDate, valueOfSeeking);
     }
 
     $(this).prop("changed", false);
 
-    let chartData = [];
-    let currVal;
+ 
+  
 
-    if (startDate & endDate) {
-      for (
-        let currentDate = new Date(startDate);
-        currentDate <= endDate;
-        currentDate.setDate(currentDate.getDate() + 1)
-      ) {
-        let monthRequest = currentDate.getMonth() + 1;
-        let dateS = `${currentDate.getFullYear()}${monthRequest
-          .toString()
-          .padStart(2, "0")}${currentDate
-          .getDate()
-          .toString()
-          .padStart(2, "0")}`;
-        let response = await fetch(
-          `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=${dateS}&json`
-        );
-        let result = await response.json();
+    async function chartLoad(startDate, endDate, valueOfSeeking) {
+      let chartData = [];
+      let currVal;
+        for (
+          let currentDate = new Date(startDate);
+          currentDate <= endDate;
+          currentDate.setDate(currentDate.getDate() + 1)
+        ) {
+          let monthRequest = currentDate.getMonth() + 1;
+          let dateS = `${currentDate.getFullYear()}${monthRequest
+            .toString()
+            .padStart(2, "0")}${currentDate
+            .getDate()
+            .toString()
+            .padStart(2, "0")}`;
+          let response = await fetch(
+            `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=${dateS}&json`
+          );
+          let res = await response.json();
 
-        currVal = result.find(({ cc }) => cc === valueOfSeeking);
+          currVal = res.find(({ cc }) => cc === valueOfSeeking);
 
-        chartData.push({
-          date: currVal.exchangedate,
-          rate: currVal.rate,
-          name: currVal.txt,
+          chartData.push({
+            date: currVal.exchangedate,
+            rate: currVal.rate,
+            name: currVal.txt,
+          });
+        }
+        myValue = null;
+
+        let dates = [];
+        let rates = [];
+        //let names = chartData[0].name;
+
+        chartData.forEach((element) => {
+          dates.push(element.date);
+          rates.push(element.rate);
         });
-      }
-      myValue = null;
 
-      let dates = [];
-      let rates = [];
-      let names = chartData[0].name;
+        let percBox = document.getElementById("percentageBox");
+        let algoBox = document.getElementById("algoBox");
 
-      chartData.forEach((element) => {
-        dates.push(element.date);
-        rates.push(element.rate);
-      });
+        percBox.textContent = "";
 
-      let percBox = document.getElementById("percentageBox");
-      let algoBox = document.getElementById("algoBox");
+        let closestValue = rates[rates.length - 2];
+        let theLastOne = rates[rates.length - 1];
+        let percentage = (closestValue / theLastOne).toFixed(3) + " %";
 
-      percBox.textContent = "";
+        percBox.height = 40;
+        percBox.width = 50;
+        percBox.align = "right";
+        percBox.textContent = percentage;
 
-      let closestValue = rates[rates.length - 2];
-      let theLastOne = rates[rates.length - 1];
-      let percentage = (closestValue / theLastOne).toFixed(3) + " %";
-
-      percBox.height = 40;
-      percBox.width = 50;
-      percBox.align = "right";
-      percBox.textContent = percentage;
-
-      if (closestValue < theLastOne) {
-        percBox.style.backgroundColor = "#8888d1";
-      } else if (closestValue > theLastOne) {
-        percBox.style.backgroundColor = "red";
-      } else {
-        percBox.style.backgroundColor = "grey";
-      }
-
-      //let valuesBuffer = [];
-      let valuesBuffer = rates.slice();
-      valuesBuffer.pop();
-      const values = valuesBuffer;
-
-      function findClosestValue(arr, anchorValue) {
-        let closestValue = arr[arr.length - 1];
-        let largestDifference = Math.abs(anchorValue - closestValue);
-
-        for (let i = arr.length - 2; i >= 0; i--) {
-          const currentValue = arr[i];
-          const currentDifference = Math.abs(anchorValue - currentValue);
-
-          if (currentValue < anchorValue) {
-            return closestValue;
-          }
-
-          if (currentDifference > largestDifference) {
-            closestValue = currentValue;
-            largestDifference = currentDifference;
-          }
+        if (closestValue < theLastOne) {
+          percBox.style.backgroundColor = "#8888d1";
+        } else if (closestValue > theLastOne) {
+          percBox.style.backgroundColor = "red";
+        } else {
+          percBox.style.backgroundColor = "grey";
         }
 
-        return closestValue;
-      }
+        //let valuesBuffer = [];
+        let valuesBuffer = rates.slice();
+        valuesBuffer.pop();
+        const values = valuesBuffer;
 
-      let arr = values;
-      let anchorValue = theLastOne;
+        function findClosestValue(arr, anchorValue) {
+          let closestValue = arr[arr.length - 1];
+          let largestDifference = Math.abs(anchorValue - closestValue);
 
-      const closestValues = findClosestValue(arr, anchorValue);
+          for (let i = arr.length - 2; i >= 0; i--) {
+            const currentValue = arr[i];
+            const currentDifference = Math.abs(anchorValue - currentValue);
 
-      //console.log(closestValues); // Output: 26.5076
+            if (currentValue < anchorValue) {
+              return closestValue;
+            }
 
-      let percentageAlgo = (closestValues / theLastOne).toFixed(3) + " %";
+            if (currentDifference > largestDifference) {
+              closestValue = currentValue;
+              largestDifference = currentDifference;
+            }
+          }
 
-      algoBox.textContent = "";
-      algoBox.height = 40;
-      algoBox.width = 50;
-      algoBox.align = "left";
-      algoBox.textContent = percentageAlgo;
+          return closestValue;
+        }
 
-      if (closestValues < theLastOne) {
-        algoBox.style.backgroundColor = "#8888d1";
-      } else if (closestValues > theLastOne) {
-        algoBox.style.backgroundColor = "red";
-      } else {
-        algoBox.style.backgroundColor = "grey";
-      }
+        let arr = values;
+        let anchorValue = theLastOne;
 
-      myChart = new Chart(document.getElementById("myChart"), {
-        type: "line",
-        data: {
-          datasets: [
-            {
-              fill: false,
-              borderColor: "rgb(75, 192, 192)",
-              tension: 0.2,
+        const closestValues = findClosestValue(arr, anchorValue);
+
+        //console.log(closestValues); // Output: 26.5076
+
+        let percentageAlgo = (closestValues / theLastOne).toFixed(3) + " %";
+
+        algoBox.textContent = "";
+        algoBox.height = 40;
+        algoBox.width = 50;
+        algoBox.align = "left";
+        algoBox.textContent = percentageAlgo;
+
+        if (closestValues < theLastOne) {
+          algoBox.style.backgroundColor = "#8888d1";
+        } else if (closestValues > theLastOne) {
+          algoBox.style.backgroundColor = "red";
+        } else {
+          algoBox.style.backgroundColor = "grey";
+        }
+
+        myChart = new Chart(document.getElementById("myChart"), {
+          type: "line",
+          data: {
+            datasets: [
+              {
+                fill: false,
+                borderColor: "rgb(75, 192, 192)",
+                tension: 0.2,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: false,
+              },
             },
-          ],
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: false,
+            layout: {
+              padding: {
+                left: 50,
+                right: 50,
+                top: 50,
+                bottom: 50,
+              },
             },
           },
-          layout: {
-            padding: {
-              left: 50,
-              right: 50,
-              top: 50,
-              bottom: 50,
-            },
-          },
-        },
-      });
+        });
 
-      myChart.data.labels = dates;
-      myChart.data.datasets[0].label = names;
-      myChart.data.datasets[0].data = rates;
-      myChart.update();
-    } else {
-      showMessage("You are not set up dates for chart");
+        myChart.data.labels = dates;
+        //myChart.data.datasets[0].label = names;
+        myChart.data.datasets[0].data = rates;
+        myChart.update();
     }
   }
 }

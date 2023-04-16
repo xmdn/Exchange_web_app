@@ -4,13 +4,15 @@ import { initialize } from './scripts/listing.js';
 import { auth } from './fire.js';
 //import { initializeLogin } from './scripts/login.js';
 
+
+
 export async function resolveUserId() {
     return new Promise((resolve, reject) => {
       onAuthStateChanged(auth, user => {
         if (user) {
           resolve(user.uid);
         } else {
-          reject(new Error("User is not authenticated"));
+          resolve(false)
         }
       })
     });
@@ -22,7 +24,7 @@ const route = async (event) => {
     event = event || window.event;
     event.preventDefault();
     const path = event.currentTarget.href;
-    const isAuthenticated = await checkAuth();
+    const isAuthenticated = await resolveUserId();
     if (path.endsWith('/calculate') && !isAuthenticated) {
         window.location.href = '/';
     } else {
