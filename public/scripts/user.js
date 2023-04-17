@@ -45,10 +45,6 @@ listAll(avatarsRef)
     console.error(error);
   });
 
-  CheckBtn.addEventListener("click", (e)=>{
-    e.preventDefault();
-    console.log(checkImage);
-  })
 
 someBtn.addEventListener("click", async(e)=>{
     e.preventDefault();
