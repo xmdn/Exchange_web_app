@@ -165,11 +165,13 @@ nav ul {
     width: 500px;
   }
   .container-value {
+    margin-bottom: 5%;
+    background-color: #dedeff;
     display: flex;
     height: 200px;
-    width: 600px;
+    width: 900px;
   }
   #myChart {
-    height: 100px;
-    width: 300px;
+    height: 200px !important;
+    width: 500px !important;
   }

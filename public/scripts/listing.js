@@ -137,11 +137,15 @@ export async function initialize() {
           valueMap.delete(key);
         }
       });
+
+      //let currName = '';
       valueMap.forEach((value, key) => {
         sortedByFavs.set(key, value);
+        //currName = value[0].text;
+
       })
 
-      sortedByFavs.forEach((index, key) => {
+      sortedByFavs.forEach((index, key, value) => {
         let trydates = [];
         let tryrates = [];
         let gettingCurrency = sortedByFavs.get(`${key}`);
@@ -178,11 +182,19 @@ export async function initialize() {
           console.log("index: ", index);
           route();
         };
+        let currName = `${value}`;
 
         const chart = document.createElement("canvas");
         const scrChart = document.createElement("script");
         const scrChartmin = document.createElement("script");
-        listedContainer.textContent = `${key}`;
+        const getName = valueMap.get(`${key}`);
+        //console.log(getName.text);
+        // valueMap.forEach((value, key) => {
+        //   const first = value[0];
+        //   //let nameValue = elem[0].text;
+        //   console.log(`${key}: ${first}`);
+        // })
+        listedContainer.textContent = `${key} ${currName}` ;
         listedContainer.id = `${key}`;
 
         chart.id = "myChart";
@@ -256,7 +268,7 @@ export async function initialize() {
             },
           },
         });
-
+        
         let secondFromLast = tryrates[tryrates.length - 2];
         let theLastOne = tryrates[tryrates.length - 1];
         if (secondFromLast < theLastOne) {
@@ -275,4 +287,6 @@ export async function initialize() {
     }
     setCurrentPage(1);
   }
+  const canvas = document.querySelector('canvas'); // select canvas element
+  canvas.removeAttribute('style');
 }
