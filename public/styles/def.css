@@ -14,7 +14,7 @@ a {
     text-decoration: none;
     text-decoration-color: #cfcfcf;
     background-color: #dedeff;
-    display: flex;
+    display: block;
 }
 h2 {
     background-color: #e8ebf9;
@@ -159,4 +159,17 @@ nav ul {
   }
   .form-profile div {
     margin: 5%;
+  }
+  .anchor-value{
+    height: 100px;
+    width: 500px;
+  }
+  .container-value {
+    display: flex;
+    height: 200px;
+    width: 600px;
+  }
+  #myChart {
+    height: 100px;
+    width: 300px;
   }

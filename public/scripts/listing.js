@@ -151,8 +151,9 @@ export async function initialize() {
         });
 
         const currencyContainer = document.createElement("div");
-        // currencyContainer.style.display;
+        currencyContainer.className = "container-value";
         const listedContainer = document.createElement("a"); //"a"
+        listedContainer.className = "anchor-value";
         const addFavorite = document.createElement("a");
         addFavorite.textContent = "shit"
         addFavorite.onclick = async function () {
@@ -183,17 +184,31 @@ export async function initialize() {
         const scrChartmin = document.createElement("script");
         listedContainer.textContent = `${key}`;
         listedContainer.id = `${key}`;
+
         chart.id = "myChart";
-        chart.width = 400;
-        chart.height = 200;
+
+
+        //chart.className = "chart-style";
         scrChart.src = "https://cdn.jsdelivr.net/npm/chart.js@3.7.1";
         scrChartmin.src =
           "https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js";
-        listedContainer.appendChild(chart);
-        listedContainer.appendChild(scrChart);
-        listedContainer.appendChild(scrChartmin);
+
         currencyContainer.appendChild(addFavorite);
         currencyContainer.appendChild(listedContainer);
+        currencyContainer.appendChild(scrChart);
+        currencyContainer.appendChild(scrChartmin);
+        // chart.style.width = 300;
+        // //chart.height = 100;
+        // chart.style.height = 100;
+        //chart.style.height = null;
+
+        // chart.style.removeProperty("width");
+        // chart.style.removeProperty("height");
+        chart.setAttribute('style', '');
+        currencyContainer.appendChild(chart);
+        //let element = document.getElementById('myChart');
+
+
         contentArr.push(currencyContainer);
         myChart = new Chart(chart, {
           type: "line",
@@ -207,6 +222,7 @@ export async function initialize() {
             ],
           },
           options: {
+            maintainAspectRatio: false,
             plugins: {
               legend: {
                 display: false,
