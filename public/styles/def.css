@@ -9,7 +9,8 @@ form {
     align-items: center;
 }
 a {
-    margin: 4%;
+    box-sizing: border-box;
+    margin: 2%;
     color: rgb(0, 0, 0);
     text-decoration: none;
     text-decoration-color: #cfcfcf;
@@ -161,17 +162,36 @@ nav ul {
     margin: 5%;
   }
   .anchor-value{
+    display: flex;
     height: 100px;
-    width: 500px;
+    /* width: 20px; */
+    margin-right: 10%;
+    align-self: center;
+  }
+  .anchor-value h1,
+  .anchor-value h4{
+    margin-right: 25%;
+    white-space: nowrap;
+    align-self: center;
   }
   .container-value {
     margin-bottom: 5%;
     background-color: #dedeff;
     display: flex;
-    height: 200px;
-    width: 900px;
+    /* height: 200px;
+    width: 900px; */
+    box-sizing: content-box;
+  }
+  .container-value canvas {
+    /* margin-left: 8%; */
+    position: absolute;
+    /* top: 100%; */
+    right: 0;
   }
   #myChart {
     height: 200px !important;
     width: 500px !important;
+  }
+  .favorite {
+    align-self: center;
   }

@@ -157,8 +157,12 @@ export async function initialize() {
         const currencyContainer = document.createElement("div");
         currencyContainer.className = "container-value";
         const listedContainer = document.createElement("a"); //"a"
+        const Ticker = document.createElement("h1");
+        Ticker.textContent = `${key}`;
+        const Name = document.createElement("h4");
         listedContainer.className = "anchor-value";
         const addFavorite = document.createElement("a");
+        addFavorite.className = "favorite";
         addFavorite.textContent = "shit"
         addFavorite.onclick = async function () {
           if (!favorite.has(`${key}`)) { 
@@ -182,19 +186,25 @@ export async function initialize() {
           console.log("index: ", index);
           route();
         };
-        let currName = `${value}`;
+        //let currName = `${value}`;
+        let getValue = valueMap.get(`${key}`);
+        let name = getValue[0].text;
+        Name.textContent = `${name}`;
+        //console.log(currName[0].text);
+
 
         const chart = document.createElement("canvas");
         const scrChart = document.createElement("script");
         const scrChartmin = document.createElement("script");
-        const getName = valueMap.get(`${key}`);
+        //const getName = valueMap.get(`${key}`);
         //console.log(getName.text);
         // valueMap.forEach((value, key) => {
         //   const first = value[0];
         //   //let nameValue = elem[0].text;
         //   console.log(`${key}: ${first}`);
         // })
-        listedContainer.textContent = `${key} ${currName}` ;
+
+        //listedContainer.textContent = `${key}` ;
         listedContainer.id = `${key}`;
 
         chart.id = "myChart";
@@ -205,6 +215,8 @@ export async function initialize() {
         scrChartmin.src =
           "https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js";
 
+        listedContainer.appendChild(Ticker);
+        listedContainer.appendChild(Name);
         currencyContainer.appendChild(addFavorite);
         currencyContainer.appendChild(listedContainer);
         currencyContainer.appendChild(scrChart);
