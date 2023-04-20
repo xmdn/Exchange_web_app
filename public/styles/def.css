@@ -42,7 +42,8 @@ header .submit-btn {
 }
 .submit-btn {
     margin: 6%;
-    background-color: #a7a7a7;
+    /* background-color: #a7a7a7; */
+    background: none;
     border: none;
     color: white;
     padding: 16px 32px;
@@ -52,10 +53,13 @@ header .submit-btn {
     opacity: 0.6;
     transition: 0.5s;
   }
-.submit-btn:hover {opacity: 1}
-.block {
-    margin: 3%;
-}
+  .submit-btn:hover {
+      /* opacity: 1; */
+      color: rgb(68, 68, 68);
+  }
+  .block {
+      margin: 3%;
+  }
 .form-group {
     display: block;
     align-self: auto;
@@ -164,7 +168,7 @@ nav ul {
   .anchor-value{
     display: flex;
     height: 100px;
-    /* width: 20px; */
+    width: 32%; 
     margin-right: 10%;
     align-self: center;
   }
@@ -173,6 +177,10 @@ nav ul {
     margin-right: 25%;
     white-space: nowrap;
     align-self: center;
+  }
+  #listing-container {
+    margin-inline-end: 40px;
+    padding-inline-start: 40px;
   }
   .container-value {
     margin-bottom: 5%;
@@ -186,12 +194,21 @@ nav ul {
     /* margin-left: 8%; */
     position: absolute;
     /* top: 100%; */
-    right: 0;
+    right: 40px;
   }
   #myChart {
-    height: 200px !important;
+    height: 180px !important;
     width: 500px !important;
+    align-self: center;
   }
   .favorite {
     align-self: center;
+  }
+  .trade-icon {
+    margin-left: 4%;
+    margin-right: 4%;
+  }
+  h4 {
+    /* align-self: flex-end; */
+    order: 2;
   }

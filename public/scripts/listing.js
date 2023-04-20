@@ -22,26 +22,31 @@ function showMessage(message) {
 }
 
 export async function initialize() {
-  let favorite = new Map();
-  const userId = await resolveUserId();
+  let userId = await resolveUserId();
   // console.log(userId);
-  const q = query(collection(db, "users/", userId, "/favorite"), orderBy("Date", "desc"))
-  const querySnapshot = await getDocs(q);
-  console.log(querySnapshot);
-  querySnapshot.forEach((doc) => {
-    console.log(doc.data());
-       if (!favorite.has(doc.data().Key)) {
-        favorite.set(doc.data().Key, []);
-      }
+  if (userId) {
+    let favorite = new Map();
 
-      favorite.get(doc.data().Key).push({
-        id: doc.id,
-      });
-    let favsInfo = doc.data();
-    // valueMap.push(favsInfo.Key, `${doc.id}`)
-    //console.log(valueMap);
-  });
-  console.log('Favorite', favorite.keys());
+
+    const q = query(collection(db, "users/", userId, "/favorite"), orderBy("Date", "desc"))
+    const querySnapshot = await getDocs(q);
+    console.log(querySnapshot);
+    querySnapshot.forEach((doc) => {
+      console.log(doc.data());
+         if (!favorite.has(doc.data().Key)) {
+          favorite.set(doc.data().Key, []);
+        }
+  
+        favorite.get(doc.data().Key).push({
+          id: doc.id,
+        });
+      let favsInfo = doc.data();
+      // valueMap.push(favsInfo.Key, `${doc.id}`)
+      //console.log(valueMap);
+    });
+    console.log('Favorite', favorite.keys());
+  }
+
 
   //window.addEventListener("load", async () => {
   //const paginatedList = document.getElementById("listing-container");
@@ -131,24 +136,31 @@ export async function initialize() {
           });
         });
       }
-      valueMap.forEach((key) => {
-        if (valueMap.has(key)) {
-          sortedByFavs.set(key, valueMap.get(key));
-          valueMap.delete(key);
-        }
-      });
+      let loadingFavs;
 
-      //let currName = '';
-      valueMap.forEach((value, key) => {
-        sortedByFavs.set(key, value);
-        //currName = value[0].text;
+      if (userId) {
+        loadingFavs = sortedByFavs;
+        valueMap.forEach((key) => {
+          if (valueMap.has(key)) {
+            sortedByFavs.set(key, valueMap.get(key));
+            valueMap.delete(key);
+          }
+        });
+  
+        //let currName = '';
+        valueMap.forEach((value, key) => {
+          sortedByFavs.set(key, value);
+          //currName = value[0].text;
+  
+        })  
+      } else {
+        loadingFavs = valueMap;
+      }
 
-      })
-
-      sortedByFavs.forEach((index, key, value) => {
+      loadingFavs.forEach((index, key) => {
         let trydates = [];
         let tryrates = [];
-        let gettingCurrency = sortedByFavs.get(`${key}`);
+        let gettingCurrency = loadingFavs.get(`${key}`);
         gettingCurrency.forEach((element) => {
           trydates.push(element.date);
           tryrates.push(element.rate);
@@ -161,31 +173,42 @@ export async function initialize() {
         Ticker.textContent = `${key}`;
         const Name = document.createElement("h4");
         listedContainer.className = "anchor-value";
-        const addFavorite = document.createElement("a");
-        addFavorite.className = "favorite";
-        addFavorite.textContent = "shit"
-        addFavorite.onclick = async function () {
-          if (!favorite.has(`${key}`)) { 
-            // console.log("this ticket is not exist");
-            const date = new Date();
-            // if (`${key}` !== favs) {
-              addDoc(collection(db, "users/", userId, "/favorite"), {
-                Key: `${key}`,
-                Date: date
-              })
-          } else {
-            console.log("this ticket is do exist, deleted");
-              deleteDoc(doc(db, "users/", userId, "/favorite", `${id}`))
 
+        if (userId) {
+          const addFavorite = document.createElement("img");
+          addFavorite.className = "favorite";
+          addFavorite.src = "./icons/star-grey.png";
+          addFavorite.onclick = async function () {
+            if (!favorite.has(`${key}`)) { 
+              // console.log("this ticket is not exist");
+              const date = new Date();
+              // if (`${key}` !== favs) {
+                addDoc(collection(db, "users/", userId, "/favorite"), {
+                  Key: `${key}`,
+                  Date: date
+                })
+                addFavorite.src = "./icons/star-yellow.png";
+            } else if (favorite.has(`${key}`)) {
+              console.log("this ticket is do exist, deleted");
+                deleteDoc(doc(db, "users/", userId, "/favorite", `${id}`))
+
+            }
+            //console.log('favs:', valueMap.value);
           }
-          //console.log('favs:', valueMap.value);
+          listedContainer.href = "/calculate";
+          listedContainer.onclick = function () {
+            localStorage.setItem("myKey", `${key}`);
+            console.log("index: ", index);
+            route();
+          };
+          currencyContainer.appendChild(addFavorite);
+        } else {
+          listedContainer.href = "/login";
+          listedContainer.onclick = function () {
+            route();
+          };
         }
-        listedContainer.href = "/calculate";
-        listedContainer.onclick = function () {
-          localStorage.setItem("myKey", `${key}`);
-          console.log("index: ", index);
-          route();
-        };
+
         //let currName = `${value}`;
         let getValue = valueMap.get(`${key}`);
         let name = getValue[0].text;
@@ -217,23 +240,14 @@ export async function initialize() {
 
         listedContainer.appendChild(Ticker);
         listedContainer.appendChild(Name);
-        currencyContainer.appendChild(addFavorite);
+        
         currencyContainer.appendChild(listedContainer);
         currencyContainer.appendChild(scrChart);
         currencyContainer.appendChild(scrChartmin);
-        // chart.style.width = 300;
-        // //chart.height = 100;
-        // chart.style.height = 100;
-        //chart.style.height = null;
-
-        // chart.style.removeProperty("width");
-        // chart.style.removeProperty("height");
-        chart.setAttribute('style', '');
         currencyContainer.appendChild(chart);
-        //let element = document.getElementById('myChart');
-
 
         contentArr.push(currencyContainer);
+        
         myChart = new Chart(chart, {
           type: "line",
           data: {
@@ -272,10 +286,10 @@ export async function initialize() {
             },
             layout: {
               padding: {
-                left: 50,
-                right: 50,
-                top: 50,
-                bottom: 50,
+                left: 5,
+                right: 5,
+                top: 17,
+                bottom: 17,
               },
             },
           },
@@ -298,7 +312,8 @@ export async function initialize() {
       showMessage("You are not set up dates for chart");
     }
     setCurrentPage(1);
+    const canvas = document.querySelector('canvas'); // select canvas element
+    canvas.removeAttribute('style');
   }
-  const canvas = document.querySelector('canvas'); // select canvas element
-  canvas.removeAttribute('style');
+
 }
