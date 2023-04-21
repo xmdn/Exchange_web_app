@@ -175,12 +175,14 @@ nav ul {
   .anchor-value h1,
   .anchor-value h4{
     margin-right: 25%;
-    white-space: nowrap;
+    /* white-space: nowrap; */
     align-self: center;
   }
   #listing-container {
+    display: flex;
     margin-inline-end: 40px;
     padding-inline-start: 40px;
+    flex-direction: column;
   }
   .container-value {
     margin-bottom: 5%;
@@ -194,7 +196,7 @@ nav ul {
     /* margin-left: 8%; */
     position: absolute;
     /* top: 100%; */
-    right: 40px;
+    right: 5%;
   }
   #myChart {
     height: 180px !important;

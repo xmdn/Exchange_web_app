@@ -212,6 +212,14 @@ export async function initialize() {
         //let currName = `${value}`;
         let getValue = valueMap.get(`${key}`);
         let name = getValue[0].text;
+
+        //let checkLength;
+        if (name.length > 20) {
+          //checkLength = true;
+          listedContainer.style.whiteSpace = "break-spaces";
+        } else {
+          listedContainer.style.whiteSpace = "nowrap";
+        }
         Name.textContent = `${name}`;
         //console.log(currName[0].text);
 
