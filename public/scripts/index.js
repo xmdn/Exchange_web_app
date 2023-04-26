@@ -1,6 +1,7 @@
 import { auth, db, storage } from "../fire.js";
 import {
     onAuthStateChanged,
+    signOut,
   } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
 import {
     getDoc,
@@ -24,7 +25,17 @@ onAuthStateChanged(auth, async (user) => {
         //firstItem.href = "/login";
         //fistItem.onclick = "route()";
         firstItem.textContent = "Profile"
-        secondItem.href = "/add_user";
+        //secondItem.href = "/add_user";
+        secondItem.onclick = signOut();
+        // function () {
+          // signOut(auth)
+          // .then(() => {
+            console.log("Sign-out successful."); // Sign-out successful.
+          // })
+          // .catch((error) => {
+            // console.log("An error happened."); // An error happened.
+          // });
+        // }
         //secondItem.onclick = "route()";
         secondItem.textContent = "Sign Out"
         const currentId = user.uid;

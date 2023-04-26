@@ -1,5 +1,5 @@
 body {
-    background-color:#f1f1f3;
+    background-color:#dedeff;
     align-items: center;
     justify-content: center;
 }
@@ -14,7 +14,7 @@ a {
     color: rgb(0, 0, 0);
     text-decoration: none;
     text-decoration-color: #cfcfcf;
-    background-color: #dedeff;
+    /* background-color: #dedeff; */
     display: block;
 }
 h2 {
@@ -45,7 +45,7 @@ header .submit-btn {
     /* background-color: #a7a7a7; */
     background: none;
     border: none;
-    color: white;
+    color: rgb(0, 0, 0);
     padding: 16px 32px;
     text-align: center;
     text-decoration: none;
@@ -186,11 +186,13 @@ nav ul {
   }
   .container-value {
     margin-bottom: 5%;
-    background-color: #dedeff;
+    /* #f1f1f3 */
+    background-color: #f1f1f3;
     display: flex;
     /* height: 200px;
     width: 900px; */
     box-sizing: content-box;
+    border-radius: 15px;
   }
   .container-value canvas {
     /* margin-left: 8%; */
@@ -214,3 +216,6 @@ nav ul {
     /* align-self: flex-end; */
     order: 2;
   }
+ .dropdown a {
+  background-color: #dedeff;
+ }

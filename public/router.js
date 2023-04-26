@@ -4,11 +4,11 @@ import { initialize } from './scripts/listing.js';
 import { auth } from './fire.js';
 //import { initializeLogin } from './scripts/login.js';
 
-
+let userState = null;
 
 export async function resolveUserId() {
-    return new Promise((resolve, reject) => {
-      onAuthStateChanged(auth, user => {
+    return new Promise((resolve) => {
+      onAuthStateChanged(auth, (user) => {
         if (user) {
           resolve(user.uid);
         } else {
@@ -17,6 +17,7 @@ export async function resolveUserId() {
       })
     });
 }
+
 
 
 

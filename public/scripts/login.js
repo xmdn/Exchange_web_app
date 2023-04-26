@@ -1,4 +1,5 @@
 import { auth, db, storage } from "../fire.js";
+import { resolveUserId } from "../router.js";
 import {
   onAuthStateChanged,
   signOut,
@@ -25,6 +26,7 @@ const facebookBtn = document.getElementById("faceAuth");
 const mainContainer = document.getElementById("main-page");
 const subBtn = document.getElementById("submit-btn");
 
+let userState = null;
 
 
 
@@ -35,7 +37,7 @@ signupForm.addEventListener("submit", (e) => {
   console.log(email, password);
   onAuthStateChanged(auth, (user) => {
     //Check the login state
-    if (user == null) {
+    if (user === null) {
       signInWithEmailAndPassword(auth, email, password)
         .then(() => {
           showMessage("Success loging.");
@@ -110,7 +112,7 @@ function showMessage(message) {
 
 logout_btn.addEventListener("click", (e) => {
   e.preventDefault();
-  signOut(auth)
+  signOut()
     .then(() => {
       showMessage("Sign-out successful."); // Sign-out successful.
     })
@@ -123,7 +125,9 @@ onAuthStateChanged(auth, (user) => {
   //Check the login state
   if (user != null) {
     showMessage("Loged On");
+    userState = true;
   } else {
     showMessage("Not loged");
+    userState = false;
   }
 });
